@@ -1,8 +1,12 @@
 import { defineConfig } from 'astro/config';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
 
+// https://astro.build/config
 export default defineConfig({
-  // ضع الدومين الجديد الخاص بك هنا
+  // رابط الدومين الخاص بك
   site: 'https://ksaacademy.online',
   
-  // ⚠️ قمنا بحذف سطر base تماماً لأنه لم يعد هناك حاجة إليه مع الدومين الخاص
+  // تفعيل إضافات القالب الأساسية
+  integrations: [mdx(), sitemap()],
 });
