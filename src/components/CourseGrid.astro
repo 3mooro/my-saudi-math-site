@@ -1,0 +1,74 @@
+---
+import CourseCard from './CourseCard.astro';
+
+const courses = [
+	{
+		title: "Advanced Calculus for Engineering",
+		instructor: "Dr. Ahmed Mansour",
+		rating: 4.9,
+		price: "Free",
+		image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80",
+		tag: "Mathematics"
+	},
+	{
+		title: "Quantum Physics Fundamentals",
+		instructor: "Prof. Sarah Jenkins",
+		rating: 4.8,
+		price: "$49.99",
+		image: "https://images.unsplash.com/photo-1636466497217-26a8cbeaf0aa?w=800&q=80",
+		tag: "Physics"
+	},
+	{
+		title: "Organic Chemistry Mastery",
+		instructor: "Dr. Emily Chen",
+		rating: 4.7,
+		price: "$39.99",
+		image: "https://images.unsplash.com/photo-1532187875605-18674534afb9?w=800&q=80",
+		tag: "Chemistry"
+	},
+	{
+		title: "Data Structures & Algorithms",
+		instructor: "Marc Andreessen",
+		rating: 4.9,
+		price: "Free",
+		image: "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=800&q=80",
+		tag: "Computer Science"
+	},
+	{
+		title: "Modern Web Development",
+		instructor: "John Doe",
+		rating: 4.8,
+		price: "$29.99",
+		image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80",
+		tag: "Programming"
+	},
+	{
+		title: "Astrophysics for Beginners",
+		instructor: "Neil deGrasse Tyson",
+		rating: 5.0,
+		price: "$59.99",
+		image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+		tag: "Science"
+	}
+];
+---
+<section class="py-24" id="courses">
+	<div class="container mx-auto px-4">
+		<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+			<div class="space-y-4 max-w-xl">
+				<h2 class="text-3xl md:text-5xl font-poppins font-bold tracking-tight">Explore Our Popular Courses</h2>
+				<p class="text-lg text-muted-foreground">Pick from a wide variety of courses from world-class instructors. Start your journey today.</p>
+			</div>
+			<a href="/blog" class="text-primary font-bold hover:underline flex items-center gap-2">
+				View all courses
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+			</a>
+		</div>
+		
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+			{courses.map((course) => (
+				<CourseCard {...course} />
+			))}
+		</div>
+	</div>
+</section>

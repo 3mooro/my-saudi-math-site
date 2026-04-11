@@ -1,0 +1,44 @@
+---
+const features = [
+	{
+		title: "Expert Instructors",
+		description: "Learn from the best in the industry with years of practical and teaching experience.",
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>`
+	},
+	{
+		title: "Flexible Learning",
+		description: "Study at your own pace with lifetime access to all course materials and updates.",
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 2v20"></path><path d="m17 7-5-5-5 5"></path><path d="m17 17-5 5-5-5"></path></svg>`
+	},
+	{
+		title: "Official Certificates",
+		description: "Receive recognized certificates upon completion to showcase your new skills.",
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path><path d="M8.21 13.89L7 23l5-3 5 3-1.21-9.11"></path><path d="M15 7h5"></path><path d="M4 7h5"></path></svg>`
+	},
+	{
+		title: "Active Community",
+		description: "Join thousands of students and participate in discussions, Q&A, and networking.",
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6"><path d="m18 22-3-3 2.5-2.5 2.5 2.5-2 3Z"></path><path d="M4 11V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v7"></path><path d="M10 22h-4a2 2 0 0 1-2-2V11"></path><path d="M10 18h2"></path></svg>`
+	}
+];
+---
+<section class="py-24 bg-muted/30">
+	<div class="container mx-auto px-4">
+		<div class="text-center max-w-2xl mx-auto mb-16 space-y-4">
+			<h2 class="text-3xl md:text-5xl font-poppins font-bold tracking-tight">Why Choose KSA Academy?</h2>
+			<p class="text-lg text-muted-foreground">We provide everything you need to succeed in your educational journey, from expert guidance to a supportive community.</p>
+		</div>
+		
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+			{features.map((feature) => (
+				<div class="group p-8 rounded-2xl bg-card border border-transparent transition-all hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5">
+					<div class="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+						<Fragment set:html={feature.icon} />
+					</div>
+					<h3 class="text-xl font-bold font-poppins mb-3">{feature.title}</h3>
+					<p class="text-muted-foreground leading-relaxed">{feature.description}</p>
+				</div>
+			))}
+		</div>
+	</div>
+</section>

@@ -1,114 +1,75 @@
 ---
-import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
+import MainLayout from '../../layouts/MainLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import { Image } from 'astro:assets';
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
-	</head>
-	<body>
-		<Header />
-		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
-										<FormattedDate date={post.data.pubDate} />
-									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
-			</section>
-		</main>
-		<Footer />
-	</body>
-</html>
+<MainLayout title="Our Courses | KSA Academy">
+	<section class="py-24">
+		<div class="container mx-auto px-4">
+			<div class="max-w-3xl mb-16 space-y-4">
+				<h1 class="text-4xl md:text-6xl font-poppins font-bold tracking-tight text-gradient">
+					Our Courses & Resources
+				</h1>
+				<p class="text-xl text-muted-foreground">
+					Explore our collection of expert-led courses and educational materials designed to help you excel in your studies.
+				</p>
+			</div>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+				{posts.map((post, index) => (
+					<article class:list={[
+						"group relative flex flex-col space-y-4",
+						index === 0 ? "md:col-span-2 md:flex-row md:space-y-0 md:space-x-12 items-center" : ""
+					]}>
+						{post.data.heroImage && (
+							<a href={`/blog/${post.id}/`} class:list={[
+								"overflow-hidden rounded-3xl shadow-lg transition-all group-hover:shadow-2xl group-hover:-translate-y-1",
+								index === 0 ? "md:w-1/2 aspect-[16/9]" : "aspect-video"
+							]}>
+								<Image 
+									width={720} 
+									height={360} 
+									src={post.data.heroImage} 
+									alt="" 
+									class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+								/>
+							</a>
+						)}
+						<div class:list={[
+							"space-y-3",
+							index === 0 ? "md:w-1/2" : ""
+						]}>
+							<div class="text-sm font-medium text-muted-foreground">
+								<FormattedDate date={post.data.pubDate} />
+							</div>
+							<a href={`/blog/${post.id}/`}>
+								<h2 class:list={[
+									"font-poppins font-bold tracking-tight transition-colors group-hover:text-primary",
+									index === 0 ? "text-3xl md:text-5xl" : "text-2xl md:text-3xl"
+								]}>
+									{post.data.title}
+								</h2>
+							</a>
+							<p class="text-muted-foreground line-clamp-2 md:line-clamp-3 leading-relaxed">
+								{post.data.description}
+							</p>
+							<a 
+								href={`/blog/${post.id}/`} 
+								class="inline-flex items-center gap-2 font-bold text-primary hover:underline group/link"
+							>
+								Read More
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/link:translate-x-1"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+							</a>
+						</div>
+					</article>
+				))}
+			</div>
+		</div>
+	</section>
+</MainLayout>

@@ -1,99 +1,20 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import MainLayout from '../layouts/MainLayout.astro';
+import Hero from '../components/Hero.astro';
+import Stats from '../components/Stats.astro';
+import CourseGrid from '../components/CourseGrid.astro';
+import Features from '../components/Features.astro';
+import HowItWorks from '../components/HowItWorks.astro';
+import Testimonials from '../components/Testimonials.astro';
+import CTA from '../components/CTA.astro';
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-		<a href="https://wa.me/201210603349" class="whatsapp-float" target="_blank">
-    <span class="tooltip">تواصل معي الآن</span>
-    <svg viewBox="0 0 32 32" class="whatsapp-icon"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.48 2.025 7.787l-2.025 7.213 7.412-1.945c2.25 1.25 4.837 1.945 7.587 1.945 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.333c-2.45 0-4.75-0.65-6.737-1.787l-0.487-0.275-4.412 1.162 1.187-4.225-0.312-0.5c-1.287-2.05-1.963-4.425-1.963-6.913 0-7.363 5.987-13.35 13.35-13.35s13.35 5.987 13.35 13.35-5.987 13.35-13.35 13.35zM22.512 18.912c-0.362-0.187-2.125-1.050-2.45-1.175s-0.562-0.187-0.8 0.187c-0.237 0.362-0.925 1.175-1.137 1.412s-0.425 0.262-0.787 0.075c-0.362-0.187-1.537-0.562-2.925-1.8c-1.075-0.962-1.812-2.15-2.025-2.512s-0.025-0.562 0.162-0.737c0.162-0.162 0.362-0.425 0.537-0.637s0.237-0.362 0.362-0.6c0.125-0.237 0.062-0.45-0.037-0.637s-0.8-1.925-1.1-2.65c-0.287-0.712-0.587-0.612-0.8-0.625s-0.425-0.012-0.662-0.012-0.612 0.087-0.937 0.437c-0.325 0.35-1.237 1.212-1.237 2.95s1.262 3.412 1.437 3.65c0.187 0.237 2.487 3.8 6.025 5.337 0.837 0.362 1.5 0.587 2.012 0.75 0.85 0.262 1.612 0.225 2.225 0.137 0.675-0.1 2.125-0.862 2.425-1.7s0.3-1.562 0.212-1.7c-0.1-0.137-0.35-0.225-0.712-0.412z"></path></svg>
-</a>
-
-<style>
-    .whatsapp-float {
-        position: fixed;
-        bottom: 30px;
-        right: 30px;
-        background-color: #ff3333; /* اللون الأحمر التقني */
-        color: #FFF;
-        border-radius: 50px;
-        text-align: center;
-        width: 60px;
-        height: 60px;
-        box-shadow: 0 4px 15px rgba(255, 51, 51, 0.4);
-        z-index: 1000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.3s ease;
-    }
-    .whatsapp-float:hover {
-        transform: scale(1.1);
-        background-color: #cc0000;
-    }
-    .whatsapp-icon {
-        width: 35px;
-        height: 35px;
-        fill: white;
-    }
-    .tooltip {
-        position: absolute;
-        right: 75px;
-        background: #1a1a1a;
-        color: white;
-        padding: 8px 15px;
-        border-radius: 8px;
-        font-size: 14px;
-        white-space: nowrap;
-        opacity: 0;
-        transition: opacity 0.3s;
-        pointer-events: none;
-        border: 1px solid #ff3333;
-    }
-    .whatsapp-float:hover .tooltip {
-        opacity: 1;
-    }
-</style>
-	</body>
-</html>
+<MainLayout>
+	<Hero />
+	<Stats />
+	<CourseGrid />
+	<Features />
+	<HowItWorks />
+	<Testimonials />
+	<CTA />
+</MainLayout>
