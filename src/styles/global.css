@@ -5,29 +5,16 @@
  */
 
 :root {
-	--accent: #2337ff;
-	--accent-dark: #000d8a;
-	--black: 15, 18, 25;
-	--gray: 96, 115, 159;
-	--gray-light: 229, 233, 240;
-	--gray-dark: 34, 41, 57;
-	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+  /* الألوان الأساسية للوضع الليلي التقني المستقبلي */
+  --background-color: #050505; /* أسود شبه كامل */
+  --text-color: #e0e0e0; /* رمادي فاتح جداً للنصوص */
+  --accent-color: #ff3333; /* أحمر قوي وجريء للأزرار والروابط */
+  --secondary-background: #1a1a1a; /* رمادي غامق للخلفيات الثانوية */
 }
 body {
-	font-family: var(--font-atkinson);
-	margin: 0;
-	padding: 0;
-	text-align: left;
-	background: linear-gradient(var(--gray-gradient)) no-repeat;
-	background-size: 100% 600px;
-	word-wrap: break-word;
-	overflow-wrap: break-word;
-	color: rgb(var(--gray-dark));
-	font-size: 20px;
-	line-height: 1.7;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-family: 'Tajawal', sans-serif; /* خط عربي واضح */
 }
 main {
 	width: 720px;
@@ -65,10 +52,11 @@ b {
 	font-weight: 700;
 }
 a {
-	color: var(--accent);
+  color: var(--accent-color);
+  text-decoration: none;
 }
 a:hover {
-	color: var(--accent);
+  text-decoration: underline;
 }
 p {
 	margin-bottom: 1em;
