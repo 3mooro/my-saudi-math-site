@@ -9,74 +9,127 @@ const posts = (await getCollection('blog')).sort(
 );
 ---
 
-<MainLayout title="الكورسات والمقالات | KSA Academy">
+<MainLayout title="الكورسات والمقالات | أكاديمية KSA">
 	<section class="py-24">
 		<div class="container mx-auto px-4">
-			<div class="max-w-3xl mb-16 space-y-4">
-				<h1 class="text-4xl md:text-6xl font-cairo font-bold tracking-tight text-gradient">
-					دوراتنا التعليمية والمقالات
-				</h1>
-				<p class="text-xl text-muted-foreground font-cairo">
-					استكشف مجموعتنا المتنوعة من الكورسات المتخصصة والمقالات التعليمية المصممة لمساعدتك على التفوق.
-				</p>
+			<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+				<div class="max-w-2xl space-y-4 text-right">
+					<h1 class="text-4xl md:text-6xl font-cairo font-black tracking-tight text-gradient leading-tight">
+						دوراتنا التعليمية والمقالات
+					</h1>
+					<p class="text-xl text-muted-foreground font-bold">
+						استكشف مجموعتنا المتنوعة من الكورسات المتخصصة والمقالات التعليمية المصممة لمساعدتك على التفوق.
+					</p>
+				</div>
+				
+				<!-- Search Bar -->
+				<div class="w-full md:w-96 relative group">
+					<input 
+						type="text" 
+						id="searchInput"
+						placeholder="ابحث عن درس أو موضوع..." 
+						class="w-full h-16 px-8 pr-14 rounded-2xl bg-card border-2 border-primary/10 focus:border-primary focus:ring-0 transition-all font-cairo font-bold shadow-lg shadow-primary/5"
+					/>
+					<svg class="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+				</div>
 			</div>
 			
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+			<div id="postsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-12">
 				{posts.map((post, index) => (
-					<article class:list={[
-						"group relative flex flex-col space-y-4",
-						index === 0 ? "md:col-span-2 md:flex-row md:space-y-0 md:space-x-12 md:space-x-reverse items-center" : ""
-					]}>
+					<article 
+						class:list={[
+							"post-card group relative flex flex-col space-y-4 reveal",
+							index === 0 ? "md:col-span-2 md:flex-row md:space-y-0 md:space-x-12 md:space-x-reverse items-center" : ""
+						]}
+						data-title={post.data.title}
+						data-desc={post.data.description}
+					>
 						{post.data.heroImage && (
 							<a href={`/blog/${post.id}/`} class:list={[
-								"overflow-hidden rounded-3xl shadow-lg transition-all group-hover:shadow-2xl group-hover:-translate-y-1",
+								"overflow-hidden rounded-[2rem] shadow-lg transition-all group-hover:shadow-2xl group-hover:-translate-y-1 border border-primary/5",
 								index === 0 ? "md:w-1/2 aspect-[16/9]" : "aspect-video"
 							]}>
-								<Image 
-									width={720} 
-									height={360} 
+								<img 
 									src={post.data.heroImage} 
 									alt={post.data.title} 
-									class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+									class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
 									loading={index === 0 ? "eager" : "lazy"}
 								/>
 							</a>
 						)}
 						<div class:list={[
-							"space-y-3",
+							"space-y-4",
 							index === 0 ? "md:w-1/2" : ""
 						]}>
-							<div class="flex items-center gap-2 text-sm font-bold text-muted-foreground">
+							<div class="flex items-center gap-3 text-sm font-black text-primary">
+								<span class="px-3 py-1 bg-primary/10 rounded-full">مقال تعليمي</span>
+								<span class="text-muted-foreground">•</span>
 								<FormattedDate date={post.data.pubDate} />
-								{post.data.readingTime && (
-									<>
-										<span>•</span>
-										<span>{post.data.readingTime}</span>
-									</>
-								)}
 							</div>
 							<a href={`/blog/${post.id}/`}>
 								<h2 class:list={[
-									"font-cairo font-bold tracking-tight transition-colors group-hover:text-primary",
+									"font-cairo font-black tracking-tight transition-colors group-hover:text-primary",
 									index === 0 ? "text-3xl md:text-5xl leading-tight" : "text-2xl md:text-3xl"
 								]}>
 									{post.data.title}
 								</h2>
 							</a>
-							<p class="text-muted-foreground line-clamp-2 md:line-clamp-3 leading-relaxed font-cairo">
+							<p class="text-muted-foreground text-lg line-clamp-3 leading-relaxed font-bold">
 								{post.data.description}
 							</p>
 							<a 
 								href={`/blog/${post.id}/`} 
-								class="inline-flex items-center gap-2 font-bold text-primary hover:underline group/link font-cairo"
+								class="inline-flex items-center gap-2 font-black text-primary hover:underline group/link font-cairo text-lg"
 							>
 								اقرأ المزيد
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/link:-translate-x-1 rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/link:-translate-x-2 rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 							</a>
 						</div>
 					</article>
 				))}
 			</div>
+
+			<!-- No Results Message -->
+			<div id="noResults" class="hidden py-24 text-center space-y-6">
+				<div class="text-6xl">🔍</div>
+				<h3 class="text-2xl md:text-4xl font-black font-cairo">لم نجد ما تبحث عنه..</h3>
+				<p class="text-muted-foreground font-bold">جرب البحث بكلمات أخرى أو تصفح الكورسات المتاحة.</p>
+				<button onclick="document.getElementById('searchInput').value=''; document.getElementById('searchInput').dispatchEvent(new Event('input'));" class="px-8 h-14 rounded-full bg-primary text-white font-black">عرض الكل</button>
+			</div>
 		</div>
 	</section>
 </MainLayout>
+
+<script>
+	const searchInput = document.getElementById('searchInput');
+	const postsGrid = document.getElementById('postsGrid');
+	const postCards = document.querySelectorAll('.post-card');
+	const noResults = document.getElementById('noResults');
+
+	searchInput?.addEventListener('input', (e) => {
+		const term = (e.target as HTMLInputElement).value.toLowerCase();
+		let found = false;
+
+		postCards.forEach((card) => {
+			const title = (card as HTMLElement).dataset.title?.toLowerCase() || '';
+			const desc = (card as HTMLElement).dataset.desc?.toLowerCase() || '';
+			
+			if (title.includes(term) || desc.includes(term)) {
+				(card as HTMLElement).style.display = 'flex';
+				found = true;
+			} else {
+				(card as HTMLElement).style.display = 'none';
+			}
+		});
+
+		if (found) {
+			postsGrid?.classList.remove('hidden');
+			postsGrid?.classList.add('grid');
+			noResults?.classList.add('hidden');
+		} else {
+			postsGrid?.classList.add('hidden');
+			postsGrid?.classList.remove('grid');
+			noResults?.classList.remove('hidden');
+		}
+	});
+</script>
