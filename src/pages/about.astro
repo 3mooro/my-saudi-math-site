@@ -4,58 +4,59 @@ import { Image } from 'astro:assets';
 import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 ---
 
-<MainLayout title="About Us | KSA Academy">
+<MainLayout title="عن الأكاديمية | KSA Academy">
 	<section class="py-24">
 		<div class="container mx-auto px-4">
 			<div class="max-w-4xl mx-auto space-y-16">
 				<div class="text-center space-y-4">
-					<h1 class="text-4xl md:text-7xl font-poppins font-bold tracking-tight text-gradient">
-						Our Mission
+					<h1 class="text-4xl md:text-7xl font-cairo font-bold tracking-tight text-gradient">
+						مهمتنا
 					</h1>
-					<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
-						Empowering the next generation of students through high-quality, accessible, and interactive education.
+					<p class="text-xl text-muted-foreground max-w-2xl mx-auto font-cairo">
+						تمكين الجيل القادم من الطلاب من خلال تعليم تفاعلي، متاح، وعالي الجودة في مجالات الرياضيات والعلوم.
 					</p>
 				</div>
 				
 				<div class="overflow-hidden rounded-[2.5rem] shadow-2xl relative aspect-[21/9]">
 					<Image 
 						src={AboutHeroImage} 
-						alt="About KSA Academy" 
+						alt="عن أكاديمية KSA" 
 						class="w-full h-full object-cover"
+						loading="lazy"
 					/>
 					<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8 md:p-16">
-						<p class="text-white text-2xl md:text-4xl font-poppins font-bold max-w-2xl leading-tight">
-							We believe that quality education should be available to everyone, everywhere.
+						<p class="text-white text-2xl md:text-4xl font-cairo font-bold max-w-2xl leading-tight">
+							نحن نؤمن بأن التعليم عالي الجودة يجب أن يكون متاحاً للجميع، وفي كل مكان.
 						</p>
 					</div>
 				</div>
 
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
 					<div class="space-y-6">
-						<h2 class="text-3xl font-poppins font-bold tracking-tight">Who We Are</h2>
-						<div class="prose prose-lg dark:prose-invert">
+						<h2 class="text-3xl font-cairo font-bold tracking-tight">من نحن</h2>
+						<div class="prose prose-lg dark:prose-invert font-cairo">
 							<p>
-								KSA Academy is a leading educational services platform founded with a single goal: to make learning more engaging, effective, and accessible for students across the Middle East.
+								أكاديمية KSA هي منصة خدمات تعليمية رائدة تأسست بهدف واحد: جعل التعلم أكثر تفاعلية وفعالية وسهولة للطلاب في جميع أنحاء الشرق الأوسط.
 							</p>
 							<p>
-								Our team of expert instructors and developers work tirelessly to create content that not only covers the curriculum but also inspires a love for learning and problem-solving.
+								يعمل فريقنا من المدربين والمطورين الخبراء بلا كلل لإنشاء محتوى لا يغطي المناهج الدراسية فحسب، بل يلهم أيضاً حب التعلم وحل المشكلات.
 							</p>
 						</div>
 					</div>
 					<div class="bg-primary/5 rounded-[2rem] p-8 md:p-12 border border-primary/10">
-						<h3 class="text-2xl font-poppins font-bold mb-6">Our Values</h3>
+						<h3 class="text-2xl font-cairo font-bold mb-6">قيمنا الأساسية</h3>
 						<ul class="space-y-4">
 							{[
-								"Excellence in every lesson",
-								"Student-centered learning",
-								"Innovation in EdTech",
-								"Community support & growth"
+								"التميز في كل درس",
+								"التعلم المتمركز حول الطالب",
+								"الابتكار في تكنولوجيا التعليم",
+								"الدعم المجتمعي والنمو"
 							].map((value) => (
 								<li class="flex items-center gap-3">
 									<div class="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center">
 										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
 									</div>
-									<span class="font-medium">{value}</span>
+									<span class="font-bold font-cairo">{value}</span>
 								</li>
 							))}
 						</ul>
@@ -63,15 +64,15 @@ import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 				</div>
 
 				<div class="text-center bg-zinc-950 rounded-[3rem] py-20 px-8 space-y-8 shadow-2xl relative overflow-hidden">
-					<div class="absolute -left-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-[100px]"></div>
-					<h2 class="text-3xl md:text-5xl font-poppins font-bold text-white relative z-10">Ready to join our community?</h2>
-					<p class="text-xl text-zinc-400 max-w-2xl mx-auto relative z-10">Start your journey with us today and experience a new way of learning.</p>
+					<div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-[100px]"></div>
+					<h2 class="text-3xl md:text-5xl font-cairo font-bold text-white relative z-10">هل أنت مستعد للانضمام إلينا؟</h2>
+					<p class="text-xl text-zinc-400 max-w-2xl mx-auto relative z-10">ابدأ رحلتك معنا اليوم واختبر طريقة جديدة ومبتكرة للتعلم.</p>
 					<div class="relative z-10">
 						<a 
 							href="/blog" 
-							class="h-16 inline-flex items-center justify-center rounded-full bg-white px-10 text-lg font-bold text-zinc-950 transition-all hover:scale-105 shadow-xl"
+							class="h-16 inline-flex items-center justify-center rounded-full bg-white px-10 text-lg font-bold text-zinc-950 transition-all hover:scale-105 shadow-xl font-cairo"
 						>
-							Explore Courses
+							استكشف الكورسات
 						</a>
 					</div>
 				</div>

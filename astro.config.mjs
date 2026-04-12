@@ -15,19 +15,14 @@ export default defineConfig({
   // استعادة إعدادات الخطوط التي يبحث عنها القالب
   fonts: [
     {
-      name: 'Atkinson Hyperlegible',
+      name: 'Cairo',
       provider: fontProviders.google(),
-      cssVariable: '--font-atkinson',
+      cssVariable: '--font-cairo',
     },
     {
-      name: 'Inter',
+      name: 'Tajawal',
       provider: fontProviders.google(),
-      cssVariable: '--font-inter',
-    },
-    {
-      name: 'Poppins',
-      provider: fontProviders.google(),
-      cssVariable: '--font-poppins',
+      cssVariable: '--font-tajawal',
     }
   ],
 

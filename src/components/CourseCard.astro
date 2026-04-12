@@ -12,15 +12,16 @@ const { title, instructor, rating, price, image, tag } = Astro.props;
 ---
 <div class="group relative rounded-2xl border bg-card p-4 transition-all hover:shadow-2xl hover:-translate-y-2">
 	<div class="aspect-video w-full overflow-hidden rounded-xl bg-muted mb-4 relative">
-		<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
-			<span class="text-white font-medium text-sm">Preview Course</span>
+		<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 z-10">
+			<span class="text-white font-bold text-sm font-cairo">معاينة الكورس</span>
 		</div>
 		<img 
 			src={image} 
 			alt={title} 
 			class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+			loading="lazy"
 		/>
-		<span class="absolute top-3 left-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary">
+		<span class="absolute top-3 right-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary font-cairo z-10">
 			{tag}
 		</span>
 	</div>
@@ -40,19 +41,19 @@ const { title, instructor, rating, price, image, tag } = Astro.props;
 					<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
 				</svg>
 			))}
-			<span class="text-xs text-muted-foreground font-medium ml-1">({rating})</span>
+			<span class="text-xs text-muted-foreground font-bold mr-1">({rating})</span>
 		</div>
 		
-		<h3 class="font-poppins font-bold text-lg leading-snug line-clamp-2 group-hover:text-primary transition-colors">
+		<h3 class="font-cairo font-bold text-lg leading-snug line-clamp-2 group-hover:text-primary transition-colors">
 			{title}
 		</h3>
 		
-		<p class="text-sm text-muted-foreground italic">By {instructor}</p>
+		<p class="text-sm text-muted-foreground italic">بواسطة {instructor}</p>
 		
 		<div class="flex items-center justify-between pt-2">
 			<span class="text-xl font-bold text-foreground">{price}</span>
-			<button class="h-9 px-4 rounded-full bg-primary/10 text-primary text-sm font-semibold hover:bg-primary hover:text-white transition-colors">
-				Enroll Now
+			<button class="h-9 px-4 rounded-full bg-primary/10 text-primary text-sm font-bold hover:bg-primary hover:text-white transition-colors font-cairo">
+				سجل الآن
 			</button>
 		</div>
 	</div>

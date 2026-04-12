@@ -9,15 +9,15 @@ const posts = (await getCollection('blog')).sort(
 );
 ---
 
-<MainLayout title="Our Courses | KSA Academy">
+<MainLayout title="الكورسات والمقالات | KSA Academy">
 	<section class="py-24">
 		<div class="container mx-auto px-4">
 			<div class="max-w-3xl mb-16 space-y-4">
-				<h1 class="text-4xl md:text-6xl font-poppins font-bold tracking-tight text-gradient">
-					Our Courses & Resources
+				<h1 class="text-4xl md:text-6xl font-cairo font-bold tracking-tight text-gradient">
+					دوراتنا التعليمية والمقالات
 				</h1>
-				<p class="text-xl text-muted-foreground">
-					Explore our collection of expert-led courses and educational materials designed to help you excel in your studies.
+				<p class="text-xl text-muted-foreground font-cairo">
+					استكشف مجموعتنا المتنوعة من الكورسات المتخصصة والمقالات التعليمية المصممة لمساعدتك على التفوق.
 				</p>
 			</div>
 			
@@ -25,7 +25,7 @@ const posts = (await getCollection('blog')).sort(
 				{posts.map((post, index) => (
 					<article class:list={[
 						"group relative flex flex-col space-y-4",
-						index === 0 ? "md:col-span-2 md:flex-row md:space-y-0 md:space-x-12 items-center" : ""
+						index === 0 ? "md:col-span-2 md:flex-row md:space-y-0 md:space-x-12 md:space-x-reverse items-center" : ""
 					]}>
 						{post.data.heroImage && (
 							<a href={`/blog/${post.id}/`} class:list={[
@@ -36,8 +36,9 @@ const posts = (await getCollection('blog')).sort(
 									width={720} 
 									height={360} 
 									src={post.data.heroImage} 
-									alt="" 
+									alt={post.data.title} 
 									class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+									loading={index === 0 ? "eager" : "lazy"}
 								/>
 							</a>
 						)}
@@ -45,26 +46,32 @@ const posts = (await getCollection('blog')).sort(
 							"space-y-3",
 							index === 0 ? "md:w-1/2" : ""
 						]}>
-							<div class="text-sm font-medium text-muted-foreground">
+							<div class="flex items-center gap-2 text-sm font-bold text-muted-foreground">
 								<FormattedDate date={post.data.pubDate} />
+								{post.data.readingTime && (
+									<>
+										<span>•</span>
+										<span>{post.data.readingTime}</span>
+									</>
+								)}
 							</div>
 							<a href={`/blog/${post.id}/`}>
 								<h2 class:list={[
-									"font-poppins font-bold tracking-tight transition-colors group-hover:text-primary",
-									index === 0 ? "text-3xl md:text-5xl" : "text-2xl md:text-3xl"
+									"font-cairo font-bold tracking-tight transition-colors group-hover:text-primary",
+									index === 0 ? "text-3xl md:text-5xl leading-tight" : "text-2xl md:text-3xl"
 								]}>
 									{post.data.title}
 								</h2>
 							</a>
-							<p class="text-muted-foreground line-clamp-2 md:line-clamp-3 leading-relaxed">
+							<p class="text-muted-foreground line-clamp-2 md:line-clamp-3 leading-relaxed font-cairo">
 								{post.data.description}
 							</p>
 							<a 
 								href={`/blog/${post.id}/`} 
-								class="inline-flex items-center gap-2 font-bold text-primary hover:underline group/link"
+								class="inline-flex items-center gap-2 font-bold text-primary hover:underline group/link font-cairo"
 							>
-								Read More
-								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/link:translate-x-1"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+								اقرأ المزيد
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover/link:-translate-x-1 rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 							</a>
 						</div>
 					</article>

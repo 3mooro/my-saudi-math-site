@@ -1,21 +1,21 @@
 ---
 const testimonials = [
 	{
-		name: "Sarah Miller",
-		role: "Engineering Student",
-		feedback: "The calculus course was a lifesaver. The complex concepts were explained so clearly, and the interactive exercises really helped solidify my understanding.",
+		name: "سارة محمد",
+		role: "طالبة هندسة",
+		feedback: "كورس التفاضل والتكامل كان بمثابة طوق نجاة لي! الشرح كان مبسطاً للغايا وربط المفاهيم النظرية بالتطبيقات العملية جعل المادة ممتعة.",
 		avatar: "https://i.pravatar.cc/150?u=sarah"
 	},
 	{
-		name: "James Wilson",
-		role: "High School Teacher",
-		feedback: "I recommend KSA Academy to all my students. The quality of content and the platform's user experience are simply unmatched in the EdTech space.",
+		name: "أحمد عبدالله",
+		role: "معلم رياضيات",
+		feedback: "أوصي دائماً طلابي بأكاديمية KSA. جودة المحتوى والتنظيم في طرح الدروس لا مثيل لهما، والمنصة توفر بيئة تعلم مثالية.",
 		avatar: "https://i.pravatar.cc/150?u=james"
 	},
 	{
-		name: "Elena Rodriguez",
-		role: "Software Developer",
-		feedback: "The algorithms course helped me land my dream job at a top tech company. The instructor's deep knowledge and practical tips were invaluable.",
+		name: "إلينا حسن",
+		role: "مطور برمجيات",
+		feedback: "بفضل كورس الخوارزميات تمكنت من اجتياز مقابلة عمل في شركة تقنية كبرى. خبرة المدرب واضحة في كل درس.",
 		avatar: "https://i.pravatar.cc/150?u=elena"
 	}
 ];
@@ -23,8 +23,8 @@ const testimonials = [
 <section class="py-24 bg-muted/20">
 	<div class="container mx-auto px-4">
 		<div class="text-center max-w-2xl mx-auto mb-16">
-			<h2 class="text-3xl md:text-5xl font-poppins font-bold tracking-tight mb-4">What Our Students Say</h2>
-			<p class="text-lg text-muted-foreground">Join thousands of happy learners who have transformed their lives through our platform.</p>
+			<h2 class="text-3xl md:text-5xl font-cairo font-bold tracking-tight mb-4">آراء طلابنا</h2>
+			<p class="text-lg text-muted-foreground">انضم إلى آلاف الطلاب الذين وثقوا بأكاديمية KSA وحققوا أهدافهم الأكاديمية.</p>
 		</div>
 		
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -33,12 +33,12 @@ const testimonials = [
 					<div class="flex items-center gap-4 mb-6">
 						<img src={t.avatar} alt={t.name} class="w-12 h-12 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all" />
 						<div>
-							<h4 class="font-bold font-poppins text-foreground">{t.name}</h4>
-							<p class="text-xs text-muted-foreground uppercase tracking-wider">{t.role}</p>
+							<h4 class="font-bold font-cairo text-foreground">{t.name}</h4>
+							<p class="text-xs text-muted-foreground tracking-wider">{t.role}</p>
 						</div>
 					</div>
-					<p class="text-muted-foreground italic leading-relaxed">"{t.feedback}"</p>
-					<div class="mt-6 flex gap-1">
+					<p class="text-muted-foreground italic leading-relaxed text-justify">"{t.feedback}"</p>
+					<div class="mt-6 flex gap-1 justify-end">
 						{Array.from({ length: 5 }).map(() => (
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-yellow-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
 						))}

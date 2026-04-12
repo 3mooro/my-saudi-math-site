@@ -1,18 +1,18 @@
 ---
 const steps = [
 	{
-		title: "Choose Your Course",
-		description: "Browse our extensive catalog of courses and find the perfect one for your goals.",
+		title: "اختر كورس أو مسار",
+		description: "تصفح الكتالوج الشامل واكتشف الدورة الأنسب لأهدافك التعليمية.",
 		icon: "🔍"
 	},
 	{
-		title: "Learn at Your Pace",
-		description: "Access high-quality video lectures, assignments, and interactive exercises.",
+		title: "تعلم بالسرعة التي تناسبك",
+		description: "احصل على وصول فوري لمحاضرات بجودة عالية، وأمثلة عملية، وتدريبات تفاعلية.",
 		icon: "📖"
 	},
 	{
-		title: "Get Certified",
-		description: "Complete the course and receive a certificate to showcase your expertise.",
+		title: "احصل على الشهادة",
+		description: "أنهي الدورة بنجاح واحصل على شهادة معتمدة تثبت كفاءتك ومهاراتك.",
 		icon: "🏆"
 	}
 ];
@@ -22,25 +22,25 @@ const steps = [
 	
 	<div class="container mx-auto px-4">
 		<div class="text-center max-w-2xl mx-auto mb-20">
-			<h2 class="text-3xl md:text-5xl font-poppins font-bold tracking-tight mb-4">How It Works</h2>
-			<p class="text-lg text-muted-foreground">Three simple steps to start your journey toward mastering new skills.</p>
+			<h2 class="text-3xl md:text-5xl font-cairo font-bold tracking-tight mb-4">كيف تبدأ رحلتك؟</h2>
+			<p class="text-lg text-muted-foreground">ثلاث خطوات بسيطة تفصلك عن إتقان مهارات جديدة مع أكاديمية KSA.</p>
 		</div>
 		
 		<div class="relative">
 			<!-- Connection line for desktop -->
-			<div class="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-primary/20 to-transparent -translate-y-1/2 -z-10"></div>
+			<div class="hidden lg:block absolute top-1/2 right-0 w-full h-0.5 bg-gradient-to-l from-transparent via-primary/20 to-transparent -translate-y-1/2 -z-10"></div>
 			
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
 				{steps.map((step, i) => (
 					<div class="relative flex flex-col items-center text-center space-y-6 group">
-						<div class="w-20 h-20 rounded-full bg-white dark:bg-zinc-900 border-2 border-primary/20 shadow-xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:border-primary transition-all duration-300 z-10">
+						<div class="w-20 h-20 rounded-full bg-white dark:bg-zinc-900 border-2 border-primary/20 shadow-xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:border-primary transition-all duration-300 z-10 relative">
 							{step.icon}
-							<span class="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center">
+							<span class="absolute -top-2 -left-2 w-8 h-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center shadow-md border-2 border-white dark:border-zinc-900">
 								{i + 1}
 							</span>
 						</div>
 						<div class="space-y-3">
-							<h3 class="text-2xl font-bold font-poppins">{step.title}</h3>
+							<h3 class="text-2xl font-bold font-cairo">{step.title}</h3>
 							<p class="text-muted-foreground leading-relaxed max-w-sm">{step.description}</p>
 						</div>
 					</div>
