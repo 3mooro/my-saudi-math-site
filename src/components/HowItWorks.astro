@@ -1,51 +1,47 @@
 ---
 const steps = [
 	{
-		title: "اختر كورس أو مسار",
-		description: "تصفح الكتالوج الشامل واكتشف الدورة الأنسب لأهدافك التعليمية.",
-		icon: "🔍"
+		title: "سجل بياناتك",
+		description: "قم بالتواصل معنا وتحديد المرحلة الدراسية والمادة المطلوبة.",
+		icon: "📝"
 	},
 	{
-		title: "تعلم بالسرعة التي تناسبك",
-		description: "احصل على وصول فوري لمحاضرات بجودة عالية، وأمثلة عملية، وتدريبات تفاعلية.",
-		icon: "📖"
+		title: "اختر معلمك",
+		description: "نساعدك في اختيار المعلم الأنسب لأسلوب تعلمك ومواعيدك.",
+		icon: "👨‍🏫"
 	},
 	{
-		title: "احصل على الشهادة",
-		description: "أنهي الدورة بنجاح واحصل على شهادة معتمدة تثبت كفاءتك ومهاراتك.",
-		icon: "🏆"
+		title: "ابدأ التعلم",
+		description: "احضر حصصك التفاعلية وابدأ رحلة التفوق الدراسي فوراً.",
+		icon: "🚀"
 	}
 ];
 ---
-<section class="py-24 overflow-hidden relative">
-	<div class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.05)_0%,transparent_50%)]"></div>
-	
+<section class="py-24 bg-background">
 	<div class="container mx-auto px-4">
-		<div class="text-center max-w-2xl mx-auto mb-20">
-			<h2 class="text-3xl md:text-5xl font-cairo font-bold tracking-tight mb-4">كيف تبدأ رحلتك؟</h2>
-			<p class="text-lg text-muted-foreground">ثلاث خطوات بسيطة تفصلك عن إتقان مهارات جديدة مع أكاديمية KSA.</p>
+		<div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+			<h2 class="text-3xl md:text-5xl font-cairo font-black tracking-tight leading-tight">ابدأ في 3 خطوات فقط</h2>
+			<p class="text-xl text-muted-foreground font-bold italic">"طريقك للنجاح يبدأ من هنا"</p>
 		</div>
 		
-		<div class="relative">
-			<!-- Connection line for desktop -->
-			<div class="hidden lg:block absolute top-1/2 right-0 w-full h-0.5 bg-gradient-to-l from-transparent via-primary/20 to-transparent -translate-y-1/2 -z-10"></div>
+		<div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+			<!-- Connection dots for desktop -->
+			<div class="hidden lg:block absolute top-1/2 left-0 w-full h-1 bg-[radial-gradient(circle,rgba(59,130,246,0.2)_10%,transparent_10%)] bg-[length:20px_20px] -translate-y-1/2"></div>
 			
-			<div class="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-24">
-				{steps.map((step, i) => (
-					<div class="relative flex flex-col items-center text-center space-y-6 group">
-						<div class="w-20 h-20 rounded-full bg-white dark:bg-zinc-900 border-2 border-primary/20 shadow-xl flex items-center justify-center text-4xl group-hover:scale-110 group-hover:border-primary transition-all duration-300 z-10 relative">
-							{step.icon}
-							<span class="absolute -top-2 -left-2 w-8 h-8 rounded-full bg-primary text-white text-sm font-bold flex items-center justify-center shadow-md border-2 border-white dark:border-zinc-900">
-								{i + 1}
-							</span>
-						</div>
-						<div class="space-y-3">
-							<h3 class="text-2xl font-bold font-cairo">{step.title}</h3>
-							<p class="text-muted-foreground leading-relaxed max-w-sm">{step.description}</p>
+			{steps.map((step, i) => (
+				<div class="relative flex flex-col items-center text-center space-y-8 group reveal">
+					<div class="w-32 h-32 rounded-[2.5rem] bg-card border-4 border-primary/10 shadow-2xl flex items-center justify-center text-5xl group-hover:scale-110 group-hover:border-primary transition-all duration-500 z-10 bg-white dark:bg-zinc-900">
+						{step.icon}
+						<div class="absolute -top-4 -right-4 w-12 h-12 rounded-2xl bg-primary text-white text-xl font-black flex items-center justify-center shadow-lg border-4 border-white dark:border-zinc-900">
+							{i + 1}
 						</div>
 					</div>
-				))}
-			</div>
+					<div class="space-y-4">
+						<h3 class="text-2xl font-black font-cairo">{step.title}</h3>
+						<p class="text-muted-foreground font-bold leading-relaxed max-w-xs mx-auto">{step.description}</p>
+					</div>
+				</div>
+			))}
 		</div>
 	</div>
 </section>

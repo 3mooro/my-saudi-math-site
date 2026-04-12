@@ -3,66 +3,80 @@ import { SITE_TITLE, WHATSAPP_NUMBER, TWITTER_LINK, INSTAGRAM_LINK, LINKEDIN_LIN
 const today = new Date();
 ---
 
-<footer class="border-t bg-muted/30 py-12 md:py-16">
+<footer class="bg-card border-t border-primary/5 py-16 md:py-24">
 	<div class="container mx-auto px-4">
-		<div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-right">
-			<div class="space-y-4">
-				<h3 class="text-xl font-bold font-cairo text-gradient">{SITE_TITLE}</h3>
-				<p class="text-sm text-muted-foreground leading-relaxed">
-					تمكين الطلاب من خلال خدمات تعليمية متميزة وتجارب تعلم تفاعلية تلبي احتياجاتهم.
+		<div class="grid grid-cols-1 md:grid-cols-4 gap-16 text-right">
+			
+			<div class="space-y-6 md:col-span-1">
+				<h3 class="text-3xl font-black font-cairo text-gradient">{SITE_TITLE}</h3>
+				<p class="text-muted-foreground font-bold leading-relaxed">
+					منصة تعليمية رائدة تهدف إلى بناء جيل مبدع ومتميز في الرياضيات والعلوم من خلال تعليم تفاعلي حديث.
 				</p>
-			</div>
-			
-			<div>
-				<h4 class="font-bold font-cairo mb-4 text-sm uppercase tracking-wider">المصادر</h4>
-				<ul class="space-y-2 text-sm">
-					<li><a href="/blog" class="text-muted-foreground hover:text-primary transition-colors">جميع الكورسات</a></li>
-					<li><a href="/about" class="text-muted-foreground hover:text-primary transition-colors">أدلة الدراسة</a></li>
-					<li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">المجتمع الطلابي</a></li>
-				</ul>
-			</div>
-			
-			<div>
-				<h4 class="font-bold font-cairo mb-4 text-sm uppercase tracking-wider">الشركة</h4>
-				<ul class="space-y-2 text-sm">
-					<li><a href="/about" class="text-muted-foreground hover:text-primary transition-colors">من نحن</a></li>
-					<li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">سياسة الخصوصية</a></li>
-					<li><a href="#" class="text-muted-foreground hover:text-primary transition-colors">شروط الخدمة</a></li>
-				</ul>
-			</div>
-			
-			<div>
-				<h4 class="font-bold font-cairo mb-4 text-sm uppercase tracking-wider">تواصل معنا</h4>
-				<ul class="space-y-2 text-sm mb-6">
-					<li>
-						<a href={`https://wa.me/${WHATSAPP_NUMBER}`} class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 justify-end">
-							<span>{WHATSAPP_NUMBER}</span>
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.79 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+				<div class="flex gap-4">
+					{[
+						{ link: TWITTER_LINK, icon: 'M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z' },
+						{ link: INSTAGRAM_LINK, icon: 'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z M17.5 6.5h.01' },
+						{ link: LINKEDIN_LINK, icon: 'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z M2 9h4v12H2z M4 2a2 2 0 1 1-2 2 2 2 0 0 1 2-2' }
+					].map(social => (
+						<a href={social.link} class="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all duration-300 shadow-sm" target="_blank">
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d={social.icon}></path>{social.icon.includes('M17.5 6.5') && <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>}</svg>
 						</a>
-					</li>
-					<li>
-						<a href="mailto:support@ksaacademy.online" class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2 justify-end">
-							<span>الدعم الفني</span>
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-						</a>
-					</li>
+					))}
+				</div>
+			</div>
+			
+			<div>
+				<h4 class="font-black font-cairo mb-8 text-lg uppercase tracking-wider text-foreground">الوصول السريع</h4>
+				<ul class="space-y-4 text-muted-foreground font-bold">
+					<li><a href="/" class="hover:text-primary transition-colors">الرئيسية</a></li>
+					<li><a href="/blog" class="hover:text-primary transition-colors">جميع الكورسات</a></li>
+					<li><a href="/about" class="hover:text-primary transition-colors">من نحن</a></li>
+					<li><a href="/contact" class="hover:text-primary transition-colors">اتصل بنا</a></li>
 				</ul>
-				<div class="flex gap-4 justify-end">
-					<a href={TWITTER_LINK} class="text-muted-foreground hover:text-primary transition-colors" target="_blank">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path></svg>
+			</div>
+			
+			<div>
+				<h4 class="font-black font-cairo mb-8 text-lg uppercase tracking-wider text-foreground">المساعدة</h4>
+				<ul class="space-y-4 text-muted-foreground font-bold">
+					<li><a href="/contact" class="hover:text-primary transition-colors">الأسئلة الشائعة</a></li>
+					<li><a href="#" class="hover:text-primary transition-colors">سياسة الخصوصية</a></li>
+					<li><a href="#" class="hover:text-primary transition-colors">شروط الخدمة</a></li>
+					<li><a href="#" class="hover:text-primary transition-colors">الدعم الفني</a></li>
+				</ul>
+			</div>
+			
+			<div class="space-y-6">
+				<h4 class="font-black font-cairo mb-8 text-lg uppercase tracking-wider text-foreground">تواصل معنا</h4>
+				<div class="space-y-4">
+					<a href={`https://wa.me/${WHATSAPP_NUMBER}`} class="flex items-center gap-4 group">
+						<div class="w-12 h-12 rounded-2xl bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover:bg-[#25D366] group-hover:text-white transition-all">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.79 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+						</div>
+						<div class="text-right">
+							<span class="block text-xs text-muted-foreground font-bold">واتساب مباشر</span>
+							<span class="block font-black text-foreground">{WHATSAPP_NUMBER}</span>
+						</div>
 					</a>
-					<a href={INSTAGRAM_LINK} class="text-muted-foreground hover:text-primary transition-colors" target="_blank">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line></svg>
-					</a>
-					<a href={LINKEDIN_LINK} class="text-muted-foreground hover:text-primary transition-colors" target="_blank">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-					</a>
+					<div class="flex items-center gap-4 group">
+						<div class="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+						</div>
+						<div class="text-right">
+							<span class="block text-xs text-muted-foreground font-bold">البريد الإلكتروني</span>
+							<span class="block font-black text-foreground">support@ksaacademy.online</span>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
-			&copy; {today.getFullYear()} {SITE_TITLE}. جميع الحقوق محفوظة.
+		<div class="mt-20 pt-8 border-t border-primary/5 flex flex-col md:flex-row justify-between items-center gap-6">
+			<p class="text-sm text-muted-foreground font-bold">
+				&copy; {today.getFullYear()} {SITE_TITLE}. جميع الحقوق محفوظة.
+			</p>
+			<div class="flex gap-8 text-sm text-muted-foreground font-bold">
+				<span class="flex items-center gap-2">تطوير بواسطة <span class="text-primary font-black">أكاديمية KSA</span></span>
+			</div>
 		</div>
 	</div>
 </footer>

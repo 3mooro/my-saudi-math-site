@@ -1,56 +1,72 @@
 ---
+import { WHATSAPP_NUMBER } from '../consts';
 ---
-<section class="relative overflow-hidden py-24 md:py-32 lg:py-40">
-	<!-- Background Elements -->
-	<div class="absolute inset-0 -z-10 bg-[radial-gradient(45%_45%_at_50%_50%,rgba(59,130,246,0.1)_0%,rgba(255,255,255,0)_100%)]"></div>
-	<div class="absolute top-0 right-1/4 -z-10 h-[400px] w-[400px] rounded-full bg-primary/10 blur-[100px] animate-float"></div>
-	<div class="absolute bottom-0 left-1/4 -z-10 h-[300px] w-[300px] rounded-full bg-secondary/10 blur-[80px] animate-float" style="animation-delay: -3s"></div>
+<section class="relative py-16 lg:py-24 bg-background overflow-hidden border-b border-primary/5">
+	<div class="container mx-auto px-4">
+		<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+			
+			<!-- Right: Text Content -->
+			<div class="space-y-8 text-right order-2 lg:order-1">
+				<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 text-primary font-black text-sm animate-fade-in">
+					<span class="relative flex h-2 w-2">
+						<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+						<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+					</span>
+					منصة تعليمية متكاملة للمناهج السعودية
+				</div>
+				
+				<h1 class="font-cairo text-4xl md:text-6xl lg:text-7xl font-black tracking-tight leading-tight text-foreground">
+					دروس خصوصية أون لاين مع <br />
+					<span class="text-primary">نخبة من المعلمين</span>
+				</h1>
+				
+				<p class="text-xl md:text-2xl text-muted-foreground font-bold leading-relaxed max-w-2xl">
+					نقدم لك تجربة تعليمية فريدة تجمع بين الجودة، المرونة، والأسعار المناسبة لجميع المراحل الدراسية.
+				</p>
+				
+				<div class="flex flex-wrap gap-4 pt-4">
+					<a 
+						href="#courses" 
+						class="h-16 px-10 items-center justify-center flex rounded-2xl bg-zinc-900 dark:bg-white dark:text-zinc-900 text-white text-xl font-black shadow-2xl hover:scale-105 active:scale-95 transition-all font-cairo"
+					>
+						ابدأ رحلتك الآن
+					</a>
+					<a 
+						href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحباً، أحتاج جلسة طارئة لمراجعة الرياضيات')}`} 
+						class="h-16 px-10 items-center justify-center flex rounded-2xl border-2 border-primary/20 bg-card text-primary text-xl font-black hover:bg-primary/5 transition-all font-cairo"
+						target="_blank"
+					>
+						جلسة طارئة (عاجل)
+					</a>
+				</div>
 
-	<div class="container mx-auto px-4 text-center">
-		<div class="mx-auto max-w-4xl space-y-8">
-			<div class="inline-flex items-center rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 text-sm font-bold text-primary mb-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-				<span class="ml-2">✨</span>
-				جديد: انطلاق كورسات الرياضيات التفاعلية
-			</div>
-			
-			<h1 class="font-cairo text-5xl md:text-7xl font-extrabold tracking-tight text-gradient animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-100 leading-tight">
-				تعلم بذكاء،<br /> وليس بجهد مضاعف
-			</h1>
-			
-			<p class="mx-auto max-w-2xl text-lg md:text-xl text-muted-foreground leading-relaxed animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-200">
-				أتقن الرياضيات والعلوم مع منصتنا التعليمية الرائدة. نقدم لك دورات بشرح خبراء، ودعم مستمر، وأدوات تفاعلية مصممة خصيصاً لضمان تفوقك الدراسي.
-			</p>
-			
-			<div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-in fade-in slide-in-from-bottom-16 duration-1000 delay-300">
-				<a 
-					href="https://wa.me/201210603349?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D9%83%D9%88%D8%B1%D8%B3%D8%A7%D8%AA" 
-					class="w-full sm:w-auto h-14 items-center justify-center inline-flex rounded-full bg-primary px-8 text-lg font-bold text-primary-foreground shadow-lg transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 font-cairo"
-					target="_blank"
-				>
-					ابدأ الآن
-				</a>
-				<a 
-					href="/about" 
-					class="w-full sm:w-auto h-14 items-center justify-center inline-flex rounded-full border-2 border-primary/20 bg-transparent px-8 text-lg font-bold transition-all hover:bg-primary/5 hover:border-primary/40 font-cairo"
-				>
-					اعرف المزيد
-				</a>
-			</div>
-			
-			<!-- Dashboard Preview Illustration -->
-			<div class="mt-16 relative mx-auto max-w-5xl rounded-2xl border bg-card p-2 shadow-2xl animate-in fade-in zoom-in duration-1000 delay-500">
-				<div class="rounded-xl overflow-hidden glass aspect-video flex items-center justify-center bg-muted/20 relative group">
-					<!-- Math Illustration Placeholder -->
-					<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-secondary/10 opacity-50 group-hover:opacity-100 transition-opacity"></div>
-					<div class="text-muted-foreground flex flex-col items-center z-10">
-						<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="mb-4 text-primary/60 group-hover:text-primary transition-colors"><path d="M21.54 15H17a2 2 0 0 0-2 2v4.54"></path><path d="M7 3.34V5a3 3 0 0 0 3 3v0a2 2 0 0 1 2 2v0c0 1.1.9 2 2 2v0a2 2 0 0 0 2-2v0c0-1.1.9-2 2-2h1.66"></path><path d="M11 21.54V20a2 2 0 0 0-2-2H4.46"></path><circle cx="12" cy="12" r="10"></circle></svg>
-						<span class="font-cairo font-bold tracking-wider text-sm text-primary/80">لوحة تحكم الطالب التفاعلية</span>
+				<div class="flex items-center gap-6 pt-8 border-t border-primary/5">
+					<div class="flex flex-col">
+						<span class="text-2xl font-black text-foreground">+10k</span>
+						<span class="text-xs text-muted-foreground font-bold uppercase">طالب نشط</span>
+					</div>
+					<div class="w-px h-8 bg-primary/10"></div>
+					<div class="flex flex-col">
+						<span class="text-2xl font-black text-foreground">4.9/5</span>
+						<span class="text-xs text-muted-foreground font-bold uppercase">تقييم المنصة</span>
 					</div>
 				</div>
-				<!-- Decorative elements -->
-				<div class="absolute -top-4 -left-4 h-24 w-24 rounded-lg bg-secondary/20 blur-2xl"></div>
-				<div class="absolute -bottom-4 -right-4 h-24 w-24 rounded-lg bg-primary/20 blur-2xl"></div>
 			</div>
+
+			<!-- Left: Image/Illustration -->
+			<div class="order-1 lg:order-2 relative reveal">
+				<div class="relative z-10 rounded-[3rem] overflow-hidden shadow-[0_50px_100px_rgba(59,130,246,0.15)] border-8 border-card">
+					<img 
+						src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000" 
+						alt="تعلم أونلاين" 
+						class="w-full h-auto"
+					/>
+				</div>
+				<!-- Floating Decorative Elements -->
+				<div class="absolute -top-6 -right-6 w-32 h-32 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+				<div class="absolute -bottom-6 -left-6 w-32 h-32 bg-secondary/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+			</div>
+
 		</div>
 	</div>
 </section>
