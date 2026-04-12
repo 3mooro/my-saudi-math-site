@@ -1,0 +1,70 @@
+---
+const faqs = [
+	{
+		question: "كيف يمكنني الاشتراك في الكورسات؟",
+		answer: "يمكنك الاشتراك بسهولة عن طريق الضغط على زر 'ابدأ الآن' أو 'سجل الآن' في أي كورس، وسيتم توجيهك مباشرة لمحادثة الواتساب لتأكيد الحجز وبدء الدراسة."
+	},
+	{
+		question: "هل الدروس تكون مباشرة أم مسجلة؟",
+		answer: "نوفر كلا الخيارين؛ دروساً تفاعلية مباشرة عبر زووم (Zoom) لضمان التفاعل مع المدرس، بالإضافة إلى فيديوهات مسجلة يمكنك العودة إليها في أي وقت."
+	},
+	{
+		question: "هل توفرون مراجعات خاصة لاختبارات القدرات والتحصيلي؟",
+		answer: "نعم، لدينا دورات مكثفة ومخصصة لاختبارات القدرات والتحصيلي تركز على أهم الأنماط المتكررة واستراتيجيات الحل السريع."
+	},
+	{
+		question: "ما هي طرق الدفع المتاحة؟",
+		answer: "نقبل التحويل البنكي، ومدى (Mada)، والعديد من طرق الدفع الإلكترونية السهلة والمؤمنة لتناسب جميع الطلاب داخل المملكة وخارجها."
+	}
+];
+
+// FAQ Schema for SEO
+const faqSchema = {
+	"@context": "https://schema.org",
+	"@type": "FAQPage",
+	"mainEntity": faqs.map(faq => ({
+		"@type": "Question",
+		"name": faq.question,
+		"acceptedAnswer": {
+			"@type": "Answer",
+			"text": faq.answer
+		}
+	}))
+};
+---
+
+<section class="py-24 bg-background relative overflow-hidden">
+	<script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+	
+	<div class="container mx-auto px-4">
+		<div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+			<h2 class="text-3xl md:text-5xl font-cairo font-bold tracking-tight">الأسئلة الشائعة</h2>
+			<p class="text-lg text-muted-foreground">كل ما تود معرفته عن خدماتنا التعليمية وكيفية البدء معنا.</p>
+		</div>
+
+		<div class="max-w-3xl mx-auto space-y-4">
+			{faqs.map((faq, index) => (
+				<div class="group border rounded-2xl bg-card transition-all hover:border-primary/30 shadow-sm">
+					<details class="p-6 cursor-pointer">
+						<summary class="list-none flex items-center justify-between font-bold font-cairo text-lg md:text-xl">
+							{faq.question}
+							<span class="text-primary transition-transform group-open:rotate-180">
+								<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+							</span>
+						</summary>
+						<div class="mt-4 text-muted-foreground leading-relaxed font-cairo border-t pt-4">
+							{faq.answer}
+						</div>
+					</details>
+				</div>
+			))}
+		</div>
+	</div>
+</section>
+
+<style>
+	/* Hide the default triangle in details/summary */
+	summary::-webkit-details-marker {
+		display: none;
+	}
+</style>
