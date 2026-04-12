@@ -10,8 +10,8 @@
 		<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 		<style>
 			body { font-family: 'Cairo', sans-serif !important; background-color: #f1f5f9 !important; margin: 0; padding: 0; }
-			#nc-root [class^="nc-app-header-container"] { background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important; border: none !important; box-shadow: 0 4px 20px rgba(59, 130, 246, 0.2) !important; }
-			#nc-root button[class^="nc-login-page-button"] {
+			#nc-root [class^="nc-app-header-container"] { background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important; }
+			button[class^="nc-login-page-button"] {
 				background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
 				color: white !important;
 				border-radius: 50px !important;
@@ -19,10 +19,9 @@
 				font-weight: 900 !important;
 				border: none !important;
 				cursor: pointer;
-				box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3) !important;
 			}
-			#nc-root span[class^="nc-login-page-logo"] { display: none !important; }
-			#nc-root section[class^="nc-login-page-main-view"]::before {
+			span[class^="nc-login-page-logo"] { display: none !important; }
+			section[class^="nc-login-page-main-view"]::before {
 				content: "لوحة إدارة أكاديمية KSA";
 				display: block; font-size: 2.5rem; font-weight: 900; color: #1e293b; margin-bottom: 1rem; text-align: center;
 			}
@@ -31,6 +30,7 @@
 	<body>
 		<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 		<script>
+			// إعداد اللوحة بشكل يدوي كامل لمنع تضارب الملفات ولضمان العمل على أي رابط
 			window.CMS.init({
 				config: {
 					backend: {
@@ -52,12 +52,10 @@
 							create: true,
 							fields: [
 								{ label: "العنوان", name: "title", widget: "string" },
-								{ label: "الوصف المختصر", name: "description", widget: "text" },
+								{ label: "الوصف", name: "description", widget: "text" },
 								{ label: "التاريخ", name: "pubDate", widget: "datetime" },
 								{ label: "صورة الغلاف", name: "heroImage", widget: "image" },
 								{ label: "الكاتب", name: "author", widget: "string", default: "أكاديمية KSA" },
-								{ label: "وقت القراءة", name: "readingTime", widget: "string", default: "5 دقائق" },
-								{ label: "الوسوم", name: "tags", widget: "list" },
 								{ label: "المحتوى", name: "body", widget: "markdown" }
 							]
 						},
@@ -70,114 +68,26 @@
 							create: true,
 							fields: [
 								{ label: "اسم المادة", name: "title", widget: "string" },
-								{ label: "المدرس", name: "instructor", widget: "string" },
+								{ label: "المرحلة", name: "level", widget: "select", options: ["primary", "middle", "secondary", "university"] },
+								{ label: "اسم المدرس", name: "instructor", widget: "string" },
 								{ label: "التقييم", name: "rating", widget: "number", value_type: "float" },
 								{ label: "رابط الصورة", name: "image", widget: "string" },
 								{ label: "التصنيف", name: "tag", widget: "string" },
-								{ label: "المرحلة", name: "level", widget: "select", options: ["primary", "middle", "secondary", "university"] },
 								{ label: "الترتيب", name: "order", widget: "number" },
-								{ 
-									label: "الباقات", 
-									name: "packages", 
-									widget: "list", 
-									fields: [
-										{label: "الاسم", name: "name", widget: "string"},
-										{label: "عدد الحصص", name: "sessions", widget: "number"},
-										{label: "سعر الحصة", name: "pricePerSession", widget: "number"},
-										{label: "الإجمالي", name: "totalPrice", widget: "number"},
-										{label: "المميزات", name: "features", widget: "list"},
-										{label: "طارئة؟", name: "isUrgent", widget: "boolean"}
-									] 
-								},
-								{ 
-									label: "المنهج", 
-									name: "syllabus", 
-									widget: "list", 
-									required: false,
-									fields: [
-										{label: "الوحدة", name: "unit", widget: "string"},
-										{label: "الدروس", name: "lessons", widget: "list"}
-									] 
-								},
+								{ label: "الباقات", name: "packages", widget: "list", fields: [
+									{label: "الاسم", name: "name", widget: "string"},
+									{label: "السعر الإجمالي", name: "totalPrice", widget: "number"}
+								]},
+								{ label: "المنهج", name: "syllabus", widget: "list", fields: [
+									{label: "الوحدة", name: "unit", widget: "string"},
+									{label: "الدروس", name: "lessons", widget: "list"}
+								]},
 								{ label: "وصف تفصيلي", name: "body", widget: "markdown", required: false }
 							]
 						},
 						{
-							name: "faq",
-							label: "الأسئلة الشائعة",
-							folder: "src/content/faq",
-							extension: "json",
-							format: "json",
-							create: true,
-							fields: [
-								{ label: "السؤال", name: "question", widget: "string" },
-								{ label: "الإجابة", name: "answer", widget: "text" },
-								{ label: "الترتيب", name: "order", widget: "number" }
-							]
-						},
-						{
-							name: "testimonials",
-							label: "آراء الطلاب",
-							folder: "src/content/testimonials",
-							extension: "json",
-							format: "json",
-							create: true,
-							fields: [
-								{ label: "الاسم", name: "name", widget: "string" },
-								{ label: "الدور", name: "role", widget: "string" },
-								{ label: "الرأي", name: "feedback", widget: "text" },
-								{ label: "الترتيب", name: "order", widget: "number" }
-							]
-						},
-						{
-							name: "stats",
-							label: "الإحصائيات",
-							folder: "src/content/stats",
-							extension: "json",
-							format: "json",
-							create: true,
-							fields: [
-								{ label: "العنوان", name: "label", widget: "string" },
-								{ label: "القيمة", name: "value", widget: "string" },
-								{ label: "أيقونة", name: "icon", widget: "string" },
-								{ label: "الترتيب", name: "order", widget: "number" }
-							]
-						},
-						{
-							name: "pages",
-							label: "الصفحات",
-							files: [
-								{
-									name: "about",
-									label: "صفحة عن الأكاديمية",
-									file: "src/content/pages/about.json",
-									fields: [
-										{ label: "العنوان", name: "title", widget: "string" },
-										{ label: "عنوان المهمة", name: "missionTitle", widget: "string" },
-										{ label: "وصف المهمة", name: "missionDescription", widget: "text" },
-										{ label: "عن الأكاديمية", name: "aboutTitle", widget: "string" },
-										{ label: "الوصف", name: "aboutDescription", widget: "text" },
-										{ label: "عنوان القيم", name: "valuesTitle", widget: "string" },
-										{ label: "القيم", name: "values", widget: "list" },
-										{ 
-											label: "المعلمون", 
-											name: "teachers", 
-											widget: "list", 
-											fields: [
-												{label: "الاسم", name: "name", widget: "string"},
-												{label: "التخصص", name: "role", widget: "string"},
-												{label: "الصورة", name: "image", widget: "string", required: false}
-											] 
-										},
-										{ label: "عنوان CTA", name: "ctaTitle", widget: "string" },
-										{ label: "وصف CTA", name: "ctaDescription", widget: "text" }
-									]
-								}
-							]
-						},
-						{
 							name: "settings",
-							label: "الإعدادات",
+							label: "إعدادات الموقع",
 							files: [
 								{
 									name: "general",
@@ -186,10 +96,7 @@
 									fields: [
 										{ label: "اسم الموقع", name: "siteTitle", widget: "string" },
 										{ label: "وصف الموقع", name: "siteDescription", widget: "text" },
-										{ label: "واتساب", name: "whatsappNumber", widget: "string" },
-										{ label: "تويتر", name: "twitterLink", widget: "string", required: false },
-										{ label: "إنستجرام", name: "instagramLink", widget: "string", required: false },
-										{ label: "لينكد إن", name: "linkedinLink", widget: "string", required: false }
+										{ label: "رقم الواتساب", name: "whatsappNumber", widget: "string" }
 									]
 								}
 							]
