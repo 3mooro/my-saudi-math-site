@@ -12,7 +12,7 @@ export async function onRequest(context) {
       accept: "application/json",
     },
     body: JSON.stringify({
-      client_id: env.GITHUB_CLIENT_ID || "Ov23liL4Scd5Iih07ZYk",
+      client_id: env.GITHUB_CLIENT_ID,
       client_secret: env.GITHUB_CLIENT_SECRET,
       code,
     }),
@@ -24,19 +24,23 @@ export async function onRequest(context) {
     return new Response(JSON.stringify(result), { status: 400 });
   }
 
-  // كود لإرسال التوكين للنافذة الرئيسية وإغلاق النافذة المنبثقة
-  const script = `
-    const token = "${result.access_token}";
-    const provider = "github";
-    const message = "authorization:github:success:" + JSON.stringify({token, provider});
-    
-    if (window.opener) {
-      window.opener.postMessage(message, window.location.origin);
-      window.close();
-    }
-  `;
-
-  return new Response(`<html><body><script>${script}</script></body></html>`, {
-    headers: { "content-type": "text/html" },
-  });
+  // إرسال النتيجة للوحة التحكم وإغلاق النافذة
+  return new Response(
+    `<html><body><script>
+    (function() {
+      function receiveMessage(e) {
+        window.opener.postMessage(
+          'authorization:github:success:${JSON.stringify({
+            token: result.access_token,
+            provider: "github",
+          })}',
+          e.origin
+        );
+      }
+      window.addEventListener("message", receiveMessage, false);
+      window.opener.postMessage("authorizing:github", "*");
+    })()
+    </script></body></html>`,
+    { headers: { "Content-Type": "text/html" } }
+  );
 }

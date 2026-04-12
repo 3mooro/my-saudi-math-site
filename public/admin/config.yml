@@ -2,12 +2,12 @@ backend:
   name: github
   repo: 3mooro/my-saudi-math-site
   branch: main
-  base_url: https://decap-cms-oauth-proxy.vercel.app
+  base_url: https://ksaacademy.online # الموقع سيعالج تسجيل الدخول بنفسه
   auth_endpoint: api/auth
 
 site_url: https://ksaacademy.online
 display_name: "أكاديمية KSA"
-locale: 'ar' # تفعيل اللغة العربية رسمياً من داخل النظام
+locale: 'ar'
 
 media_folder: "src/assets"
 public_folder: "../../assets"
@@ -130,7 +130,7 @@ collections:
           - { label: "وصف الدعوة للعمل (CTA)", name: "ctaDescription", widget: "text" }
 
   - name: "settings"
-    label: "الإعدادات العامة"
+    label: "إعدادات الموقع"
     delete: false
     editor:
       preview: false
