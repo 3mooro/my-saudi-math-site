@@ -7,15 +7,33 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 interface Props {
 	title?: string;
 	description?: string;
+	image?: any;
+	type?: 'website' | 'article';
+	articleDate?: Date;
+	author?: string;
 }
 
-const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+const { 
+	title = SITE_TITLE, 
+	description = SITE_DESCRIPTION,
+	image,
+	type,
+	articleDate,
+	author
+} = Astro.props;
 ---
 
 <!doctype html>
 <html lang="ar" dir="rtl" class="scroll-smooth">
 	<head>
-		<BaseHead title={title} description={description} />
+		<BaseHead 
+			title={title} 
+			description={description} 
+			image={image}
+			type={type}
+			articleDate={articleDate}
+			author={author}
+		/>
 		<slot name="head" />
 		<script is:inline>
 			// Set theme as early as possible to prevent FOUC
