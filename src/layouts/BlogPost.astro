@@ -1,16 +1,24 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import MainLayout from './MainLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, author, readingTime, tags } = Astro.props;
+
+// Fetch related articles (excluding the current one)
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+	.filter(post => post.data.title !== title)
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3); // Get up to 3 related articles
 ---
 
 <MainLayout title={title} description={description}>
-	<article class="py-16 md:py-24">
+	<article class="py-16 md:py-24" dir="rtl">
 		<div class="container mx-auto px-4">
 			<div class="mx-auto max-w-4xl">
 				{heroImage && (
@@ -19,33 +27,98 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 							width={1020} 
 							height={510} 
 							src={heroImage} 
-							alt="" 
-							class="w-full h-auto object-cover"
+							alt={title} 
+							class="w-full h-auto object-cover aspect-[2/1]"
 						/>
 					</div>
 				)}
 				
 				<div class="space-y-8">
-					<div class="text-center space-y-4">
-						<div class="flex items-center justify-center gap-2 text-sm font-medium text-muted-foreground">
-							<FormattedDate date={pubDate} />
-							{updatedDate && (
-								<span class="italic">
-									(Updated on <FormattedDate date={updatedDate} />)
-								</span>
+					<div class="text-center space-y-6">
+						<div class="flex flex-wrap items-center justify-center gap-4 text-sm font-medium text-muted-foreground">
+							{author && (
+								<div class="flex items-center gap-2">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+									<span>{author}</span>
+								</div>
+							)}
+							<div class="flex items-center gap-2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></svg>
+								<FormattedDate date={pubDate} />
+							</div>
+							{readingTime && (
+								<div class="flex items-center gap-2">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+									<span>{readingTime}</span>
+								</div>
 							)}
 						</div>
-						<h1 class="text-4xl md:text-6xl font-poppins font-bold tracking-tight text-gradient">
+						<h1 class="text-4xl md:text-5xl lg:text-6xl font-poppins font-bold tracking-tight text-gradient leading-tight">
 							{title}
 						</h1>
-						<div class="w-24 h-1 bg-primary/20 mx-auto rounded-full"></div>
+						{tags && tags.length > 0 && (
+							<div class="flex flex-wrap justify-center gap-2 mt-4">
+								{tags.map(tag => (
+									<span class="px-3 py-1 bg-primary/10 text-primary text-xs font-semibold rounded-full">
+										{tag}
+									</span>
+								))}
+							</div>
+						)}
+						<div class="w-24 h-1 bg-primary/20 mx-auto rounded-full mt-6"></div>
 					</div>
 
-					<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-poppins prose-headings:font-bold prose-a:text-primary hover:prose-a:underline">
+					<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-poppins prose-headings:font-bold prose-a:text-primary hover:prose-a:underline text-justify leading-relaxed">
 						<slot />
 					</div>
 				</div>
 			</div>
 		</div>
 	</article>
+
+	{/* Related Articles Section */}
+	{relatedPosts.length > 0 && (
+		<section class="py-16 bg-muted/20 border-t" dir="rtl">
+			<div class="container mx-auto px-4">
+				<div class="mx-auto max-w-6xl">
+					<div class="flex items-center justify-between mb-8">
+						<h2 class="text-3xl font-poppins font-bold">مقالات ذات صلة</h2>
+						<a href="/blog" class="text-primary font-semibold hover:underline flex items-center gap-1">
+							عرض الكل
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+						</a>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+						{relatedPosts.map(post => (
+							<a href={`/blog/${post.id}/`} class="group flex flex-col space-y-3 bg-card p-4 rounded-2xl border shadow-sm hover:shadow-md transition-all hover:border-primary/30">
+								{post.data.heroImage && (
+									<div class="aspect-video w-full overflow-hidden rounded-xl bg-muted">
+										<Image 
+											width={400} 
+											height={225} 
+											src={post.data.heroImage} 
+											alt={post.data.title} 
+											class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+										/>
+									</div>
+								)}
+								<div class="flex items-center gap-2 text-xs text-muted-foreground">
+									<FormattedDate date={post.data.pubDate} />
+									{post.data.readingTime && (
+										<>
+											<span>•</span>
+											<span>{post.data.readingTime}</span>
+										</>
+									)}
+								</div>
+								<h3 class="font-poppins font-bold text-lg leading-tight group-hover:text-primary transition-colors line-clamp-2">
+									{post.data.title}
+								</h3>
+							</a>
+						))}
+					</div>
+				</div>
+			</div>
+		</section>
+	)}
 </MainLayout>

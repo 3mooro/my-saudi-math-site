@@ -14,6 +14,9 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			updatedDate: z.coerce.date().optional(),
 			heroImage: z.optional(image()),
+			author: z.string().default('KSA Academy'),
+			readingTime: z.string().optional(),
+			tags: z.array(z.string()).optional(),
 		}),
 });
 
