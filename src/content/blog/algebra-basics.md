@@ -5,7 +5,7 @@ pubDate: "April 13 2026"
 author: "أكاديمية KSA"
 readingTime: "5 دقائق"
 tags: ["الجبر", "أساسيات الرياضيات", "تعلم الرياضيات"]
-heroImage: "../../assets/blog-placeholder-1.jpg"
+heroImage: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1020&q=80"
 ---
 
 # تعلم الرياضيات: الدليل الشامل لأساسيات الجبر للمبتدئين

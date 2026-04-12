@@ -5,7 +5,7 @@ pubDate: "April 16 2026"
 author: "أكاديمية KSA"
 readingTime: "5 دقائق"
 tags: ["حساب المثلثات", "تعلم الرياضيات", "الهندسة"]
-heroImage: "../../assets/blog-placeholder-4.jpg"
+heroImage: "https://images.unsplash.com/photo-1614332287897-cdc485fa562d?w=1020&q=80"
 ---
 
 # شرح حساب المثلثات (Trigonometry) ببساطة وكيفية تطبيق قوانينها

@@ -5,7 +5,7 @@ pubDate: "April 14 2026"
 author: "أكاديمية KSA"
 readingTime: "6 دقائق"
 tags: ["التفاضل والتكامل", "أساسيات الرياضيات", "المرحلة الثانوية"]
-heroImage: "../../assets/blog-placeholder-2.jpg"
+heroImage: "https://images.unsplash.com/photo-1596496050827-8299e0220de1?w=1020&q=80"
 ---
 
 # مقدمة في علم التفاضل والتكامل: الأساسيات التي يجب أن تعرفها
