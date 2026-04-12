@@ -1,5 +1,5 @@
 ---
-import type { HTMLAttributes } from 'astro/types';
+import type { HTMLAttributes } from 'astro:types';
 
 type Props = HTMLAttributes<'a'>;
 
@@ -13,10 +13,14 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 	href={href} 
 	class:list={[
 		className, 
-		"transition-colors hover:text-primary",
-		{ "text-primary font-semibold": isActive, "text-muted-foreground": !isActive }
+		"transition-all hover:text-primary relative group py-2",
+		{ "text-primary font-black": isActive, "text-muted-foreground": !isActive }
 	]} 
 	{...props}
 >
 	<slot />
+	<span class:list={[
+		"absolute bottom-0 right-0 w-0 h-1 bg-primary transition-all duration-300 rounded-full",
+		{ "w-full": isActive, "group-hover:w-full": !isActive }
+	]}></span>
 </a>
