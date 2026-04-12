@@ -2,11 +2,12 @@ backend:
   name: github
   repo: 3mooro/my-saudi-math-site
   branch: main
-  base_url: https://decap-cms-oauth-proxy.vercel.app # وسيط تسجيل دخول مستقر
+  base_url: https://decap-cms-oauth-proxy.vercel.app
   auth_endpoint: api/auth
 
 site_url: https://ksaacademy.online
 display_name: "أكاديمية KSA"
+locale: 'ar' # تفعيل اللغة العربية رسمياً من داخل النظام
 
 media_folder: "src/assets"
 public_folder: "../../assets"
@@ -50,12 +51,6 @@ collections:
           - { label: "جامعي", value: "university" }
           - { label: "أخرى", value: "other" }
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
-      - label: "المنهج الدراسي (الوحدات والدروس)"
-        name: "syllabus"
-        widget: "list"
-        fields:
-          - { label: "اسم الوحدة", name: "unit", widget: "string" }
-          - { label: "قائمة الدروس", name: "lessons", widget: "list" }
       - label: "الباقات المتاحة"
         name: "packages"
         widget: "list"
@@ -66,7 +61,8 @@ collections:
           - { label: "السعر الإجمالي", name: "totalPrice", widget: "number" }
           - { label: "المميزات", name: "features", widget: "list" }
           - { label: "هل هي باقة طارئة؟", name: "isUrgent", widget: "boolean", default: false }
-      - { label: "تفاصيل الكورس (المنهج والمميزات)", name: "body", widget: "markdown", required: false }
+      - { label: "المنهج الدراسي (الوحدات والدروس)", name: "syllabus", widget: "list", required: false, fields: [ {label: "اسم الوحدة", name: "unit", widget: "string"}, {label: "الدروس", name: "lessons", widget: "list"} ] }
+      - { label: "وصف تفصيلي", name: "body", widget: "markdown", required: false }
 
   - name: "faq"
     label: "الأسئلة الشائعة"
@@ -108,7 +104,7 @@ collections:
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
 
   - name: "pages"
-    label: "الصفحات"
+    label: "الصفحات الثابتة"
     delete: false
     files:
       - name: "about"
@@ -134,13 +130,13 @@ collections:
           - { label: "وصف الدعوة للعمل (CTA)", name: "ctaDescription", widget: "text" }
 
   - name: "settings"
-    label: "إعدادات الموقع"
+    label: "الإعدادات العامة"
     delete: false
     editor:
       preview: false
     files:
       - name: "general"
-        label: "الإعدادات العامة"
+        label: "إعدادات الموقع الرئيسية"
         file: "src/content/settings/general.json"
         fields:
           - { label: "اسم الموقع", name: "siteTitle", widget: "string" }
