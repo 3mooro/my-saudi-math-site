@@ -1,0 +1,14 @@
+{
+  "title": "لغتي الخالدة (متوسط)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.9,
+  "image": "https://images.unsplash.com/photo-1583947215259-38e31be8751f?auto=format&fit=crop&q=80&w=1020",
+  "tag": "لغة عربية",
+  "level": "middle",
+  "order": 12,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 30, "totalPrice": 240, "features": ["نحو وصرف", "تحليل نصوص"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 30, "totalPrice": 60, "features": ["مراجعة قاعدة"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 40, "totalPrice": 40, "isUrgent": true, "features": ["حل عاجل"]}
+  ]
+}

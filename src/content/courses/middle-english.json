@@ -1,0 +1,14 @@
+{
+  "title": "اللغة الإنجليزية (متوسط)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 5.0,
+  "image": "https://images.unsplash.com/photo-1543167664-40d6990297c1?auto=format&fit=crop&q=80&w=1020",
+  "tag": "إنجليزي",
+  "level": "middle",
+  "order": 13,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 30, "totalPrice": 240, "features": ["قواعد ومحادثة", "تطوير مهارات"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 30, "totalPrice": 60, "features": ["مراجعة اختبار"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 40, "totalPrice": 40, "isUrgent": true, "features": ["مساعدة فورية"]}
+  ]
+}

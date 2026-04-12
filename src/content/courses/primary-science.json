@@ -1,0 +1,14 @@
+{
+  "title": "العلوم (ابتدائي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.8,
+  "image": "https://images.unsplash.com/photo-1532187875605-18674534afb9?auto=format&fit=crop&q=80&w=1020",
+  "tag": "علوم",
+  "level": "primary",
+  "order": 6,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 25, "totalPrice": 200, "features": ["شرح تفاعلي", "تبسيط المفاهيم"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 25, "totalPrice": 50, "features": ["مراجعة سريعة"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 35, "totalPrice": 35, "isUrgent": true, "features": ["مساعدة في تجربة"]}
+  ]
+}

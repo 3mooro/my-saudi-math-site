@@ -1,0 +1,14 @@
+{
+  "title": "اللغة الإنجليزية (ابتدائي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 5.0,
+  "image": "https://images.unsplash.com/photo-1503676260728-1c00da096a0b?auto=format&fit=crop&q=80&w=1020",
+  "tag": "إنجليزي",
+  "level": "primary",
+  "order": 5,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 25, "totalPrice": 200, "features": ["تأسيس لغوي", "نطق صحيح"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 25, "totalPrice": 50, "features": ["مراجعة كلمات"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 35, "totalPrice": 35, "isUrgent": true, "features": ["حل واجب"]}
+  ]
+}

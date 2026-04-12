@@ -1,0 +1,14 @@
+{
+  "title": "اللغة الإنجليزية (ثانوي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 5.0,
+  "image": "https://images.unsplash.com/photo-1543167664-40d6990297c1?auto=format&fit=crop&q=80&w=1020",
+  "tag": "إنجليزي",
+  "level": "secondary",
+  "order": 25,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 35, "totalPrice": 280, "features": ["قواعد متقدمة", "كتابة وتحدث", "مراجعة"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 35, "totalPrice": 70, "features": ["مراجعة اختبار"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 50, "totalPrice": 50, "isUrgent": true, "features": ["حل واجب"]}
+  ]
+}

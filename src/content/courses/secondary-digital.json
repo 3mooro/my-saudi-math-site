@@ -1,0 +1,14 @@
+{
+  "title": "تقنية رقمية (ثانوي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.9,
+  "image": "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=1020",
+  "tag": "تقنية",
+  "level": "secondary",
+  "order": 27,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 35, "totalPrice": 280, "features": ["برمجة بايثون", "أمن سيبراني", "مهارات"]),
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 35, "totalPrice": 70, "features": ["حل مشروع"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 50, "totalPrice": 50, "isUrgent": true, "features": ["حل مشكلة"]}
+  ]
+}

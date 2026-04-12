@@ -1,0 +1,14 @@
+{
+  "title": "أحياء (ثانوي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.8,
+  "image": "https://images.unsplash.com/photo-1530026405186-ed1f139313f8?auto=format&fit=crop&q=80&w=1020",
+  "tag": "أحياء",
+  "level": "secondary",
+  "order": 24,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 35, "totalPrice": 280, "features": ["وراثة وخلية", "تبسيط المفاهيم", "متابعة"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 35, "totalPrice": 70, "features": ["مراجعة درس"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 50, "totalPrice": 50, "isUrgent": true, "features": ["حل عاجل"]}
+  ]
+}

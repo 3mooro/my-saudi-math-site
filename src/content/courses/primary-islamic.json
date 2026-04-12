@@ -1,0 +1,14 @@
+{
+  "title": "الدراسات الإسلامية (ابتدائي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.9,
+  "image": "https://images.unsplash.com/photo-1584551246679-0da3d27fd157?auto=format&fit=crop&q=80&w=1020",
+  "tag": "دراسات إسلامية",
+  "level": "primary",
+  "order": 3,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 25, "totalPrice": 200, "features": ["شرح ميسر", "حفظ ومراجعة"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 25, "totalPrice": 50, "features": ["مراجعة مفاهيم"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 35, "totalPrice": 35, "isUrgent": true, "features": ["حل واجب عاجل"]}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "الدراسات الاجتماعية (متوسط)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.8,
+  "image": "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=1020",
+  "tag": "اجتماعيات",
+  "level": "middle",
+  "order": 15,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 30, "totalPrice": 240, "features": ["تاريخ المملكة", "جغرافيا العالم"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 30, "totalPrice": 60, "features": ["مراجعة"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 40, "totalPrice": 40, "isUrgent": true, "features": ["مساعدة عاجلة"]}
+  ]
+}

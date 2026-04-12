@@ -1,0 +1,14 @@
+{
+  "title": "الدراسات الاجتماعية (ابتدائي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.7,
+  "image": "https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=1020",
+  "tag": "اجتماعيات",
+  "level": "primary",
+  "order": 4,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 25, "totalPrice": 200, "features": ["تاريخ وجغرافيا", "تبسيط المعلومات"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 25, "totalPrice": 50, "features": ["مراجعة"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 35, "totalPrice": 35, "isUrgent": true, "features": ["مساعدة عاجلة"]}
+  ]
+}
