@@ -1,0 +1,47 @@
+---
+import { getEntry } from 'astro:content';
+
+const aboutPage = await getEntry('pages', 'about');
+const teachers = aboutPage?.data.teachers || [];
+---
+
+<section class="py-24 bg-background">
+	<div class="container mx-auto px-4">
+		<div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+			<h2 class="text-3xl md:text-5xl font-cairo font-black tracking-tight leading-tight">نخبة من <span class="text-gradient">أفضل المعلمين</span></h2>
+			<p class="text-xl text-muted-foreground font-bold">نختار معلمينا بعناية فائقة لضمان تقديم أجود المستويات التعليمية لأبنائنا وبناتنا.</p>
+		</div>
+
+		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 md:gap-12 max-w-5xl mx-auto">
+			{teachers.map((teacher) => (
+				<div class="text-center space-y-6 group reveal">
+					<div class="relative inline-block">
+						<!-- Background decorative circles -->
+						<div class="absolute -inset-4 bg-primary/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
+						<div class="absolute -inset-2 bg-gradient-to-tr from-primary to-secondary rounded-full blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
+						
+						<!-- Teacher Avatar Placeholder (Icons since images were removed) -->
+						<div class="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-card border-4 border-primary/10 shadow-xl flex items-center justify-center text-primary transition-transform duration-500 group-hover:scale-110 group-hover:border-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="md:w-16 md:h-16"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+							
+							<!-- Online Badge -->
+							<div class="absolute bottom-1 right-1 w-6 h-6 bg-green-500 border-4 border-card rounded-full shadow-sm"></div>
+						</div>
+					</div>
+					
+					<div class="space-y-1">
+						<h4 class="text-xl md:text-2xl font-black font-cairo text-foreground group-hover:text-primary transition-colors">{teacher.name}</h4>
+						<p class="text-sm md:text-base text-muted-foreground font-bold uppercase tracking-widest">{teacher.role}</p>
+					</div>
+				</div>
+			))}
+		</div>
+
+		<div class="mt-16 text-center">
+			<div class="inline-flex items-center gap-4 p-2 pr-6 rounded-full bg-muted/50 border border-primary/5">
+				<span class="text-sm font-bold text-muted-foreground font-cairo">هل أنت معلم متميز وتريد الانضمام إلينا؟</span>
+				<a href="/contact" class="px-6 py-2 rounded-full bg-card border border-primary/20 text-primary font-black text-sm hover:bg-primary hover:text-white transition-all">انضم الآن</a>
+			</div>
+		</div>
+	</div>
+</section>
