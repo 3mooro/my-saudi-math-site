@@ -6,7 +6,7 @@ const stats = allStats
 	.map(s => s.data)
 	.sort((a, b) => a.order - b.order);
 ---
-<section class="py-16 md:py-24 border-y bg-muted/20 relative overflow-hidden">
+<section id="stats-section" class="py-16 md:py-24 border-y bg-muted/20 relative overflow-hidden">
 	<div class="container mx-auto px-4">
 		<div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
 			{stats.map((stat) => (
@@ -16,7 +16,9 @@ const stats = allStats
 					</div>
 					<div class="space-y-1">
 						<div class="text-4xl md:text-6xl font-black font-cairo text-foreground tabular-nums flex justify-center items-baseline gap-1">
-							<span class="stat-value" data-target={stat.value.replace(/[^0-9]/g, '')}>0</span>
+							<span class="stat-value" data-target={stat.value.replace(/[^0-9]/g, '')}>
+								{stat.value.replace(/[^0-9]/g, '')}
+							</span>
 							<span class="text-primary text-2xl md:text-3xl">{stat.value.replace(/[0-9]/g, '')}</span>
 						</div>
 						<div class="text-sm md:text-base text-muted-foreground font-black tracking-widest uppercase">{stat.label}</div>
@@ -28,37 +30,36 @@ const stats = allStats
 </section>
 
 <script>
-	const observerOptions = {
-		threshold: 0.5
+	const startCounter = (el: HTMLElement) => {
+		const target = parseInt(el.dataset.target || '0');
+		if (isNaN(target)) return;
+		
+		let count = 0;
+		const duration = 2000;
+		const increment = target / (duration / 16);
+
+		const update = () => {
+			count += increment;
+			if (count < target) {
+				el.innerText = Math.floor(count).toLocaleString();
+				requestAnimationFrame(update);
+			} else {
+				el.innerText = target.toLocaleString();
+			}
+		};
+		update();
 	};
 
-	const counterObserver = new IntersectionObserver((entries) => {
+	const observer = new IntersectionObserver((entries) => {
 		entries.forEach(entry => {
 			if (entry.isIntersecting) {
 				const counters = entry.target.querySelectorAll('.stat-value');
-				counters.forEach(counter => {
-					const target = parseInt((counter as HTMLElement).dataset.target || '0');
-					const duration = 2000; // 2 seconds
-					const stepTime = 20;
-					const steps = duration / stepTime;
-					const increment = target / steps;
-					let current = 0;
-
-					const timer = setInterval(() => {
-						current += increment;
-						if (current >= target) {
-							counter.textContent = target.toLocaleString();
-							clearInterval(timer);
-						} else {
-							counter.textContent = Math.floor(current).toLocaleString();
-						}
-					}, stepTime);
-				});
-				counterObserver.unobserve(entry.target);
+				counters.forEach(c => startCounter(c as HTMLElement));
+				observer.unobserve(entry.target);
 			}
 		});
-	}, observerOptions);
+	}, { threshold: 0.2 });
 
-	const statsSection = document.querySelector('section.py-16');
-	if (statsSection) counterObserver.observe(statsSection);
+	const section = document.getElementById('stats-section');
+	if (section) observer.observe(section);
 </script>

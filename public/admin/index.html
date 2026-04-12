@@ -9,64 +9,32 @@
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
 		<style>
-			/* المتغيرات الأساسية لهوية الأكاديمية */
-			:root {
-				--primary: #3b82f6;
-				--primary-hover: #2563eb;
-				--secondary: #8b5cf6;
-				--bg-light: #f8fafc;
-				--text-main: #0f172a;
-				--card-bg: #ffffff;
-				--border-color: #e2e8f0;
-			}
-
-			/* تغيير الخط في كل اللوحة */
-			body, * {
-				font-family: 'Cairo', sans-serif !important;
-			}
-			
-			body {
-				background-color: var(--bg-light) !important;
-				color: var(--text-main) !important;
-			}
-
-			/* تخصيص شريط التنقل العلوي (Header) */
-			div[class^="nc-app-header-container"] {
-				background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
-				box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3) !important;
-				border: none !important;
-			}
-			a[class^="nc-app-header-logo"]::after {
-				content: "أكاديمية KSA";
-				font-size: 1.5rem !important;
-				font-weight: 900 !important;
-				color: white !important;
-				margin-right: 10px;
-			}
-
-			/* تخصيص زر الدخول */
+			/* تخصيص مظهر صفحة الدخول */
+			body { font-family: 'Cairo', sans-serif !important; background-color: #f8fafc !important; }
+			div[class^="nc-app-header-container"] { background-color: #3b82f6 !important; }
 			button[class^="nc-login-page-button"] {
-				background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+				background-color: #3b82f6 !important;
 				color: white !important;
 				border-radius: 50px !important;
 				padding: 16px 40px !important;
 				font-weight: 900 !important;
+				font-size: 1.2rem !important;
 				box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4) !important;
 			}
 			span[class^="nc-login-page-logo"] { display: none !important; }
 			section[class^="nc-login-page-main-view"]::before {
-				content: "مرحباً بك في أكاديمية KSA";
+				content: "لوحة إدارة أكاديمية KSA";
 				display: block;
 				font-size: 2.5rem;
 				font-weight: 900;
-				color: var(--text-main);
-				margin-bottom: 1rem;
+				color: #1e293b;
+				margin-bottom: 2rem;
 				text-align: center;
 			}
 		</style>
 	</head>
 	<body>
-		<!-- Include the script that builds the page and powers Decap CMS -->
+		<!-- التحميل من الرابط الرسمي لضمان أحدث نسخة -->
 		<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 	</body>
 </html>
