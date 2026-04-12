@@ -2,7 +2,7 @@ backend:
   name: github
   repo: 3mooro/my-saudi-math-site
   branch: main
-  base_url: https://ksaacademy.online # رابط موقعك
+  base_url: https://decap-cms-oauth-proxy.vercel.app # وسيط تسجيل دخول مستقر
   auth_endpoint: api/auth
 
 site_url: https://ksaacademy.online
@@ -49,10 +49,7 @@ collections:
           - { label: "ثانوي", value: "secondary" }
           - { label: "جامعي", value: "university" }
           - { label: "أخرى", value: "other" }
-      - label: "الترتيب"
-        name: "order"
-        widget: "number"
-        default: 0
+      - { label: "الترتيب", name: "order", widget: "number", default: 0 }
       - label: "المنهج الدراسي (الوحدات والدروس)"
         name: "syllabus"
         widget: "list"
@@ -69,6 +66,7 @@ collections:
           - { label: "السعر الإجمالي", name: "totalPrice", widget: "number" }
           - { label: "المميزات", name: "features", widget: "list" }
           - { label: "هل هي باقة طارئة؟", name: "isUrgent", widget: "boolean", default: false }
+      - { label: "تفاصيل الكورس (المنهج والمميزات)", name: "body", widget: "markdown", required: false }
 
   - name: "faq"
     label: "الأسئلة الشائعة"
