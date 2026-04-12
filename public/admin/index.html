@@ -39,7 +39,107 @@
 		</style>
 	</head>
 	<body>
-		<!-- تم إضافة v=2 لمنع التخزين المؤقت -->
+		<!-- Include the script that builds the page and powers Decap CMS -->
 		<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+		<script>
+			// تأكيد الإعدادات برمجياً لضمان عدم حدوث خطأ في القراءة
+			CMS.init({
+				config: {
+					backend: {
+						name: "github",
+						repo: "3mooro/my-saudi-math-site",
+						branch: "main",
+						base_url: "https://decap-cms-oauth-proxy.vercel.app",
+						auth_endpoint: "api/auth"
+					},
+					site_url: "https://ksaacademy.online",
+					display_name: "أكاديمية KSA",
+					media_folder: "src/assets",
+					public_folder: "../../assets",
+					collections: [
+						{
+							name: "blog",
+							label: "المقالات",
+							folder: "src/content/blog",
+							create: true,
+							slug: "{{slug}}",
+							fields: [
+								{ label: "العنوان", name: "title", widget: "string" },
+								{ label: "الوصف المختصر (SEO)", name: "description", widget: "text" },
+								{ label: "تاريخ النشر", name: "pubDate", widget: "datetime", format: "MMMM DD YYYY" },
+								{ label: "صورة الغلاف", name: "heroImage", widget: "image" },
+								{ label: "الكاتب", name: "author", widget: "string", default: "أكاديمية KSA" },
+								{ label: "وقت القراءة", name: "readingTime", widget: "string", default: "5 دقائق" },
+								{ label: "الوسوم", name: "tags", widget: "list" },
+								{ label: "محتوى المقال", name: "body", widget: "markdown" }
+							]
+						},
+						{
+							name: "courses",
+							label: "الكورسات",
+							folder: "src/content/courses",
+							create: true,
+							slug: "{{slug}}",
+							fields: [
+								{ label: "اسم الكورس", name: "title", widget: "string" },
+								{ label: "اسم المدرس", name: "instructor", widget: "string" },
+								{ label: "التقييم", name: "rating", widget: "number", value_type: "float", min: 0, max: 5, step: 0.1 },
+								{ label: "السعر (مثلاً: 199 ر.س)", name: "price", widget: "string" },
+								{ label: "رابط الصورة", name: "image", widget: "string" },
+								{ label: "التصنيف", name: "tag", widget: "string" },
+								{ label: "الترتيب", name: "order", widget: "number", default: 0 },
+								{ label: "تفاصيل الكورس (المنهج والمميزات)", name: "body", widget: "markdown" }
+							]
+						},
+						{
+							name: "faq",
+							label: "الأسئلة الشائعة",
+							folder: "src/content/faq",
+							create: true,
+							slug: "{{slug}}",
+							fields: [
+								{ label: "السؤال", name: "question", widget: "string" },
+								{ label: "الإجابة", name: "answer", widget: "text" },
+								{ label: "الترتيب", name: "order", widget: "number", default: 0 }
+							]
+						},
+						{
+							name: "testimonials",
+							label: "آراء الطلاب",
+							folder: "src/content/testimonials",
+							create: true,
+							slug: "{{slug}}",
+							fields: [
+								{ label: "اسم الطالب", name: "name", widget: "string" },
+								{ label: "الوظيفة/المرحلة", name: "role", widget: "string" },
+								{ label: "الرأي", name: "feedback", widget: "text" },
+								{ label: "رابط الصورة الشخصية", name: "avatar", widget: "string" },
+								{ label: "الترتيب", name: "order", widget: "number", default: 0 }
+							]
+						},
+						{
+							name: "settings",
+							label: "إعدادات الموقع",
+							delete: false,
+							files: [
+								{
+									name: "general",
+									label: "الإعدادات العامة",
+									file: "src/content/settings/general.json",
+									fields: [
+										{ label: "اسم الموقع", name: "siteTitle", widget: "string" },
+										{ label: "وصف الموقع", name: "siteDescription", widget: "text" },
+										{ label: "رقم الواتساب (بدون +)", name: "whatsappNumber", widget: "string" },
+										{ label: "رابط تويتر (X)", name: "twitterLink", widget: "string", required: false },
+										{ label: "رابط إنستجرام", name: "instagramLink", widget: "string", required: false },
+										{ label: "رابط لينكد إن", name: "linkedinLink", widget: "string", required: false }
+									]
+								}
+							]
+						}
+					]
+				}
+			});
+		</script>
 	</body>
 </html>
