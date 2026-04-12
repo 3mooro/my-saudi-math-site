@@ -1,0 +1,53 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+---
+
+<MainLayout title="الصفحة غير موجودة | أكاديمية KSA">
+	<section class="min-h-[70vh] flex items-center justify-center py-24 relative overflow-hidden">
+		<!-- Background Decorations -->
+		<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl -z-10"></div>
+		
+		<div class="container mx-auto px-4 text-center space-y-12">
+			<!-- Math-themed 404 Illustration -->
+			<div class="relative inline-block">
+				<h1 class="text-[10rem] md:text-[15rem] font-black font-cairo leading-none text-primary/10 select-none">
+					404
+				</h1>
+				<div class="absolute inset-0 flex items-center justify-center">
+					<div class="space-y-2">
+						<div class="text-4xl md:text-6xl font-black font-cairo text-foreground">عذراً!</div>
+						<div class="text-xl md:text-2xl font-bold text-muted-foreground font-cairo">هذه المعادلة غير موجودة</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="max-w-2xl mx-auto space-y-8">
+				<p class="text-lg md:text-xl text-muted-foreground leading-relaxed font-bold">
+					يبدو أنك حاولت الوصول إلى صفحة تم نقلها أو حذفها، أو ربما هناك خطأ في الرابط. لا تقلق، يمكنك العودة للمسار الصحيح من هنا:
+				</p>
+				
+				<div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+					<a 
+						href="/" 
+						class="w-full sm:w-auto h-16 px-10 items-center justify-center flex rounded-full bg-primary text-white text-xl font-black shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all font-cairo"
+					>
+						العودة للرئيسية
+					</a>
+					<a 
+						href="/blog" 
+						class="w-full sm:w-auto h-16 px-10 items-center justify-center flex rounded-full border-2 border-primary/20 bg-transparent text-foreground text-xl font-black hover:bg-primary/5 transition-all font-cairo"
+					>
+						تصفح الكورسات
+					</a>
+				</div>
+			</div>
+
+			<!-- Visual Math Elements -->
+			<div class="grid grid-cols-3 md:grid-cols-6 gap-8 opacity-20 max-w-4xl mx-auto pt-12">
+				{["∑", "π", "√", "∞", "∫", "Δ"].map(sym => (
+					<div class="text-4xl md:text-6xl font-black select-none">{sym}</div>
+				))}
+			</div>
+		</div>
+	</section>
+</MainLayout>
