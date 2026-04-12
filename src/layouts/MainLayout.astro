@@ -35,8 +35,6 @@ const {
 			author={author}
 		/>
 		<slot name="head" />
-		<!-- Netlify Identity Widget -->
-		<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 		<script is:inline>
 			// Set theme as early as possible to prevent FOUC
 			if (
@@ -92,16 +90,28 @@ const {
 				window.scrollTo({ top: 0, behavior: 'smooth' });
 			});
 
-			// Netlify Identity redirect logic
-			if (window.netlifyIdentity) {
-				window.netlifyIdentity.on("init", user => {
-					if (!user) {
-						window.netlifyIdentity.on("login", () => {
-							document.location.href = "/admin/";
-						});
+			// Reveal on scroll animation
+			const observerOptions = {
+				threshold: 0.1,
+				rootMargin: '0px 0px -50px 0px'
+			};
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach((entry) => {
+					if (entry.isIntersecting) {
+						entry.target.classList.add('reveal-visible');
+						observer.unobserve(entry.target);
 					}
 				});
-			}
+			}, observerOptions);
+
+			window.addEventListener('DOMContentLoaded', () => {
+				const revealElements = document.querySelectorAll('section, article, .reveal');
+				revealElements.forEach((el) => {
+					el.classList.add('reveal-hidden');
+					observer.observe(el);
+				});
+			});
 		</script>
 	</body>
 </html>
