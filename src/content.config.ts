@@ -42,4 +42,24 @@ const courses = defineCollection({
 	}),
 });
 
-export const collections = { blog, settings, courses };
+const faq = defineCollection({
+	loader: glob({ base: './src/content/faq', pattern: '**/*.json' }),
+	schema: z.object({
+		question: z.string(),
+		answer: z.string(),
+		order: z.number().default(0),
+	}),
+});
+
+const testimonials = defineCollection({
+	loader: glob({ base: './src/content/testimonials', pattern: '**/*.json' }),
+	schema: z.object({
+		name: z.string(),
+		role: z.string(),
+		feedback: z.string(),
+		avatar: z.string(),
+		order: z.number().default(0),
+	}),
+});
+
+export const collections = { blog, settings, courses, faq, testimonials };

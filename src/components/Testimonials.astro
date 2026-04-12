@@ -1,24 +1,10 @@
 ---
-const testimonials = [
-	{
-		name: "سارة محمد",
-		role: "طالبة هندسة",
-		feedback: "كورس التفاضل والتكامل كان بمثابة طوق نجاة لي! الشرح كان مبسطاً للغايا وربط المفاهيم النظرية بالتطبيقات العملية جعل المادة ممتعة.",
-		avatar: "https://i.pravatar.cc/150?u=sarah"
-	},
-	{
-		name: "أحمد عبدالله",
-		role: "معلم رياضيات",
-		feedback: "أوصي دائماً طلابي بأكاديمية KSA. جودة المحتوى والتنظيم في طرح الدروس لا مثيل لهما، والمنصة توفر بيئة تعلم مثالية.",
-		avatar: "https://i.pravatar.cc/150?u=james"
-	},
-	{
-		name: "إلينا حسن",
-		role: "مطور برمجيات",
-		feedback: "بفضل كورس الخوارزميات تمكنت من اجتياز مقابلة عمل في شركة تقنية كبرى. خبرة المدرب واضحة في كل درس.",
-		avatar: "https://i.pravatar.cc/150?u=elena"
-	}
-];
+import { getCollection } from 'astro:content';
+
+const allTestimonials = await getCollection('testimonials');
+const testimonials = allTestimonials
+	.map(t => t.data)
+	.sort((a, b) => a.order - b.order);
 ---
 <section class="py-24 bg-muted/20">
 	<div class="container mx-auto px-4">
@@ -31,10 +17,10 @@ const testimonials = [
 			{testimonials.map((t) => (
 				<div class="p-8 rounded-2xl bg-card border shadow-sm transition-all hover:shadow-lg hover:border-primary/20 group">
 					<div class="flex items-center gap-4 mb-6">
-						<img src={t.avatar} alt={t.name} class="w-12 h-12 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all" />
+						<img src={t.avatar} alt={t.name} class="w-12 h-12 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all" loading="lazy" />
 						<div>
 							<h4 class="font-bold font-cairo text-foreground">{t.name}</h4>
-							<p class="text-xs text-muted-foreground tracking-wider">{t.role}</p>
+							<p class="text-xs text-muted-foreground tracking-wider font-bold">{t.role}</p>
 						</div>
 					</div>
 					<p class="text-muted-foreground italic leading-relaxed text-justify">"{t.feedback}"</p>

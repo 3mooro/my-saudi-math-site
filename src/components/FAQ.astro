@@ -1,22 +1,10 @@
 ---
-const faqs = [
-	{
-		question: "كيف يمكنني الاشتراك في الكورسات؟",
-		answer: "يمكنك الاشتراك بسهولة عن طريق الضغط على زر 'ابدأ الآن' أو 'سجل الآن' في أي كورس، وسيتم توجيهك مباشرة لمحادثة الواتساب لتأكيد الحجز وبدء الدراسة."
-	},
-	{
-		question: "هل الدروس تكون مباشرة أم مسجلة؟",
-		answer: "نوفر كلا الخيارين؛ دروساً تفاعلية مباشرة عبر زووم (Zoom) لضمان التفاعل مع المدرس، بالإضافة إلى فيديوهات مسجلة يمكنك العودة إليها في أي وقت."
-	},
-	{
-		question: "هل توفرون مراجعات خاصة لاختبارات القدرات والتحصيلي؟",
-		answer: "نعم، لدينا دورات مكثفة ومخصصة لاختبارات القدرات والتحصيلي تركز على أهم الأنماط المتكررة واستراتيجيات الحل السريع."
-	},
-	{
-		question: "ما هي طرق الدفع المتاحة؟",
-		answer: "نقبل التحويل البنكي، ومدى (Mada)، والعديد من طرق الدفع الإلكترونية السهلة والمؤمنة لتناسب جميع الطلاب داخل المملكة وخارجها."
-	}
-];
+import { getCollection } from 'astro:content';
+
+const allFaqs = await getCollection('faq');
+const faqs = allFaqs
+	.map(f => f.data)
+	.sort((a, b) => a.order - b.order);
 
 // FAQ Schema for SEO
 const faqSchema = {
@@ -63,7 +51,6 @@ const faqSchema = {
 </section>
 
 <style>
-	/* Hide the default triangle in details/summary */
 	summary::-webkit-details-marker {
 		display: none;
 	}

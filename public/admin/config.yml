@@ -39,6 +39,28 @@ collections:
       - { label: "التصنيف", name: "tag", widget: "string" }
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
 
+  - name: "faq"
+    label: "الأسئلة الشائعة"
+    folder: "src/content/faq"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "السؤال", name: "question", widget: "string" }
+      - { label: "الإجابة", name: "answer", widget: "text" }
+      - { label: "الترتيب", name: "order", widget: "number", default: 0 }
+
+  - name: "testimonials"
+    label: "آراء الطلاب"
+    folder: "src/content/testimonials"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "اسم الطالب", name: "name", widget: "string" }
+      - { label: "الوظيفة/المرحلة", name: "role", widget: "string" }
+      - { label: "الرأي", name: "feedback", widget: "text" }
+      - { label: "رابط الصورة الشخصية", name: "avatar", widget: "string" }
+      - { label: "الترتيب", name: "order", widget: "number", default: 0 }
+
   - name: "settings"
     label: "إعدادات الموقع"
     delete: false
@@ -52,3 +74,6 @@ collections:
           - { label: "اسم الموقع", name: "siteTitle", widget: "string" }
           - { label: "وصف الموقع", name: "siteDescription", widget: "text" }
           - { label: "رقم الواتساب (بدون +)", name: "whatsappNumber", widget: "string" }
+          - { label: "رابط تويتر (X)", name: "twitterLink", widget: "string", required: false }
+          - { label: "رابط إنستجرام", name: "instagramLink", widget: "string", required: false }
+          - { label: "رابط لينكد إن", name: "linkedinLink", widget: "string", required: false }
