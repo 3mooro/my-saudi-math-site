@@ -4,71 +4,78 @@ import ThemeToggle from './ThemeToggle.astro';
 import { SITE_TITLE, WHATSAPP_NUMBER } from '../consts';
 ---
 
-<header class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-colors duration-300">
-	<div class="container mx-auto flex h-20 md:h-24 items-center justify-between px-6">
+<header class="sticky top-0 z-[100] w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-colors duration-300">
+	<div class="container mx-auto flex h-16 md:h-20 lg:h-24 items-center justify-between px-4 md:px-6">
 		<div class="flex items-center gap-2">
 			<a href="/" class="flex items-center space-x-2 space-x-reverse group">
-				<span class="inline-block font-cairo font-black text-2xl sm:text-3xl lg:text-4xl text-gradient transition-transform group-hover:scale-105">
+				<span class="inline-block font-cairo font-black text-xl sm:text-2xl lg:text-4xl text-gradient transition-transform group-hover:scale-105">
 					{SITE_TITLE}
 				</span>
 			</a>
 		</div>
 		
 		<!-- Desktop Navigation -->
-		<nav class="hidden md:flex items-center gap-10 text-lg lg:text-xl font-bold">
-			<HeaderLink href="/" class="hover:scale-105 transition-transform">الرئيسية</HeaderLink>
-			<HeaderLink href="/blog" class="hover:scale-105 transition-transform">الكورسات</HeaderLink>
-			<HeaderLink href="/about" class="hover:scale-105 transition-transform">عن الأكاديمية</HeaderLink>
-			<HeaderLink href="/contact" class="hover:scale-105 transition-transform">اتصل بنا</HeaderLink>
+		<nav class="hidden md:flex items-center gap-6 lg:gap-10 text-base lg:text-xl font-bold">
+			<HeaderLink href="/">الرئيسية</HeaderLink>
+			<HeaderLink href="/blog">الكورسات</HeaderLink>
+			<HeaderLink href="/about">عن الأكاديمية</HeaderLink>
+			<HeaderLink href="/contact">اتصل بنا</HeaderLink>
 		</nav>
 
-		<div class="flex items-center gap-6">
-			<div class="scale-125 lg:scale-150">
-				<ThemeToggle />
-			</div>
+		<div class="flex items-center gap-3 md:gap-6">
+			<ThemeToggle />
+			
 			<a 
-				href={`https://wa.me/${WHATSAPP_NUMBER}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D9%83%D9%88%D8%B1%D8%B3%D8%A7%D8%AA`} 
-				class="hidden sm:inline-flex h-12 md:h-14 items-center justify-center rounded-full bg-primary px-8 md:px-10 text-lg md:text-xl font-black text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 font-cairo"
+				href={`https://wa.me/${WHATSAPP_NUMBER}`} 
+				class="hidden sm:inline-flex h-10 md:h-14 items-center justify-center rounded-full bg-primary px-6 md:px-10 text-sm md:text-xl font-black text-primary-foreground shadow-lg transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 font-cairo"
 				target="_blank"
 			>
 				ابدأ الآن
 			</a>
+
 			<!-- Mobile Menu Button -->
-			<button id="mobile-menu-open" class="md:hidden inline-flex items-center justify-center rounded-xl p-3 text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors scale-125 border border-primary/10">
-				<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
-				<span class="sr-only">فتح القائمة</span>
+			<button id="mobile-menu-open" class="md:hidden inline-flex items-center justify-center rounded-xl p-2 text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all border border-primary/10" aria-label="فتح القائمة">
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"></line><line x1="4" x2="20" y1="6" y2="6"></line><line x1="4" x2="20" y1="18" y2="18"></line></svg>
 			</button>
 		</div>
 	</div>
 
+	<!-- Mobile Menu Overlay -->
+	<div id="mobile-menu-overlay" class="fixed inset-0 z-[110] bg-zinc-950/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"></div>
+
 	<!-- Mobile Menu Drawer -->
-	<div id="mobile-menu" class="fixed inset-0 z-[100] bg-background/80 backdrop-blur-md translate-x-full transition-transform duration-500 md:hidden">
-		<div class="fixed inset-y-0 right-0 w-full max-w-sm bg-card shadow-2xl border-l p-8 flex flex-col">
-			<div class="flex items-center justify-between mb-12">
-				<span class="font-cairo font-black text-2xl text-gradient">{SITE_TITLE}</span>
-				<button id="mobile-menu-close" class="p-3 rounded-xl hover:bg-accent text-muted-foreground transition-colors border border-primary/10">
-					<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
+	<div id="mobile-menu" class="fixed top-0 right-0 z-[120] h-full w-[80%] max-w-[300px] bg-card shadow-2xl translate-x-full transition-transform duration-500 ease-in-out md:hidden border-l">
+		<div class="p-6 flex flex-col h-full">
+			<div class="flex items-center justify-between mb-10">
+				<span class="font-cairo font-black text-xl text-gradient">{SITE_TITLE}</span>
+				<button id="mobile-menu-close" class="p-2 rounded-xl hover:bg-accent text-muted-foreground transition-colors border">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
 				</button>
 			</div>
 			
-			<nav class="flex flex-col gap-6 text-2xl font-black font-cairo mb-auto">
-				<a href="/" class="hover:text-primary transition-colors flex items-center justify-between">الرئيسية <span>←</span></a>
-				<a href="/blog" class="hover:text-primary transition-colors flex items-center justify-between">الكورسات <span>←</span></a>
-				<a href="/about" class="hover:text-primary transition-colors flex items-center justify-between">عن الأكاديمية <span>←</span></a>
-				<a href="/contact" class="hover:text-primary transition-colors flex items-center justify-between">اتصل بنا <span>←</span></a>
+			<nav class="flex flex-col gap-2 font-cairo">
+				{[
+					{ label: 'الرئيسية', href: '/' },
+					{ label: 'الكورسات', href: '/blog' },
+					{ label: 'عن الأكاديمية', href: '/about' },
+					{ label: 'اتصل بنا', href: '/contact' }
+				].map(link => (
+					<a href={link.href} class="px-4 py-4 rounded-2xl text-lg font-bold hover:bg-primary/10 hover:text-primary transition-all flex items-center justify-between group">
+						{link.label}
+						<span class="opacity-0 group-hover:opacity-100 transition-opacity">←</span>
+					</a>
+				))}
 			</nav>
 
-			<div class="pt-8 border-t border-primary/10 space-y-6">
+			<div class="mt-auto pt-8 border-t space-y-4">
 				<a 
 					href={`https://wa.me/${WHATSAPP_NUMBER}`} 
-					class="w-full h-16 items-center justify-center flex rounded-full bg-primary text-white text-xl font-black shadow-xl font-cairo"
+					class="w-full h-14 items-center justify-center flex rounded-full bg-primary text-white font-black shadow-lg font-cairo"
 					target="_blank"
 				>
-					ابدأ الآن (واتساب)
+					تواصل عبر واتساب
 				</a>
-				<div class="flex justify-center gap-6 text-muted-foreground">
-					<!-- Social Links could go here -->
-				</div>
+				<p class="text-center text-xs text-muted-foreground font-bold">أكاديمية KSA - تعليم ذكي</p>
 			</div>
 		</div>
 	</div>
@@ -78,18 +85,29 @@ import { SITE_TITLE, WHATSAPP_NUMBER } from '../consts';
 	const openBtn = document.getElementById('mobile-menu-open');
 	const closeBtn = document.getElementById('mobile-menu-close');
 	const menu = document.getElementById('mobile-menu');
+	const overlay = document.getElementById('mobile-menu-overlay');
 
-	const toggleMenu = () => {
-		menu?.classList.toggle('translate-x-full');
-		document.body.classList.toggle('overflow-hidden');
+	const toggleMenu = (show: boolean) => {
+		if (show) {
+			menu?.classList.remove('translate-x-full');
+			overlay?.classList.remove('opacity-0', 'pointer-events-none');
+			overlay?.classList.add('opacity-100', 'pointer-events-auto');
+			document.body.style.overflow = 'hidden';
+		} else {
+			menu?.classList.add('translate-x-full');
+			overlay?.classList.add('opacity-0', 'pointer-events-none');
+			overlay?.classList.remove('opacity-100', 'pointer-events-auto');
+			document.body.style.overflow = '';
+		}
 	};
 
-	openBtn?.addEventListener('click', toggleMenu);
-	closeBtn?.addEventListener('click', toggleMenu);
+	openBtn?.addEventListener('click', () => toggleMenu(true));
+	closeBtn?.addEventListener('click', () => toggleMenu(false));
+	overlay?.addEventListener('click', () => toggleMenu(false));
 
 	// Close menu on link click
 	const links = menu?.querySelectorAll('nav a');
 	links?.forEach(link => {
-		link.addEventListener('click', toggleMenu);
+		link.addEventListener('click', () => toggleMenu(false));
 	});
 </script>
