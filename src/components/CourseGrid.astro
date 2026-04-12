@@ -4,8 +4,7 @@ import CourseCard from './CourseCard.astro';
 
 const allCourses = await getCollection('courses');
 const courses = allCourses
-	.map(c => c.data)
-	.sort((a, b) => a.order - b.order);
+	.sort((a, b) => a.data.order - b.order);
 ---
 <section class="py-24" id="courses">
 	<div class="container mx-auto px-4">
@@ -22,7 +21,7 @@ const courses = allCourses
 		
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
 			{courses.map((course) => (
-				<CourseCard {...course} />
+				<CourseCard id={course.id} {...course.data} />
 			))}
 		</div>
 	</div>

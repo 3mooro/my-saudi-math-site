@@ -30,7 +30,7 @@ const settings = defineCollection({
 });
 
 const courses = defineCollection({
-	loader: glob({ base: './src/content/courses', pattern: '**/*.json' }),
+	loader: glob({ base: './src/content/courses', pattern: '**/*.{json,md}' }),
 	schema: z.object({
 		title: z.string(),
 		instructor: z.string(),
@@ -39,6 +39,7 @@ const courses = defineCollection({
 		image: z.string(),
 		tag: z.string(),
 		order: z.number().default(0),
+		description: z.string().optional(),
 	}),
 });
 

@@ -1,6 +1,4 @@
 ---
-import { WHATSAPP_NUMBER } from '../consts';
-
 interface Props {
 	title: string;
 	instructor: string;
@@ -8,25 +6,28 @@ interface Props {
 	price: string;
 	image: string;
 	tag: string;
+	id: string;
 }
 
-const { title, instructor, rating, price, image, tag } = Astro.props;
+const { title, instructor, rating, price, image, tag, id } = Astro.props;
 ---
 <div class="group relative rounded-2xl border bg-card p-4 transition-all hover:shadow-2xl hover:-translate-y-2">
-	<div class="aspect-video w-full overflow-hidden rounded-xl bg-muted mb-4 relative">
-		<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 z-10">
-			<span class="text-white font-bold text-sm font-cairo">معاينة الكورس</span>
+	<a href={`/courses/${id}`} class="block">
+		<div class="aspect-video w-full overflow-hidden rounded-xl bg-muted mb-4 relative">
+			<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 z-10">
+				<span class="text-white font-bold text-sm font-cairo text-right w-full">تفاصيل الكورس ←</span>
+			</div>
+			<img 
+				src={image} 
+				alt={title} 
+				class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+				loading="lazy"
+			/>
+			<span class="absolute top-3 right-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary font-cairo z-10">
+				{tag}
+			</span>
 		</div>
-		<img 
-			src={image} 
-			alt={title} 
-			class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-			loading="lazy"
-		/>
-		<span class="absolute top-3 right-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary font-cairo z-10">
-			{tag}
-		</span>
-	</div>
+	</a>
 	
 	<div class="space-y-3">
 		<div class="flex items-center gap-1">
@@ -46,20 +47,21 @@ const { title, instructor, rating, price, image, tag } = Astro.props;
 			<span class="text-xs text-muted-foreground font-bold mr-1">({rating})</span>
 		</div>
 		
-		<h3 class="font-cairo font-bold text-lg leading-snug line-clamp-2 group-hover:text-primary transition-colors">
-			{title}
-		</h3>
+		<a href={`/courses/${id}`} class="block group/title">
+			<h3 class="font-cairo font-bold text-lg leading-snug line-clamp-2 group-hover/title:text-primary transition-colors">
+				{title}
+			</h3>
+		</a>
 		
 		<p class="text-sm text-muted-foreground italic">بواسطة {instructor}</p>
 		
 		<div class="flex items-center justify-between pt-2">
 			<span class="text-xl font-bold text-foreground">{price}</span>
 			<a 
-				href={`https://wa.me/${WHATSAPP_NUMBER}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D9%83%D9%88%D8%B1%D8%B3%D8%A7%D8%AA`} 
+				href={`/courses/${id}`} 
 				class="h-9 px-4 rounded-full bg-primary/10 text-primary text-sm font-bold hover:bg-primary hover:text-white transition-colors font-cairo flex items-center justify-center"
-				target="_blank"
 			>
-				سجل الآن
+				تفاصيل الكورس
 			</a>
 		</div>
 	</div>

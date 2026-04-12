@@ -1,0 +1,99 @@
+---
+import { getCollection, render } from 'astro:content';
+import MainLayout from '../../layouts/MainLayout.astro';
+import { WHATSAPP_NUMBER } from '../../consts';
+
+export async function getStaticPaths() {
+	const courses = await getCollection('courses');
+	return courses.map((course) => ({
+		params: { slug: course.id },
+		props: course,
+	}));
+}
+
+const course = Astro.props;
+const { title, instructor, rating, price, image, tag } = course.data;
+const { Content } = await render(course);
+---
+
+<MainLayout title={`${title} | أكاديمية KSA`} description={`اشترك الآن في كورس ${title} مع ${instructor}. أفضل شرح للرياضيات والعلوم أون لاين.`}>
+	<section class="py-24">
+		<div class="container mx-auto px-4">
+			<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+				
+				<!-- Course Content -->
+				<div class="lg:col-span-2 space-y-8">
+					<div class="space-y-4">
+						<span class="px-4 py-1.5 bg-primary/10 text-primary text-sm font-bold rounded-full font-cairo">
+							{tag}
+						</span>
+						<h1 class="text-4xl md:text-6xl font-cairo font-black tracking-tight leading-tight">
+							{title}
+						</h1>
+						<div class="flex items-center gap-6 text-muted-foreground font-bold">
+							<div class="flex items-center gap-2">
+								<span class="text-yellow-400 text-xl">★</span>
+								<span>{rating} (تقييم الطلاب)</span>
+							</div>
+							<div class="flex items-center gap-2">
+								<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+								<span>بواسطة {instructor}</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="aspect-video rounded-[2.5rem] overflow-hidden shadow-2xl border border-primary/10">
+						<img src={image} alt={title} class="w-full h-full object-cover" />
+					</div>
+
+					<div class="prose prose-xl dark:prose-invert max-w-none font-cairo leading-loose text-justify">
+						<h2 class="text-3xl font-black mb-6">عن هذا الكورس</h2>
+						<Content />
+					</div>
+				</div>
+
+				<!-- Sidebar / Checkout -->
+				<div class="lg:col-span-1">
+					<div class="sticky top-32 p-8 rounded-[2.5rem] bg-card border shadow-2xl space-y-8">
+						<div class="space-y-2">
+							<span class="text-muted-foreground font-bold uppercase tracking-wider text-sm">سعر الكورس</span>
+							<div class="text-5xl font-black text-primary">{price}</div>
+						</div>
+
+						<div class="space-y-4">
+							<a 
+								href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحباً، أود الاشتراك في كورس: ' + title)}`} 
+								class="w-full h-16 items-center justify-center flex rounded-full bg-primary text-white text-xl font-black shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all font-cairo"
+								target="_blank"
+							>
+								سجل في الكورس الآن
+							</a>
+							<p class="text-center text-sm text-muted-foreground font-bold">
+								ضمان استرداد الأموال خلال 7 أيام
+							</p>
+						</div>
+
+						<div class="pt-6 border-t border-primary/10 space-y-4">
+							<h4 class="font-black text-lg">يتضمن الكورس:</h4>
+							<ul class="space-y-3">
+								{[
+									"وصول مدى الحياة للمحتوى",
+									"شهادة إتمام معتمدة",
+									"دعم مباشر من المدرس",
+									"ملفات PDF وتمارين شاملة",
+									"تحديثات دورية مجانية"
+								].map(item => (
+									<li class="flex items-center gap-3 font-bold text-muted-foreground text-sm">
+										<svg class="text-primary" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+										{item}
+									</li>
+								))}
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</section>
+</MainLayout>
