@@ -3,6 +3,9 @@ backend:
   repo: 3mooro/my-saudi-math-site
   branch: main
 
+site_url: https://ksaacademy.online
+display_name: "أكاديمية KSA"
+
 media_folder: "src/assets"
 public_folder: "../../assets"
 

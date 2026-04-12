@@ -1,13 +1,36 @@
 <!doctype html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="robots" content="noindex" />
-		<title>لوحة تحكم أكاديمية KSA</title>
+		<title>لوحة إدارة أكاديمية KSA</title>
+		<style>
+			/* تخصيص مظهر صفحة الدخول */
+			#nc-root [class^="nc-app-header-container"] {
+				background-color: #3b82f6 !important;
+			}
+			#nc-root [class^="nc-login-page-button"] {
+				background-color: #3b82f6 !important;
+				border-radius: 50px !important;
+				font-family: 'Cairo', sans-serif !important;
+			}
+			#nc-root [class^="nc-login-page-logo"] {
+				background-image: url('/favicon.svg') !important;
+				width: 100px !important;
+				height: 100px !important;
+			}
+		</style>
 	</head>
 	<body>
 		<!-- Include the script that builds the page and powers Decap CMS -->
 		<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+		<script>
+			// إضافة خط Cairo للوحة التحكم
+			const link = document.createElement('link');
+			link.rel = 'stylesheet';
+			link.href = 'https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap';
+			document.head.appendChild(link);
+		</script>
 	</body>
 </html>
