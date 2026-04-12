@@ -78,6 +78,29 @@ const relatedPosts = allPosts
 					<div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-cairo prose-headings:font-bold prose-a:text-primary hover:prose-a:underline text-justify leading-relaxed font-cairo">
 						<slot />
 					</div>
+
+					{/* Share Section */}
+					<div class="mt-16 pt-8 border-t border-primary/10">
+						<div class="flex flex-col md:flex-row items-center justify-between gap-6">
+							<h3 class="text-xl font-bold font-cairo">هل أعجبك المقال؟ شاركه مع زملائك:</h3>
+							<div class="flex gap-4">
+								<a 
+									href={`https://wa.me/?text=${encodeURIComponent('لقد وجدت هذا المقال المفيد في أكاديمية KSA: ' + title + ' ' + Astro.url.href)}`} 
+									class="flex items-center gap-2 px-6 py-3 bg-[#25D366] text-white rounded-full font-bold hover:scale-105 transition-all shadow-lg shadow-[#25D366]/20"
+									target="_blank"
+								>
+									واتساب
+								</a>
+								<a 
+									href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(Astro.url.href)}`} 
+									class="flex items-center gap-2 px-6 py-3 bg-zinc-900 dark:bg-white dark:text-zinc-900 text-white rounded-full font-bold hover:scale-105 transition-all shadow-lg"
+									target="_blank"
+								>
+									تويتر (X)
+								</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
