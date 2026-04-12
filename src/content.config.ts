@@ -28,6 +28,7 @@ const settings = defineCollection({
 		whatsappNumber: z.string(),
 	}),
 });
+
 const courses = defineCollection({
 	loader: glob({ base: './src/content/courses', pattern: '**/*.{json,md}' }),
 	schema: z.object({
@@ -44,7 +45,6 @@ const courses = defineCollection({
 			lessons: z.array(z.string())
 		})).optional(),
 		packages: z.array(z.object({
-...
 			name: z.string(),
 			sessions: z.number(),
 			pricePerSession: z.number(),
