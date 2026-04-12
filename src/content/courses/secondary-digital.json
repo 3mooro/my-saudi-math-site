@@ -7,7 +7,7 @@
   "level": "secondary",
   "order": 27,
   "packages": [
-    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 35, "totalPrice": 280, "features": ["برمجة بايثون", "أمن سيبراني", "مهارات"]),
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 35, "totalPrice": 280, "features": ["برمجة بايثون", "أمن سيبراني", "مهارات"]},
     {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 35, "totalPrice": 70, "features": ["حل مشروع"]},
     {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 50, "totalPrice": 50, "isUrgent": true, "features": ["حل مشكلة"]}
   ]

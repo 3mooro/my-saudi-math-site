@@ -8,16 +8,35 @@ import { SITE_TITLE, WHATSAPP_NUMBER } from '../consts';
 	<div class="container mx-auto flex h-16 md:h-20 lg:h-24 items-center justify-between px-4 md:px-6">
 		<div class="flex items-center gap-2">
 			<a href="/" class="flex items-center space-x-2 space-x-reverse group">
-				<span class="inline-block font-cairo font-black text-xl sm:text-2xl lg:text-4xl text-gradient transition-transform group-hover:scale-105">
+				<!-- Stylized Logo Icon -->
+				<div class="w-10 h-10 md:w-12 md:h-12 bg-primary rounded-xl flex items-center justify-center text-white shadow-lg shadow-primary/20 rotate-3 group-hover:rotate-0 transition-transform duration-300">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="md:w-7 md:h-7"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+				</div>
+				<span class="inline-block font-cairo font-black text-xl sm:text-2xl lg:text-3xl text-gradient">
 					{SITE_TITLE}
 				</span>
 			</a>
 		</div>
 		
 		<!-- Desktop Navigation -->
-		<nav class="hidden md:flex items-center gap-6 lg:gap-10 text-base lg:text-xl font-bold">
+		<nav class="hidden md:flex items-center gap-6 lg:gap-10 text-base lg:text-lg font-bold">
 			<HeaderLink href="/">الرئيسية</HeaderLink>
-			<HeaderLink href="/blog">الكورسات</HeaderLink>
+			
+			<!-- Grade Selector Dropdown (Desktop) -->
+			<div class="relative group">
+				<button class="flex items-center gap-1 hover:text-primary transition-colors py-2 font-bold">
+					المراحل الدراسية
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 12 0"/><path d="m12 15 6-6-12 0"/></svg>
+				</button>
+				<div class="absolute top-full right-0 w-48 bg-card border rounded-2xl shadow-2xl p-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-all translate-y-2 group-hover:translate-y-0 z-[110]">
+					<a href="/#courses" class="block px-4 py-3 rounded-xl hover:bg-primary/5 hover:text-primary transition-colors text-sm font-black">الابتدائية</a>
+					<a href="/#courses" class="block px-4 py-3 rounded-xl hover:bg-primary/5 hover:text-primary transition-colors text-sm font-black">المتوسطة</a>
+					<a href="/#courses" class="block px-4 py-3 rounded-xl hover:bg-primary/5 hover:text-primary transition-colors text-sm font-black">الثانوية</a>
+					<a href="/#courses" class="block px-4 py-3 rounded-xl hover:bg-primary/5 hover:text-primary transition-colors text-sm font-black text-secondary">القدرات والتحصيلي</a>
+				</div>
+			</div>
+
+			<HeaderLink href="/blog">المقالات</HeaderLink>
 			<HeaderLink href="/about">عن الأكاديمية</HeaderLink>
 			<HeaderLink href="/contact">اتصل بنا</HeaderLink>
 		</nav>
@@ -27,7 +46,7 @@ import { SITE_TITLE, WHATSAPP_NUMBER } from '../consts';
 			
 			<a 
 				href={`https://wa.me/${WHATSAPP_NUMBER}`} 
-				class="hidden sm:inline-flex h-10 md:h-14 items-center justify-center rounded-full bg-primary px-6 md:px-10 text-sm md:text-xl font-black text-primary-foreground shadow-lg transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 font-cairo"
+				class="hidden sm:inline-flex h-10 md:h-14 items-center justify-center rounded-full bg-primary px-6 md:px-10 text-sm md:text-lg font-black text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105 active:scale-95 font-cairo"
 				target="_blank"
 			>
 				ابدأ الآن
@@ -44,25 +63,34 @@ import { SITE_TITLE, WHATSAPP_NUMBER } from '../consts';
 	<div id="mobile-menu-overlay" class="fixed inset-0 z-[110] bg-zinc-950/50 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"></div>
 
 	<!-- Mobile Menu Drawer -->
-	<div id="mobile-menu" class="fixed top-0 right-0 z-[120] h-full w-[80%] max-w-[300px] bg-card shadow-2xl translate-x-full transition-transform duration-500 ease-in-out md:hidden border-l">
+	<div id="mobile-menu" class="fixed top-0 right-0 z-[120] h-full w-[85%] max-w-[320px] bg-card shadow-2xl translate-x-full transition-transform duration-500 ease-in-out md:hidden border-l">
 		<div class="p-6 flex flex-col h-full">
 			<div class="flex items-center justify-between mb-10">
-				<span class="font-cairo font-black text-xl text-gradient">{SITE_TITLE}</span>
+				<div class="flex items-center gap-2">
+					<div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center text-white">
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+					</div>
+					<span class="font-cairo font-black text-lg text-gradient">{SITE_TITLE}</span>
+				</div>
 				<button id="mobile-menu-close" class="p-2 rounded-xl hover:bg-accent text-muted-foreground transition-colors border">
 					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></svg>
 				</button>
 			</div>
 			
-			<nav class="flex flex-col gap-2 font-cairo">
+			<nav class="flex flex-col gap-1 font-cairo">
 				{[
 					{ label: 'الرئيسية', href: '/' },
-					{ label: 'الكورسات', href: '/blog' },
+					{ label: 'المرحلة الابتدائية', href: '/#courses' },
+					{ label: 'المرحلة المتوسطة', href: '/#courses' },
+					{ label: 'المرحلة الثانوية', href: '/#courses' },
+					{ label: 'القدرات والتحصيلي', href: '/#courses' },
+					{ label: 'المقالات', href: '/blog' },
 					{ label: 'عن الأكاديمية', href: '/about' },
 					{ label: 'اتصل بنا', href: '/contact' }
 				].map(link => (
-					<a href={link.href} class="px-4 py-4 rounded-2xl text-lg font-bold hover:bg-primary/10 hover:text-primary transition-all flex items-center justify-between group">
+					<a href={link.href} class="px-4 py-3 rounded-xl text-lg font-black hover:bg-primary/5 hover:text-primary transition-all flex items-center justify-between group">
 						{link.label}
-						<span class="opacity-0 group-hover:opacity-100 transition-opacity">←</span>
+						<span class="opacity-20 group-hover:opacity-100 transition-opacity">←</span>
 					</a>
 				))}
 			</nav>
@@ -70,12 +98,12 @@ import { SITE_TITLE, WHATSAPP_NUMBER } from '../consts';
 			<div class="mt-auto pt-8 border-t space-y-4">
 				<a 
 					href={`https://wa.me/${WHATSAPP_NUMBER}`} 
-					class="w-full h-14 items-center justify-center flex rounded-full bg-primary text-white font-black shadow-lg font-cairo"
+					class="w-full h-14 items-center justify-center flex rounded-2xl bg-primary text-white font-black shadow-lg font-cairo"
 					target="_blank"
 				>
 					تواصل عبر واتساب
 				</a>
-				<p class="text-center text-xs text-muted-foreground font-bold">أكاديمية KSA - تعليم ذكي</p>
+				<p class="text-center text-[10px] text-muted-foreground font-bold tracking-widest uppercase">أكاديمية KSA - تعليم ذكي</p>
 			</div>
 		</div>
 	</div>
@@ -105,7 +133,6 @@ import { SITE_TITLE, WHATSAPP_NUMBER } from '../consts';
 	closeBtn?.addEventListener('click', () => toggleMenu(false));
 	overlay?.addEventListener('click', () => toggleMenu(false));
 
-	// Close menu on link click
 	const links = menu?.querySelectorAll('nav a');
 	links?.forEach(link => {
 		link.addEventListener('click', () => toggleMenu(false));
