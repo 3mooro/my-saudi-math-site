@@ -62,6 +62,24 @@ collections:
       - { label: "رابط الصورة الشخصية", name: "avatar", widget: "string" }
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
 
+  - name: "pages"
+    label: "الصفحات"
+    delete: false
+    files:
+      - name: "about"
+        label: "صفحة عن الأكاديمية"
+        file: "src/content/pages/about.json"
+        fields:
+          - { label: "عنوان الصفحة (SEO)", name: "title", widget: "string" }
+          - { label: "عنوان المهمة", name: "missionTitle", widget: "string" }
+          - { label: "وصف المهمة", name: "missionDescription", widget: "text" }
+          - { label: "عنوان عن الأكاديمية", name: "aboutTitle", widget: "string" }
+          - { label: "وصف عن الأكاديمية", name: "aboutDescription", widget: "text" }
+          - { label: "عنوان القيم", name: "valuesTitle", widget: "string" }
+          - { label: "القيم", name: "values", widget: "list" }
+          - { label: "عنوان الدعوة للعمل (CTA)", name: "ctaTitle", widget: "string" }
+          - { label: "وصف الدعوة للعمل (CTA)", name: "ctaDescription", widget: "text" }
+
   - name: "settings"
     label: "إعدادات الموقع"
     delete: false

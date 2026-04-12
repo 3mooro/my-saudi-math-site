@@ -63,4 +63,19 @@ const testimonials = defineCollection({
 	}),
 });
 
-export const collections = { blog, settings, courses, faq, testimonials };
+const pages = defineCollection({
+	loader: glob({ base: './src/content/pages', pattern: '**/*.json' }),
+	schema: z.object({
+		title: z.string(),
+		missionTitle: z.string(),
+		missionDescription: z.string(),
+		aboutTitle: z.string(),
+		aboutDescription: z.string(),
+		valuesTitle: z.string(),
+		values: z.array(z.string()),
+		ctaTitle: z.string(),
+		ctaDescription: z.string(),
+	}),
+});
+
+export const collections = { blog, settings, courses, faq, testimonials, pages };
