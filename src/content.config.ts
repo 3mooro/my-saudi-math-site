@@ -29,4 +29,17 @@ const settings = defineCollection({
 	}),
 });
 
-export const collections = { blog, settings };
+const courses = defineCollection({
+	loader: glob({ base: './src/content/courses', pattern: '**/*.json' }),
+	schema: z.object({
+		title: z.string(),
+		instructor: z.string(),
+		rating: z.number(),
+		price: z.string(),
+		image: z.string(),
+		tag: z.string(),
+		order: z.number().default(0),
+	}),
+});
+
+export const collections = { blog, settings, courses };

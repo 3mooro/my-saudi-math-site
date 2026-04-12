@@ -1,56 +1,11 @@
 ---
+import { getCollection } from 'astro:content';
 import CourseCard from './CourseCard.astro';
 
-const courses = [
-	{
-		title: "التفاضل والتكامل المتقدم للهندسة",
-		instructor: "د. أحمد منصور",
-		rating: 4.9,
-		price: "مجاني",
-		image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&q=80",
-		tag: "رياضيات"
-	},
-	{
-		title: "أساسيات الجبر الخطي",
-		instructor: "أ. سارة جينكنز",
-		rating: 4.8,
-		price: "149 ر.س",
-		image: "https://images.unsplash.com/photo-1614332287897-cdc485fa562d?w=800&q=80",
-		tag: "رياضيات"
-	},
-	{
-		title: "إتقان الإحصاء والاحتمالات",
-		instructor: "د. إيميلي تشين",
-		rating: 4.7,
-		price: "199 ر.س",
-		image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-		tag: "إحصاء"
-	},
-	{
-		title: "الهندسة التحليلية والفضائية",
-		instructor: "م. خالد عبدالله",
-		rating: 4.9,
-		price: "مجاني",
-		image: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=800&q=80",
-		tag: "هندسة"
-	},
-	{
-		title: "المعادلات التفاضلية وتطبيقاتها",
-		instructor: "د. سعيد العتيبي",
-		rating: 4.8,
-		price: "249 ر.س",
-		image: "https://images.unsplash.com/photo-1596496050827-8299e0220de1?w=800&q=80",
-		tag: "تفاضل"
-	},
-	{
-		title: "الرياضيات المتقطعة لعلوم الحاسب",
-		instructor: "د. نور الدين زكريا",
-		rating: 5.0,
-		price: "189 ر.س",
-		image: "https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=800&q=80",
-		tag: "علوم حاسب"
-	}
-];
+const allCourses = await getCollection('courses');
+const courses = allCourses
+	.map(c => c.data)
+	.sort((a, b) => a.order - b.order);
 ---
 <section class="py-24" id="courses">
 	<div class="container mx-auto px-4">
@@ -59,8 +14,8 @@ const courses = [
 				<h2 class="text-3xl md:text-5xl font-cairo font-bold tracking-tight">استكشف الكورسات الأكثر شهرة</h2>
 				<p class="text-lg text-muted-foreground font-cairo">اختر من بين مجموعة واسعة من الكورسات المقدمة من خبراء عالميين. ابدأ رحلتك التعليمية اليوم.</p>
 			</div>
-			<a href="/blog" class="text-primary font-bold hover:underline flex items-center gap-2 font-cairo">
-				عرض كل الكورسات
+			<a href="/blog" class="text-primary font-bold hover:underline flex items-center gap-2 font-cairo text-lg">
+				عرض كل الكورسات والمقالات
 				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 			</a>
 		</div>
