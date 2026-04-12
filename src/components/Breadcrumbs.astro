@@ -1,0 +1,43 @@
+---
+interface Props {
+	items: { label: string; href?: string }[];
+}
+
+const { items } = Astro.props;
+
+// Breadcrumb Schema for SEO
+const breadcrumbSchema = {
+	"@context": "https://schema.org",
+	"@type": "BreadcrumbList",
+	"itemListElement": items.map((item, index) => ({
+		"@type": "ListItem",
+		"position": index + 1,
+		"name": item.label,
+		"item": item.href ? new URL(item.href, Astro.url).href : undefined
+	}))
+};
+---
+
+<nav class="flex mb-8 font-cairo font-bold overflow-x-auto no-scrollbar whitespace-nowrap" aria-label="Breadcrumb">
+	<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+	<ol class="inline-flex items-center space-x-2 space-x-reverse">
+		<li class="inline-flex items-center">
+			<a href="/" class="text-muted-foreground hover:text-primary transition-colors flex items-center gap-2">
+				<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+				الرئيسية
+			</a>
+		</li>
+		{items.map((item, index) => (
+			<li class="flex items-center">
+				<svg class="text-muted-foreground/40 rotate-180" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+				{item.href ? (
+					<a href={item.href} class="mr-2 text-muted-foreground hover:text-primary transition-colors">
+						{item.label}
+					</a>
+				) : (
+					<span class="mr-2 text-primary">{item.label}</span>
+				)}
+			</li>
+		))}
+	</ol>
+</nav>

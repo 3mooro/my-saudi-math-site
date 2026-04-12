@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { WHATSAPP_NUMBER } from '../../consts';
 
 export async function getStaticPaths() {
@@ -19,6 +20,8 @@ const { Content } = await render(course);
 <MainLayout title={`${title} | أكاديمية KSA`} description={`اشترك الآن في كورس ${title} مع ${instructor}. أفضل شرح للرياضيات والعلوم أون لاين.`}>
 	<section class="py-24">
 		<div class="container mx-auto px-4">
+			<Breadcrumbs items={[{ label: 'الكورسات والمقالات', href: '/blog' }, { label: title }]} />
+			
 			<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
 				
 				<!-- Course Content -->

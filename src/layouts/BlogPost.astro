@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import MainLayout from './MainLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -28,11 +29,11 @@ const relatedPosts = allPosts
 	<article class="py-16 md:py-24" dir="rtl">
 		<div class="container mx-auto px-4">
 			<div class="mx-auto max-w-4xl">
+				<Breadcrumbs items={[{ label: 'الكورسات والمقالات', href: '/blog' }, { label: title }]} />
+				
 				{heroImage && (
 					<div class="mb-12 overflow-hidden rounded-3xl shadow-2xl">
-						<Image 
-							width={1020} 
-							height={510} 
+						<img 
 							src={heroImage} 
 							alt={title} 
 							class="w-full h-auto object-cover aspect-[2/1]"
@@ -123,9 +124,7 @@ const relatedPosts = allPosts
 							<a href={`/blog/${post.id}/`} class="group flex flex-col space-y-3 bg-card p-4 rounded-2xl border shadow-sm hover:shadow-md transition-all hover:border-primary/30">
 								{post.data.heroImage && (
 									<div class="aspect-video w-full overflow-hidden rounded-xl bg-muted">
-										<Image 
-											width={400} 
-											height={225} 
+										<img 
 											src={post.data.heroImage} 
 											alt={post.data.title} 
 											class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
