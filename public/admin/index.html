@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="ar" dir="rtl" translate="no">
+<html lang="en" translate="no">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="robots" content="noindex" />
 		<meta name="google" content="notranslate" />
-		<title>لوحة إدارة أكاديمية KSA</title>
+		<title>KSA Academy Admin</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
 			}
 			span[class^="nc-login-page-logo"] { display: none !important; }
 			section[class^="nc-login-page-main-view"]::before {
-				content: "لوحة إدارة أكاديمية KSA";
+				content: "KSA Academy Dashboard";
 				display: block; font-size: 2.5rem; font-weight: 900; color: #1e293b; margin-bottom: 1rem; text-align: center;
 			}
 		</style>
@@ -31,7 +31,7 @@
 	<body>
 		<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
 		<script>
-			// إعداد اللوحة بشكل يدوي كامل لمنع تضارب الملفات ولضمان العمل على أي رابط
+			// Initialize CMS
 			window.CMS.init({
 				config: {
 					backend: {
@@ -42,7 +42,6 @@
 						auth_endpoint: "api/auth"
 					},
 					display_name: "أكاديمية KSA",
-					locale: 'ar',
 					media_folder: "src/assets",
 					public_folder: "../../assets",
 					collections: [
@@ -70,25 +69,16 @@
 							fields: [
 								{ label: "اسم المادة", name: "title", widget: "string" },
 								{ label: "المرحلة", name: "level", widget: "select", options: ["primary", "middle", "secondary", "university"] },
-								{ label: "اسم المدرس", name: "instructor", widget: "string" },
-								{ label: "التقييم", name: "rating", widget: "number", value_type: "float" },
-								{ label: "رابط الصورة", name: "image", widget: "string" },
-								{ label: "التصنيف", name: "tag", widget: "string" },
-								{ label: "الترتيب", name: "order", widget: "number" },
+								{ label: "السعر الإجمالي", name: "price", widget: "string" },
 								{ label: "الباقات", name: "packages", widget: "list", fields: [
 									{label: "الاسم", name: "name", widget: "string"},
 									{label: "السعر الإجمالي", name: "totalPrice", widget: "number"}
-								]},
-								{ label: "المنهج", name: "syllabus", widget: "list", fields: [
-									{label: "الوحدة", name: "unit", widget: "string"},
-									{label: "الدروس", name: "lessons", widget: "list"}
-								]},
-								{ label: "وصف تفصيلي", name: "body", widget: "markdown", required: false }
+								]}
 							]
 						},
 						{
 							name: "settings",
-							label: "إعدادات الموقع",
+							label: "الإعدادات",
 							files: [
 								{
 									name: "general",
@@ -96,7 +86,6 @@
 									file: "src/content/settings/general.json",
 									fields: [
 										{ label: "اسم الموقع", name: "siteTitle", widget: "string" },
-										{ label: "وصف الموقع", name: "siteDescription", widget: "text" },
 										{ label: "رقم الواتساب", name: "whatsappNumber", widget: "string" }
 									]
 								}
