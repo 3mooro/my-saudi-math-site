@@ -25,7 +25,7 @@ collections:
       - { label: "الوصف المختصر (SEO)", name: "description", widget: "text" }
       - { label: "تاريخ النشر", name: "pubDate", widget: "datetime", format: "MMMM DD YYYY" }
       - { label: "صورة الغلاف", name: "heroImage", widget: "image" }
-      - { label: "الكاتب", name: "author", widget: "string", default: "أكاديمية KSA" }
+      - { label: "الالكاتب", name: "author", widget: "string", default: "أكاديمية KSA" }
       - { label: "وقت القراءة", name: "readingTime", widget: "string", default: "5 دقائق" }
       - { label: "الوسوم", name: "tags", widget: "list" }
       - { label: "محتوى المقال", name: "body", widget: "markdown" }
@@ -33,14 +33,16 @@ collections:
   - name: "courses"
     label: "الكورسات (الباقات)"
     folder: "src/content/courses"
+    extension: "json"
+    format: "json"
     create: true
     slug: "{{slug}}"
     fields:
       - { label: "اسم المادة", name: "title", widget: "string" }
-      - { label: "اسم المدرس (أو نخبة من المعلمين)", name: "instructor", widget: "string" }
+      - { label: "اسم المدرس", name: "instructor", widget: "string" }
       - { label: "التقييم", name: "rating", widget: "number", value_type: "float", min: 0, max: 5, step: 0.1 }
-      - { label: "رابط الصورة (Unsplash)", name: "image", widget: "string" }
-      - { label: "التصنيف (مثلاً: رياضيات)", name: "tag", widget: "string" }
+      - { label: "رابط الصورة", name: "image", widget: "string" }
+      - { label: "التصنيف", name: "tag", widget: "string" }
       - label: "المرحلة التعليمية"
         name: "level"
         widget: "select"
@@ -50,22 +52,23 @@ collections:
           - { label: "ثانوي", value: "secondary" }
           - { label: "جامعي", value: "university" }
           - { label: "أخرى", value: "other" }
-      - { label: "الترتيب في الصفحة", name: "order", widget: "number", default: 0 }
+      - { label: "الترتيب", name: "order", widget: "number", default: 0 }
       - label: "الباقات المتاحة"
         name: "packages"
         widget: "list"
         fields:
-          - { label: "اسم الباقة (مثلاً: باقة 8 حصص)", name: "name", widget: "string" }
+          - { label: "اسم الباقة", name: "name", widget: "string" }
           - { label: "عدد الحصص", name: "sessions", widget: "number" }
           - { label: "سعر الحصة الواحدة", name: "pricePerSession", widget: "number" }
-          - { label: "السعر الإجمالي (الذي يظهر للطالب)", name: "totalPrice", widget: "number" }
-          - { label: "المميزات (قائمة)", name: "features", widget: "list" }
-          - { label: "هل هي باقة طارئة (لون مختلف)؟", name: "isUrgent", widget: "boolean", default: false }
-      - { label: "وصف تفصيلي للكورس (يظهر في صفحة الكورس)", name: "body", widget: "markdown", required: false }
+          - { label: "السعر الإجمالي", name: "totalPrice", widget: "number" }
+          - { label: "المميزات", name: "features", widget: "list" }
+          - { label: "هل هي باقة طارئة؟", name: "isUrgent", widget: "boolean", default: false }
 
   - name: "faq"
     label: "الأسئلة الشائعة"
     folder: "src/content/faq"
+    extension: "json"
+    format: "json"
     create: true
     slug: "{{slug}}"
     fields:
@@ -76,24 +79,28 @@ collections:
   - name: "testimonials"
     label: "آراء الطلاب"
     folder: "src/content/testimonials"
+    extension: "json"
+    format: "json"
     create: true
     slug: "{{slug}}"
     fields:
       - { label: "اسم الطالب", name: "name", widget: "string" }
       - { label: "الوظيفة/المرحلة", name: "role", widget: "string" }
       - { label: "الرأي", name: "feedback", widget: "text" }
-      - { label: "رابط الصورة الشخصية", name: "avatar", widget: "string" }
+      - { label: "رابط الصورة الشخصية", name: "avatar", widget: "string", required: false }
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
 
   - name: "stats"
     label: "إحصائيات المنصة"
     folder: "src/content/stats"
+    extension: "json"
+    format: "json"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "العنوان (مثلاً: طالب نشط)", name: "label", widget: "string" }
-      - { label: "القيمة (مثلاً: +10,000)", name: "value", widget: "string" }
-      - { label: "أيقونة (إيموجي)", name: "icon", widget: "string" }
+      - { label: "العنوان", name: "label", widget: "string" }
+      - { label: "القيمة", name: "value", widget: "string" }
+      - { label: "أيقونة", name: "icon", widget: "string" }
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
 
   - name: "pages"
@@ -118,7 +125,7 @@ collections:
             fields:
               - { label: "اسم المعلم", name: "name", widget: "string" }
               - { label: "التخصص", name: "role", widget: "string" }
-              - { label: "رابط الصورة الشخصية", name: "image", widget: "string" }
+              - { label: "رابط الصورة الشخصية", name: "image", widget: "string", required: false }
           - { label: "عنوان الدعوة للعمل (CTA)", name: "ctaTitle", widget: "string" }
           - { label: "وصف الدعوة للعمل (CTA)", name: "ctaDescription", widget: "text" }
 
