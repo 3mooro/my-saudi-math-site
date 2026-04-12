@@ -20,4 +20,13 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const settings = defineCollection({
+	loader: glob({ base: './src/content/settings', pattern: '**/*.json' }),
+	schema: z.object({
+		siteTitle: z.string(),
+		siteDescription: z.string(),
+		whatsappNumber: z.string(),
+	}),
+});
+
+export const collections = { blog, settings };
