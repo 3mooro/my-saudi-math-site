@@ -25,7 +25,7 @@ collections:
       - { label: "الوصف المختصر (SEO)", name: "description", widget: "text" }
       - { label: "تاريخ النشر", name: "pubDate", widget: "datetime", format: "MMMM DD YYYY" }
       - { label: "صورة الغلاف", name: "heroImage", widget: "image" }
-      - { label: "الالكاتب", name: "author", widget: "string", default: "أكاديمية KSA" }
+      - { label: "الكاتب", name: "author", widget: "string", default: "أكاديمية KSA" }
       - { label: "وقت القراءة", name: "readingTime", widget: "string", default: "5 دقائق" }
       - { label: "الوسوم", name: "tags", widget: "list" }
       - { label: "محتوى المقال", name: "body", widget: "markdown" }

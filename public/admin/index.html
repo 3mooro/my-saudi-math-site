@@ -30,161 +30,28 @@
 				color: var(--text-main) !important;
 			}
 
-			/* 1. تخصيص شريط التنقل العلوي (Header) */
+			/* تخصيص شريط التنقل العلوي (Header) */
 			div[class^="nc-app-header-container"] {
 				background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
 				box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3) !important;
 				border: none !important;
-				padding: 10px 20px !important;
-			}
-			/* إخفاء لوجو النظام الأصلي ووضع اسم الأكاديمية */
-			a[class^="nc-app-header-logo"] {
-				font-size: 0 !important; /* إخفاء النص القديم */
-				display: flex !important;
-				align-items: center;
 			}
 			a[class^="nc-app-header-logo"]::after {
 				content: "أكاديمية KSA";
 				font-size: 1.5rem !important;
 				font-weight: 900 !important;
 				color: white !important;
-				background: rgba(255,255,255,0.1);
-				padding: 5px 15px;
-				border-radius: 12px;
-				letter-spacing: 0.5px;
+				margin-right: 10px;
 			}
 
-			/* 2. تخصيص القائمة الجانبية (Sidebar) */
-			div[class^="nc-collectionPage-sidebar"] {
-				background-color: var(--card-bg) !important;
-				border-right: 1px solid var(--border-color) !important;
-				border-left: none !important; /* عشان الـ RTL */
-				padding: 20px !important;
-				box-shadow: -4px 0 15px rgba(0,0,0,0.02) !important;
-			}
-			/* أزرار القائمة الجانبية */
-			a[class^="nc-collectionPage-sidebarLink"] {
-				border-radius: 12px !important;
-				margin-bottom: 8px !important;
-				padding: 12px 16px !important;
-				font-weight: 700 !important;
-				font-size: 1.1rem !important;
-				color: #475569 !important;
-				transition: all 0.3s ease !important;
-				border-left: 4px solid transparent !important; /* للـ RTL */
-			}
-			a[class^="nc-collectionPage-sidebarLink"]:hover {
-				background-color: #eff6ff !important;
-				color: var(--primary) !important;
-				transform: translateX(-5px) !important;
-			}
-			/* الزر النشط في القائمة */
-			a[class*="nc-collectionPage-sidebarLinkActive"] {
-				background-color: #dbeafe !important;
-				color: var(--primary) !important;
-				border-left-color: var(--primary) !important;
-			}
-
-			/* 3. تخصيص البطاقات والمحتوى (Cards & Grid) */
-			/* الحاوية الرئيسية */
-			div[class^="nc-collectionPage-main"] {
-				padding: 30px !important;
-			}
-			/* بطاقة المقال/الكورس */
-			a[class^="nc-collectionPage-card"] {
-				background-color: var(--card-bg) !important;
-				border-radius: 20px !important;
-				border: 1px solid var(--border-color) !important;
-				box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05) !important;
-				transition: all 0.3s ease !important;
-				overflow: hidden !important;
-			}
-			a[class^="nc-collectionPage-card"]:hover {
-				transform: translateY(-5px) !important;
-				box-shadow: 0 20px 25px -5px rgba(59, 130, 246, 0.1) !important;
-				border-color: var(--primary) !important;
-			}
-			/* نصوص البطاقة */
-			h2[class^="nc-collectionPage-cardTitle"] {
-				font-weight: 900 !important;
-				color: var(--text-main) !important;
-				font-size: 1.25rem !important;
-			}
-
-			/* 4. تخصيص صفحة التعديل (Editor Page) */
-			/* الحاوية */
-			div[class^="nc-entryEditor-controlPane"] {
-				background-color: var(--bg-light) !important;
-				padding: 30px !important;
-			}
-			/* شريط أدوات التعديل العلوي */
-			div[class^="nc-entryEditor-header"] {
-				background-color: var(--card-bg) !important;
-				border-bottom: 1px solid var(--border-color) !important;
-				box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05) !important;
-			}
-			/* حقول الإدخال (Inputs) */
-			input[class^="nc-controlPane-widget"], 
-			textarea[class^="nc-controlPane-widget"], 
-			select[class^="nc-controlPane-widget"] {
-				border-radius: 12px !important;
-				border: 2px solid var(--border-color) !important;
-				padding: 12px 16px !important;
-				font-weight: 700 !important;
-				font-size: 1rem !important;
-				transition: all 0.3s ease !important;
-				background-color: var(--card-bg) !important;
-			}
-			input[class^="nc-controlPane-widget"]:focus, 
-			textarea[class^="nc-controlPane-widget"]:focus, 
-			select[class^="nc-controlPane-widget"]:focus {
-				border-color: var(--primary) !important;
-				box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2) !important;
-				outline: none !important;
-			}
-			/* عناوين الحقول (Labels) */
-			label[class^="nc-controlPane-label"] {
-				font-weight: 900 !important;
-				color: var(--text-main) !important;
-				font-size: 1.1rem !important;
-				margin-bottom: 8px !important;
-			}
-
-			/* 5. تخصيص الأزرار العامة (Buttons) */
-			button[class^="nc-button"] {
-				border-radius: 12px !important;
-				font-weight: 900 !important;
-				font-family: 'Cairo', sans-serif !important;
-				transition: all 0.3s !important;
-			}
-			/* زر إنشاء جديد (Create New) */
-			a[class*="nc-collectionPage-newButton"] {
-				background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
-				color: white !important;
-				border-radius: 12px !important;
-				font-weight: 900 !important;
-				padding: 10px 24px !important;
-				box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4) !important;
-				transition: all 0.3s !important;
-			}
-			a[class*="nc-collectionPage-newButton"]:hover {
-				transform: translateY(-2px) !important;
-				box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5) !important;
-			}
-
-			/* 6. صفحة تسجيل الدخول (Login Page) */
+			/* تخصيص زر الدخول */
 			button[class^="nc-login-page-button"] {
 				background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
 				color: white !important;
 				border-radius: 50px !important;
 				padding: 16px 40px !important;
 				font-weight: 900 !important;
-				font-size: 1.2rem !important;
 				box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4) !important;
-			}
-			button[class^="nc-login-page-button"]:hover {
-				transform: scale(1.05) translateY(-2px) !important;
-				box-shadow: 0 15px 35px rgba(59, 130, 246, 0.6) !important;
 			}
 			span[class^="nc-login-page-logo"] { display: none !important; }
 			section[class^="nc-login-page-main-view"]::before {
@@ -196,197 +63,11 @@
 				margin-bottom: 1rem;
 				text-align: center;
 			}
-			section[class^="nc-login-page-main-view"]::after {
-				content: "بوابتك لإدارة المحتوى التعليمي والكورسات";
-				display: block;
-				font-size: 1.2rem;
-				font-weight: 700;
-				color: #64748b;
-				margin-bottom: 3rem;
-				text-align: center;
-			}
 		</style>
 	</head>
 	<body>
 		<!-- Include the script that builds the page and powers Decap CMS -->
 		<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-		
-		<script>
-			// تأكيد الإعدادات برمجياً لضمان عدم حدوث خطأ في القراءة ولضمان الـ RTL
-			CMS.init({
-				config: {
-					backend: {
-						name: "git-gateway",
-						branch: "main"
-					},
-					site_url: "https://ksaacademy.online",
-					display_name: "أكاديمية KSA",
-					media_folder: "src/assets",
-					public_folder: "../../assets",
-					collections: [
-						{
-							name: "blog",
-							label: "المقالات",
-							folder: "src/content/blog",
-							create: true,
-							slug: "{{slug}}",
-							fields: [
-								{ label: "العنوان", name: "title", widget: "string" },
-								{ label: "الوصف المختصر (SEO)", name: "description", widget: "text" },
-								{ label: "تاريخ النشر", name: "pubDate", widget: "datetime", format: "MMMM DD YYYY" },
-								{ label: "صورة الغلاف", name: "heroImage", widget: "image" },
-								{ label: "الكاتب", name: "author", widget: "string", default: "أكاديمية KSA" },
-								{ label: "وقت القراءة", name: "readingTime", widget: "string", default: "5 دقائق" },
-								{ label: "الوسوم", name: "tags", widget: "list" },
-								{ label: "محتوى المقال", name: "body", widget: "markdown" }
-							]
-						},
-						{
-							name: "courses",
-							label: "الكورسات (الباقات)",
-							folder: "src/content/courses",
-							create: true,
-							extension: "json",
-							format: "json",
-							slug: "{{slug}}",
-							fields: [
-								{ label: "اسم المادة", name: "title", widget: "string" },
-								{ label: "اسم المدرس", name: "instructor", widget: "string" },
-								{ label: "التقييم", name: "rating", widget: "number", value_type: "float", min: 0, max: 5, step: 0.1 },
-								{ label: "رابط الصورة", name: "image", widget: "string" },
-								{ label: "التصنيف", name: "tag", widget: "string" },
-								{ 
-									label: "المرحلة التعليمية", 
-									name: "level", 
-									widget: "select", 
-									options: [
-										{ label: "ابتدائي", value: "primary" },
-										{ label: "متوسط", value: "middle" },
-										{ label: "ثانوي", value: "secondary" },
-										{ label: "جامعي", value: "university" },
-										{ label: "أخرى", value: "other" }
-									] 
-								},
-								{ label: "الترتيب", name: "order", widget: "number", default: 0 },
-								{ 
-									label: "الباقات المتاحة", 
-									name: "packages", 
-									widget: "list", 
-									fields: [
-										{ label: "اسم الباقة", name: "name", widget: "string" },
-										{ label: "عدد الحصص", name: "sessions", widget: "number" },
-										{ label: "سعر الحصة الواحدة", name: "pricePerSession", widget: "number" },
-										{ label: "السعر الإجمالي", name: "totalPrice", widget: "number" },
-										{ label: "المميزات", name: "features", widget: "list" },
-										{ label: "هل هي باقة طارئة؟", name: "isUrgent", widget: "boolean", default: false }
-									] 
-								},
-								{ label: "تفاصيل الكورس (المنهج والمميزات)", name: "body", widget: "markdown", required: false }
-							]
-						},
-						{
-							name: "faq",
-							label: "الأسئلة الشائعة",
-							folder: "src/content/faq",
-							create: true,
-							extension: "json",
-							format: "json",
-							slug: "{{slug}}",
-							fields: [
-								{ label: "السؤال", name: "question", widget: "string" },
-								{ label: "الإجابة", name: "answer", widget: "text" },
-								{ label: "الترتيب", name: "order", widget: "number", default: 0 }
-							]
-						},
-						{
-							name: "testimonials",
-							label: "آراء الطلاب",
-							folder: "src/content/testimonials",
-							create: true,
-							extension: "json",
-							format: "json",
-							slug: "{{slug}}",
-							fields: [
-								{ label: "اسم الطالب", name: "name", widget: "string" },
-								{ label: "الوظيفة/المرحلة", name: "role", widget: "string" },
-								{ label: "الرأي", name: "feedback", widget: "text" },
-								{ label: "رابط الصورة الشخصية", name: "avatar", widget: "string", required: false },
-								{ label: "الترتيب", name: "order", widget: "number", default: 0 }
-							]
-						},
-						{
-							name: "stats",
-							label: "إحصائيات المنصة",
-							folder: "src/content/stats",
-							create: true,
-							extension: "json",
-							format: "json",
-							slug: "{{slug}}",
-							fields: [
-								{ label: "العنوان", name: "label", widget: "string" },
-								{ label: "القيمة", name: "value", widget: "string" },
-								{ label: "أيقونة", name: "icon", widget: "string" },
-								{ label: "الترتيب", name: "order", widget: "number", default: 0 }
-							]
-						},
-						{
-							name: "pages",
-							label: "الصفحات",
-							delete: false,
-							files: [
-								{
-									name: "about",
-									label: "صفحة عن الأكاديمية",
-									file: "src/content/pages/about.json",
-									fields: [
-										{ label: "عنوان الصفحة (SEO)", name: "title", widget: "string" },
-										{ label: "عنوان المهمة", name: "missionTitle", widget: "string" },
-										{ label: "وصف المهمة", name: "missionDescription", widget: "text" },
-										{ label: "عنوان عن الأكاديمية", name: "aboutTitle", widget: "string" },
-										{ label: "وصف عن الأكاديمية", name: "aboutDescription", widget: "text" },
-										{ label: "عنوان القيم", name: "valuesTitle", widget: "string" },
-										{ label: "القيم", name: "values", widget: "list" },
-										{ label: "عنوان قسم المعلمين", name: "teachersTitle", widget: "string", required: false },
-										{ 
-											label: "المعلمون", 
-											name: "teachers", 
-											widget: "list", 
-											fields: [
-												{ label: "اسم المعلم", name: "name", widget: "string" },
-												{ label: "التخصص", name: "role", widget: "string" },
-												{ label: "رابط الصورة", name: "image", widget: "string", required: false }
-											] 
-										},
-										{ label: "عنوان الدعوة للعمل (CTA)", name: "ctaTitle", widget: "string" },
-										{ label: "وصف الدعوة للعمل (CTA)", name: "ctaDescription", widget: "text" }
-									]
-								}
-							]
-						},
-						{
-							name: "settings",
-							label: "إعدادات الموقع",
-							delete: false,
-							files: [
-								{
-									name: "general",
-									label: "الإعدادات العامة",
-									file: "src/content/settings/general.json",
-									fields: [
-										{ label: "اسم الموقع", name: "siteTitle", widget: "string" },
-										{ label: "وصف الموقع", name: "siteDescription", widget: "text" },
-										{ label: "رقم الواتساب (بدون +)", name: "whatsappNumber", widget: "string" },
-										{ label: "رابط تويتر (X)", name: "twitterLink", widget: "string", required: false },
-										{ label: "رابط إنستجرام", name: "instagramLink", widget: "string", required: false },
-										{ label: "رابط لينكد إن", name: "linkedinLink", widget: "string", required: false }
-									]
-								}
-							]
-						}
-					]
-				}
-			});
-		</script>
 		<!-- Netlify Identity Widget -->
 		<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 	</body>
