@@ -35,12 +35,19 @@ const courses = defineCollection({
 		title: z.string(),
 		instructor: z.string(),
 		rating: z.number(),
-		price: z.string(),
 		image: z.string(),
 		tag: z.string(),
 		level: z.enum(['primary', 'middle', 'secondary', 'university', 'other']).default('secondary'),
 		order: z.number().default(0),
 		description: z.string().optional(),
+		packages: z.array(z.object({
+			name: z.string(),
+			sessions: z.number(),
+			pricePerSession: z.number(),
+			totalPrice: z.number(),
+			features: z.array(z.string()),
+			isUrgent: z.boolean().default(false)
+		})).optional(),
 	}),
 });
 

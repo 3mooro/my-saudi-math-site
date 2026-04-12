@@ -1,76 +1,101 @@
 ---
 import { WHATSAPP_NUMBER } from '../consts';
 
+interface Package {
+	name: string;
+	sessions: number;
+	pricePerSession: number;
+	totalPrice: number;
+	features: string[];
+	isUrgent?: boolean;
+}
+
 interface Props {
 	title: string;
 	instructor: string;
 	rating: number;
-	price: string;
 	image: string;
 	tag: string;
 	id: string;
+	packages?: Package[];
 }
 
-const { title, instructor, rating, price, image, tag, id } = Astro.props;
+const { title, instructor, rating, image, tag, id, packages = [] } = Astro.props;
 ---
-<div class="group relative rounded-[2.5rem] bg-card border border-primary/5 hover:border-primary/20 p-2 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(59,130,246,0.1)] flex flex-col h-full reveal">
+<div class="group relative rounded-[3rem] bg-card border border-primary/10 p-8 transition-all duration-500 hover:shadow-[0_30px_100px_rgba(59,130,246,0.15)] flex flex-col h-full reveal">
 	
-	<!-- Top Badge & Image -->
-	<div class="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
-		<a href={`/courses/${id}`}>
-			<img 
-				src={image} 
-				alt={title} 
-				class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-				loading="lazy"
-			/>
-			<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-8">
-				<span class="text-white font-black text-lg font-cairo">استعرض الباقة ←</span>
-			</div>
-		</a>
-		<div class="absolute top-4 right-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-4 py-2 rounded-2xl text-xs font-black text-primary font-cairo shadow-sm z-10 border border-primary/10">
-			{tag}
-		</div>
-	</div>
-	
-	<!-- Content -->
-	<div class="p-6 flex flex-col flex-grow space-y-4">
-		<div class="flex items-center justify-between">
-			<div class="flex items-center gap-1">
-				<span class="text-yellow-400 text-lg">★</span>
-				<span class="text-sm font-black text-muted-foreground">{rating}</span>
-			</div>
-			<span class="text-xs font-bold text-muted-foreground bg-muted px-3 py-1 rounded-full">جلسات تفاعلية</span>
-		</div>
-		
-		<a href={`/courses/${id}`} class="block flex-grow">
-			<h3 class="font-cairo font-black text-xl lg:text-2xl leading-tight group-hover:text-primary transition-colors line-clamp-2">
+	<!-- Header Info -->
+	<div class="flex items-start justify-between mb-8">
+		<div class="space-y-2">
+			<span class="px-4 py-1 bg-primary/10 text-primary text-xs font-black rounded-full font-cairo">
+				{tag}
+			</span>
+			<h3 class="font-cairo font-black text-3xl lg:text-4xl text-foreground group-hover:text-primary transition-colors leading-tight">
 				{title}
 			</h3>
+			<div class="flex items-center gap-2 text-muted-foreground font-bold text-sm">
+				<span>بواسطة {instructor}</span>
+				<span>•</span>
+				<div class="flex items-center gap-1">
+					<span class="text-yellow-400">★</span>
+					<span>{rating}</span>
+				</div>
+			</div>
+		</div>
+		<div class="w-20 h-20 rounded-[2rem] overflow-hidden border-2 border-primary/10 shadow-lg">
+			<img src={image} alt={title} class="w-full h-full object-cover" />
+		</div>
+	</div>
+
+	<!-- Packages Comparison -->
+	<div class="grid grid-cols-1 gap-4 flex-grow">
+		{packages.map((pkg) => (
+			<div class:list={[
+				"relative p-6 rounded-[2rem] border-2 transition-all group/pkg",
+				pkg.isUrgent 
+					? "bg-secondary/5 border-secondary/20 hover:bg-secondary/10" 
+					: pkg.sessions === 8 
+						? "bg-primary/5 border-primary/20 hover:bg-primary/10" 
+						: "bg-muted/30 border-transparent hover:border-primary/10"
+			]}>
+				{pkg.isUrgent && (
+					<span class="absolute -top-3 right-6 bg-secondary text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg">عاجل اليوم</span>
+				)}
+				{pkg.sessions === 8 && (
+					<span class="absolute -top-3 right-6 bg-primary text-white text-[10px] font-black px-3 py-1 rounded-full shadow-lg">الأكثر توفيراً</span>
+				)}
+				
+				<div class="flex items-center justify-between gap-4">
+					<div class="flex flex-col">
+						<span class="text-lg font-black font-cairo">{pkg.name}</span>
+						<span class="text-xs text-muted-foreground font-bold">{pkg.sessions} حصص تفاعلية (60 دقيقة)</span>
+					</div>
+					<div class="text-left">
+						<div class="text-2xl font-black text-foreground leading-none">{pkg.totalPrice} <span class="text-xs">ر.س</span></div>
+						<div class="text-[10px] text-muted-foreground font-bold mt-1">({pkg.pricePerSession} ر.س / حصة)</div>
+					</div>
+				</div>
+
+				<div class="mt-4">
+					<a 
+						href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحباً، أود الاشتراك في باقة: ' + pkg.name + ' لمادة ' + title)}`} 
+						class:list={[
+							"w-full h-12 flex items-center justify-center rounded-2xl font-black font-cairo text-sm transition-all shadow-md active:scale-95",
+							pkg.isUrgent ? "bg-secondary text-white hover:bg-secondary/90" : "bg-primary text-white hover:bg-primary/90"
+						]}
+						target="_blank"
+					>
+						اشترك في الباقة
+					</a>
+				</div>
+			</div>
+		))}
+	</div>
+
+	<div class="mt-8 pt-6 border-t border-primary/5 text-center">
+		<a href={`/courses/${id}`} class="text-muted-foreground hover:text-primary font-black text-sm font-cairo transition-colors flex items-center justify-center gap-2">
+			تفاصيل إضافية عن المنهج والمدرس
+			<span>←</span>
 		</a>
-		
-		<div class="flex items-center gap-3 py-2 border-y border-primary/5">
-			<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
-			</div>
-			<div class="flex flex-col">
-				<span class="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">المعلم</span>
-				<span class="text-sm font-black text-foreground">{instructor}</span>
-			</div>
-		</div>
-		
-		<div class="flex items-center justify-between pt-4">
-			<div class="flex flex-col">
-				<span class="text-[10px] text-muted-foreground font-bold">تبدأ من</span>
-				<span class="text-2xl font-black text-primary leading-none">{price}</span>
-			</div>
-			<a 
-				href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحباً، أود الاستفسار عن باقة: ' + title)}`} 
-				class="h-12 px-6 rounded-2xl bg-zinc-900 dark:bg-white dark:text-zinc-900 text-white text-sm font-black hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all font-cairo flex items-center justify-center shadow-lg"
-				target="_blank"
-			>
-				اشترك الآن
-			</a>
-		</div>
 	</div>
 </div>
