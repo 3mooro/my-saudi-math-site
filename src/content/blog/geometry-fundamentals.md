@@ -5,7 +5,7 @@ pubDate: "April 15 2026"
 author: "أكاديمية KSA"
 readingTime: "4 دقائق"
 tags: ["الهندسة", "تعلم الرياضيات", "أساسيات الرياضيات"]
-heroImage: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=1020&q=80"
+heroImage: "https://images.unsplash.com/photo-1614332287897-cdc485fa562d?auto=format&fit=crop&q=80&w=1020"
 ---
 
 # أساسيات الهندسة الرياضية: من النقطة إلى الأشكال ثلاثية الأبعاد

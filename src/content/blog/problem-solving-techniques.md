@@ -5,7 +5,7 @@ pubDate: "April 17 2026"
 author: "أكاديمية KSA"
 readingTime: "5 دقائق"
 tags: ["استراتيجيات الحل", "تعلم الرياضيات", "مهارات التفكير"]
-heroImage: "https://images.unsplash.com/photo-1518133910546-b6c2fb7d79e3?w=1020&q=80"
+heroImage: "https://images.unsplash.com/photo-1516110833967-0b5716ca1387?auto=format&fit=crop&q=80&w=1020"
 ---
 
 # استراتيجيات حل المسائل الرياضية: كيف تفكر بذكاء مثل العباقرة؟
