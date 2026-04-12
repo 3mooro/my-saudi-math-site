@@ -1,99 +1,13 @@
 <!doctype html>
-<html lang="en" translate="no">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<meta name="robots" content="noindex" />
-		<meta name="google" content="notranslate" />
-		<title>KSA Academy Admin</title>
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-		<style>
-			body { font-family: 'Cairo', sans-serif !important; background-color: #f1f5f9 !important; margin: 0; padding: 0; }
-			#nc-root [class^="nc-app-header-container"] { background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important; }
-			button[class^="nc-login-page-button"] {
-				background: linear-gradient(135deg, #3b82f6, #8b5cf6) !important;
-				color: white !important;
-				border-radius: 50px !important;
-				padding: 16px 40px !important;
-				font-weight: 900 !important;
-				border: none !important;
-				cursor: pointer;
-			}
-			span[class^="nc-login-page-logo"] { display: none !important; }
-			section[class^="nc-login-page-main-view"]::before {
-				content: "KSA Academy Dashboard";
-				display: block; font-size: 2.5rem; font-weight: 900; color: #1e293b; margin-bottom: 1rem; text-align: center;
-			}
-		</style>
-	</head>
-	<body>
-		<script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
-		<script>
-			// Initialize CMS
-			window.CMS.init({
-				config: {
-					backend: {
-						name: "github",
-						repo: "3mooro/my-saudi-math-site",
-						branch: "main",
-						base_url: window.location.origin,
-						auth_endpoint: "api/auth"
-					},
-					display_name: "أكاديمية KSA",
-					media_folder: "src/assets",
-					public_folder: "../../assets",
-					collections: [
-						{
-							name: "blog",
-							label: "المقالات",
-							folder: "src/content/blog",
-							create: true,
-							fields: [
-								{ label: "العنوان", name: "title", widget: "string" },
-								{ label: "الوصف", name: "description", widget: "text" },
-								{ label: "التاريخ", name: "pubDate", widget: "datetime" },
-								{ label: "صورة الغلاف", name: "heroImage", widget: "image" },
-								{ label: "الكاتب", name: "author", widget: "string", default: "أكاديمية KSA" },
-								{ label: "المحتوى", name: "body", widget: "markdown" }
-							]
-						},
-						{
-							name: "courses",
-							label: "الكورسات",
-							folder: "src/content/courses",
-							extension: "json",
-							format: "json",
-							create: true,
-							fields: [
-								{ label: "اسم المادة", name: "title", widget: "string" },
-								{ label: "المرحلة", name: "level", widget: "select", options: ["primary", "middle", "secondary", "university"] },
-								{ label: "السعر الإجمالي", name: "price", widget: "string" },
-								{ label: "الباقات", name: "packages", widget: "list", fields: [
-									{label: "الاسم", name: "name", widget: "string"},
-									{label: "السعر الإجمالي", name: "totalPrice", widget: "number"}
-								]}
-							]
-						},
-						{
-							name: "settings",
-							label: "الإعدادات",
-							files: [
-								{
-									name: "general",
-									label: "الإعدادات العامة",
-									file: "src/content/settings/general.json",
-									fields: [
-										{ label: "اسم الموقع", name: "siteTitle", widget: "string" },
-										{ label: "رقم الواتساب", name: "whatsappNumber", widget: "string" }
-									]
-								}
-							]
-						}
-					]
-				}
-			});
-		</script>
-	</body>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Content Manager</title>
+  </head>
+  <body>
+    <!-- Include the script that builds the page and powers Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  </body>
 </html>

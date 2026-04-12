@@ -1,0 +1,55 @@
+backend:
+  name: github
+  repo: 3mooro/my-saudi-math-site
+  branch: main
+  base_url: https://ksaacademy.online
+  auth_endpoint: api/auth
+
+site_url: https://ksaacademy.online
+display_name: "أكاديمية KSA"
+
+media_folder: "src/assets"
+public_folder: "../../assets"
+
+collections:
+  - name: "blog"
+    label: "المقالات"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "العنوان", name: "title", widget: "string" }
+      - { label: "الوصف", name: "description", widget: "text" }
+      - { label: "التاريخ", name: "pubDate", widget: "datetime" }
+      - { label: "صورة الغلاف", name: "heroImage", widget: "image" }
+      - { label: "الكاتب", name: "author", widget: "string", default: "أكاديمية KSA" }
+      - { label: "المحتوى", name: "body", widget: "markdown" }
+
+  - name: "courses"
+    label: "الكورسات"
+    folder: "src/content/courses"
+    extension: "json"
+    format: "json"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "اسم المادة", name: "title", widget: "string" }
+      - { label: "المرحلة", name: "level", widget: "select", options: ["primary", "middle", "secondary", "university"] }
+      - { label: "السعر الإجمالي", name: "price", widget: "string" }
+      - { label: "الباقات", name: "packages", widget: "list", fields: [
+          {label: "الاسم", name: "name", widget: "string"},
+          {label: "السعر الإجمالي", name: "totalPrice", widget: "number"}
+        ]}
+
+  - name: "settings"
+    label: "الإعدادات"
+    delete: false
+    editor:
+      preview: false
+    files:
+      - name: "general"
+        label: "الإعدادات العامة"
+        file: "src/content/settings/general.json"
+        fields:
+          - { label: "اسم الموقع", name: "siteTitle", widget: "string" }
+          - { label: "رقم الواتساب", name: "whatsappNumber", widget: "string" }
