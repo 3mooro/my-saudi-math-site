@@ -81,6 +81,12 @@ const pages = defineCollection({
 		aboutDescription: z.string(),
 		valuesTitle: z.string(),
 		values: z.array(z.string()),
+		teachersTitle: z.string().optional(),
+		teachers: z.array(z.object({
+			name: z.string(),
+			role: z.string(),
+			image: z.string()
+		})).optional(),
 		ctaTitle: z.string(),
 		ctaDescription: z.string(),
 	}),

@@ -1,8 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import { Image } from 'astro:assets';
 import { getEntry } from 'astro:content';
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 
 const aboutPage = await getEntry('pages', 'about');
 const { 
@@ -13,6 +11,8 @@ const {
 	aboutDescription, 
 	valuesTitle, 
 	values, 
+	teachersTitle,
+	teachers,
 	ctaTitle, 
 	ctaDescription 
 } = aboutPage.data;
@@ -21,65 +21,103 @@ const {
 <MainLayout title={title}>
 	<section class="py-24">
 		<div class="container mx-auto px-4">
-			<div class="max-w-4xl mx-auto space-y-16">
-				<div class="text-center space-y-4">
-					<h1 class="text-4xl md:text-7xl font-cairo font-bold tracking-tight text-gradient">
+			<div class="max-w-4xl mx-auto space-y-24">
+				
+				<!-- Mission -->
+				<div class="text-center space-y-6">
+					<h1 class="text-4xl md:text-7xl font-cairo font-black tracking-tight text-gradient">
 						{missionTitle}
 					</h1>
-					<p class="text-xl text-muted-foreground max-w-2xl mx-auto font-cairo">
+					<p class="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto font-bold leading-relaxed">
 						{missionDescription}
 					</p>
 				</div>
 				
-				<div class="overflow-hidden rounded-[2.5rem] shadow-2xl relative aspect-[21/9]">
+				<!-- Hero Image -->
+				<div class="overflow-hidden rounded-[3rem] shadow-2xl relative aspect-[21/9] border-8 border-card">
 					<img 
 						src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=1200" 
 						alt="عن أكاديمية KSA" 
 						class="w-full h-full object-cover"
 						loading="lazy"
 					/>
-					<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8 md:p-16">
-						<p class="text-white text-2xl md:text-4xl font-cairo font-bold max-w-2xl leading-tight">
-							نحن نؤمن بأن التعليم عالي الجودة يجب أن يكون متاحاً للجميع، وفي كل مكان.
+					<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-8 md:p-16">
+						<p class="text-white text-2xl md:text-4xl font-cairo font-black max-w-2xl leading-tight">
+							نحن نؤمن بأن التعليم عالي الجودة هو حق لكل طالب طموح.
 						</p>
 					</div>
 				</div>
 
-				<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-					<div class="space-y-6">
-						<h2 class="text-3xl font-cairo font-bold tracking-tight">{aboutTitle}</h2>
-						<div class="prose prose-lg dark:prose-invert font-cairo">
+				<!-- About & Values -->
+				<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+					<div class="space-y-8">
+						<h2 class="text-4xl font-cairo font-black tracking-tight">{aboutTitle}</h2>
+						<div class="prose prose-xl dark:prose-invert font-cairo text-muted-foreground font-bold leading-loose">
 							<p>{aboutDescription}</p>
 						</div>
 					</div>
-					<div class="bg-primary/5 rounded-[2rem] p-8 md:p-12 border border-primary/10">
-						<h3 class="text-2xl font-cairo font-bold mb-6">{valuesTitle}</h3>
-						<ul class="space-y-4">
+					<div class="bg-primary/5 rounded-[3rem] p-8 md:p-12 border-2 border-primary/10 shadow-inner">
+						<h3 class="text-3xl font-cairo font-black mb-8">{valuesTitle}</h3>
+						<ul class="space-y-6">
 							{values.map((value) => (
-								<li class="flex items-center gap-3">
-									<div class="w-6 h-6 rounded-full bg-primary/20 text-primary flex items-center justify-center">
-										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+								<li class="flex items-center gap-4">
+									<div class="w-10 h-10 rounded-2xl bg-primary/20 text-primary flex items-center justify-center shrink-0">
+										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
 									</div>
-									<span class="font-bold font-cairo">{value}</span>
+									<span class="text-lg font-black font-cairo">{value}</span>
 								</li>
 							))}
 						</ul>
 					</div>
 				</div>
 
-				<div class="text-center bg-zinc-950 rounded-[3rem] py-20 px-8 space-y-8 shadow-2xl relative overflow-hidden">
+				<!-- Teachers Section -->
+				{teachers && (
+					<div class="space-y-12">
+						<div class="text-center">
+							<h2 class="text-4xl font-cairo font-black tracking-tight">{teachersTitle}</h2>
+						</div>
+						<div class="grid grid-cols-1 sm:grid-cols-3 gap-8">
+							{teachers.map(teacher => (
+								<div class="text-center space-y-4 group">
+									<div class="relative inline-block">
+										<div class="absolute -inset-2 bg-gradient-to-tr from-primary to-secondary rounded-full blur opacity-20 group-hover:opacity-100 transition duration-500"></div>
+										<img src={teacher.image} alt={teacher.name} class="relative w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-card shadow-xl object-cover transition-transform duration-500 group-hover:scale-105" />
+									</div>
+									<div>
+										<h4 class="text-xl font-black font-cairo">{teacher.name}</h4>
+										<p class="text-primary font-bold text-sm">{teacher.role}</p>
+									</div>
+								</div>
+							))}
+						</div>
+					</div>
+				)}
+
+				<!-- CTA -->
+				<div class="text-center bg-zinc-950 rounded-[4rem] py-20 px-8 space-y-10 shadow-2xl relative overflow-hidden reveal border-8 border-white/5">
 					<div class="absolute -right-20 -top-20 h-64 w-64 rounded-full bg-primary/20 blur-[100px]"></div>
-					<h2 class="text-3xl md:text-5xl font-cairo font-bold text-white relative z-10">{ctaTitle}</h2>
-					<p class="text-xl text-zinc-400 max-w-2xl mx-auto relative z-10">{ctaDescription}</p>
-					<div class="relative z-10">
+					<div class="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-secondary/20 blur-[100px]"></div>
+					
+					<h2 class="text-4xl md:text-6xl font-cairo font-black text-white relative z-10 leading-tight">{ctaTitle}</h2>
+					<p class="text-xl md:text-2xl text-zinc-400 max-w-2xl mx-auto relative z-10 font-bold">{ctaDescription}</p>
+					
+					<div class="relative z-10 flex flex-wrap justify-center gap-6">
 						<a 
 							href="/blog" 
-							class="h-16 inline-flex items-center justify-center rounded-full bg-white px-10 text-lg font-bold text-zinc-950 transition-all hover:scale-105 shadow-xl font-cairo"
+							class="h-16 px-12 inline-flex items-center justify-center rounded-full bg-white text-zinc-950 text-xl font-black transition-all hover:scale-105 shadow-xl"
 						>
-							استكشف الكورسات
+							تصفح الكورسات
+						</a>
+						<a 
+							href="/contact" 
+							class="h-16 px-12 inline-flex items-center justify-center rounded-full border-2 border-white/20 text-white text-xl font-black transition-all hover:bg-white/10"
+						>
+							اتصل بنا
 						</a>
 					</div>
 				</div>
+
 			</div>
 		</div>
 	</section>

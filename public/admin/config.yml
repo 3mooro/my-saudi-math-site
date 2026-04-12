@@ -52,6 +52,16 @@ collections:
           - { label: "جامعي", value: "university" }
           - { label: "أخرى", value: "other" }
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
+      - label: "الباقات"
+        name: "packages"
+        widget: "list"
+        fields:
+          - { label: "اسم الباقة", name: "name", widget: "string" }
+          - { label: "عدد الحصص", name: "sessions", widget: "number" }
+          - { label: "سعر الحصة الواحدة", name: "pricePerSession", widget: "number" }
+          - { label: "السعر الإجمالي", name: "totalPrice", widget: "number" }
+          - { label: "المميزات", name: "features", widget: "list" }
+          - { label: "هل هي باقة طارئة؟", name: "isUrgent", widget: "boolean", default: false }
       - { label: "تفاصيل الكورس (المنهج والمميزات)", name: "body", widget: "markdown" }
 
   - name: "faq"
@@ -91,6 +101,14 @@ collections:
           - { label: "وصف عن الأكاديمية", name: "aboutDescription", widget: "text" }
           - { label: "عنوان القيم", name: "valuesTitle", widget: "string" }
           - { label: "القيم", name: "values", widget: "list" }
+          - { label: "عنوان قسم المعلمين", name: "teachersTitle", widget: "string", required: false }
+          - label: "المعلمون"
+            name: "teachers"
+            widget: "list"
+            fields:
+              - { label: "اسم المعلم", name: "name", widget: "string" }
+              - { label: "التخصص", name: "role", widget: "string" }
+              - { label: "رابط الصورة الشخصية", name: "image", widget: "string" }
           - { label: "عنوان الدعوة للعمل (CTA)", name: "ctaTitle", widget: "string" }
           - { label: "وصف الدعوة للعمل (CTA)", name: "ctaDescription", widget: "text" }
 
