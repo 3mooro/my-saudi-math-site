@@ -1,6 +1,12 @@
 backend:
   name: git-gateway
   branch: main
+  commit_messages:
+    create: 'feat: create {{collection}} "{{slug}}"'
+    update: 'fix: update {{collection}} "{{slug}}"'
+    delete: 'chore: delete {{collection}} "{{slug}}"'
+    uploadMedia: 'chore: upload "{{path}}"'
+    moveMedia: 'chore: move "{{path}}"'
 
 site_url: https://ksaacademy.online
 display_name: "أكاديمية KSA"
