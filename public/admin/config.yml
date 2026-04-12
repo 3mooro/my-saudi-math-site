@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: 3mooro/my-saudi-math-site
   branch: main
+  base_url: https://decap-cms-oauth-proxy.vercel.app # وسيط تسجيل الدخول
+  auth_endpoint: api/auth
 
 site_url: https://ksaacademy.online
 display_name: "أكاديمية KSA"
