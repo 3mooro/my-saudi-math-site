@@ -1,0 +1,14 @@
+{
+  "title": "القدرات والتحصيلي",
+  "instructor": "نخبة من المعلمين",
+  "rating": 5.0,
+  "image": "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&q=80&w=1020",
+  "tag": "اختبارات",
+  "level": "secondary",
+  "order": 22,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 35, "totalPrice": 280, "features": ["تأسيس وتدريب", "أحدث النماذج", "استراتيجيات الحل"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 35, "totalPrice": 70, "features": ["تدريب مكثف"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 50, "totalPrice": 50, "isUrgent": true, "features": ["مراجعة ليلة الاختبار"]}
+  ]
+}

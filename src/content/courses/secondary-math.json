@@ -1,0 +1,14 @@
+{
+  "title": "رياضيات (ثانوي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 5.0,
+  "image": "https://images.unsplash.com/photo-1596496050827-8299e0220de1?auto=format&fit=crop&q=80&w=1020",
+  "tag": "رياضيات",
+  "level": "secondary",
+  "order": 20,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 35, "totalPrice": 280, "features": ["تفاضل وتكامل", "جبر هندسي", "تحضير للاختبار"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 35, "totalPrice": 70, "features": ["شرح مفاهيم معقدة"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 50, "totalPrice": 50, "isUrgent": true, "features": ["مراجعة نهائية"]}
+  ]
+}

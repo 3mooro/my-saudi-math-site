@@ -1,0 +1,14 @@
+{
+  "title": "رياضيات (متوسط)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.9,
+  "image": "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=1020",
+  "tag": "رياضيات",
+  "level": "middle",
+  "order": 10,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 30, "totalPrice": 240, "features": ["شرح المنهج", "حل مسائل", "استعداد للاختبار"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 30, "totalPrice": 60, "features": ["شرح دروس محددة"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 40, "totalPrice": 40, "isUrgent": true, "features": ["مراجعة ليلة الاختبار"]}
+  ]
+}

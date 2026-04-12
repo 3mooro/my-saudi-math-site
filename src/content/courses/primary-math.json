@@ -1,0 +1,14 @@
+{
+  "title": "رياضيات (ابتدائي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.9,
+  "image": "https://images.unsplash.com/photo-1509228468518-180dd4864904?auto=format&fit=crop&q=80&w=1020",
+  "tag": "رياضيات",
+  "level": "primary",
+  "order": 1,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 25, "totalPrice": 200, "features": ["تأسيس قوي", "حل واجبات", "متابعة دورية"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 25, "totalPrice": 50, "features": ["شرح مفاهيم", "مراجعة سريعة"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 35, "totalPrice": 35, "isUrgent": true, "features": ["حجز لليوم", "حل عاجل"]}
+  ]
+}

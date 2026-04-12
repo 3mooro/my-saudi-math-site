@@ -1,0 +1,14 @@
+{
+  "title": "لغتي (ابتدائي)",
+  "instructor": "نخبة من المعلمين",
+  "rating": 4.8,
+  "image": "https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&q=80&w=1020",
+  "tag": "لغة عربية",
+  "level": "primary",
+  "order": 2,
+  "packages": [
+    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 25, "totalPrice": 200, "features": ["تأسيس لغوي", "قراءة وإملاء"]},
+    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 25, "totalPrice": 50, "features": ["مراجعة لغوية"]},
+    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 35, "totalPrice": 35, "isUrgent": true, "features": ["مساعدة عاجلة"]}
+  ]
+}
