@@ -41,7 +41,16 @@ collections:
       - { label: "التقييم", name: "rating", widget: "number", value_type: "float", min: 0, max: 5, step: 0.1 }
       - { label: "السعر (مثلاً: 199 ر.س)", name: "price", widget: "string" }
       - { label: "رابط الصورة", name: "image", widget: "string" }
-      - { label: "التصنيف", name: "tag", widget: "string" }
+      - { label: "التصنيف (مثلاً: رياضيات)", name: "tag", widget: "string" }
+      - label: "المرحلة التعليمية"
+        name: "level"
+        widget: "select"
+        options:
+          - { label: "ابتدائي", value: "primary" }
+          - { label: "متوسط", value: "middle" }
+          - { label: "ثانوي", value: "secondary" }
+          - { label: "جامعي", value: "university" }
+          - { label: "أخرى", value: "other" }
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
       - { label: "تفاصيل الكورس (المنهج والمميزات)", name: "body", widget: "markdown" }
 

@@ -38,6 +38,7 @@ const courses = defineCollection({
 		price: z.string(),
 		image: z.string(),
 		tag: z.string(),
+		level: z.enum(['primary', 'middle', 'secondary', 'university', 'other']).default('secondary'),
 		order: z.number().default(0),
 		description: z.string().optional(),
 	}),

@@ -3,26 +3,107 @@ import { getCollection } from 'astro:content';
 import CourseCard from './CourseCard.astro';
 
 const allCourses = await getCollection('courses');
-const courses = allCourses
-	.sort((a, b) => a.data.order - b.order);
+const courses = allCourses.sort((a, b) => a.data.order - b.data.order);
+
+const levels = [
+	{ id: 'all', label: 'الكل' },
+	{ id: 'primary', label: 'ابتدائي' },
+	{ id: 'middle', label: 'متوسط' },
+	{ id: 'secondary', label: 'ثانوي' },
+	{ id: 'university', label: 'جامعي' }
+];
 ---
-<section class="py-24" id="courses">
+<section class="py-24 bg-background" id="courses">
 	<div class="container mx-auto px-4">
-		<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-			<div class="space-y-4 max-w-xl">
-				<h2 class="text-3xl md:text-5xl font-cairo font-bold tracking-tight">استكشف الكورسات الأكثر شهرة</h2>
-				<p class="text-lg text-muted-foreground font-cairo">اختر من بين مجموعة واسعة من الكورسات المقدمة من خبراء عالميين. ابدأ رحلتك التعليمية اليوم.</p>
-			</div>
-			<a href="/blog" class="text-primary font-bold hover:underline flex items-center gap-2 font-cairo text-lg">
-				عرض كل الكورسات والمقالات
-				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-			</a>
+		
+		<!-- Header -->
+		<div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+			<h2 class="text-3xl md:text-6xl font-cairo font-black tracking-tight leading-tight">باقاتنا التعليمية</h2>
+			<p class="text-xl text-muted-foreground font-bold">اختر المرحلة الدراسية واستكشف الباقات المتاحة مع نخبة من المعلمين.</p>
+		</div>
+
+		<!-- Level Tabs -->
+		<div class="flex flex-wrap justify-center gap-2 mb-16" id="level-tabs">
+			{levels.map((level) => (
+				<button 
+					data-level={level.id}
+					class:list={[
+						"px-8 py-4 rounded-2xl font-cairo font-black text-lg transition-all duration-300 border-2",
+						level.id === 'all' 
+							? "bg-primary border-primary text-white shadow-xl shadow-primary/20 active-tab" 
+							: "bg-card border-primary/5 text-muted-foreground hover:border-primary/20"
+					]}
+				>
+					{level.label}
+				</button>
+			))}
 		</div>
 		
-		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+		<!-- Courses Grid -->
+		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="courses-container">
 			{courses.map((course) => (
-				<CourseCard id={course.id} {...course.data} />
+				<div class="course-item" data-level={course.data.level}>
+					<CourseCard id={course.id} {...course.data} />
+				</div>
 			))}
+		</div>
+
+		<!-- No Results (Hidden by default) -->
+		<div id="no-courses" class="hidden py-24 text-center space-y-6">
+			<div class="text-6xl">📚</div>
+			<h3 class="text-2xl md:text-4xl font-black font-cairo">قريباً.. باقات هذه المرحلة</h3>
+			<p class="text-muted-foreground font-bold">نعمل حالياً على تجهيز أفضل المحتويات التعليمية لهذه المرحلة.</p>
+		</div>
+
+		<div class="mt-16 text-center">
+			<a href="/blog" class="inline-flex items-center gap-2 text-primary font-black hover:underline font-cairo text-xl group">
+				عرض كل المقالات التعليمية
+				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:-translate-x-2 rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+			</a>
 		</div>
 	</div>
 </section>
+
+<script>
+	const tabs = document.querySelectorAll('#level-tabs button');
+	const items = document.querySelectorAll('.course-item');
+	const container = document.getElementById('courses-container');
+	const noCourses = document.getElementById('no-courses');
+
+	tabs.forEach(tab => {
+		tab.addEventListener('click', () => {
+			const level = (tab as HTMLElement).dataset.level;
+
+			// Update active tab style
+			tabs.forEach(t => {
+				t.classList.remove('bg-primary', 'border-primary', 'text-white', 'shadow-xl', 'shadow-primary/20', 'active-tab');
+				t.classList.add('bg-card', 'border-primary/5', 'text-muted-foreground');
+			});
+			tab.classList.add('bg-primary', 'border-primary', 'text-white', 'shadow-xl', 'shadow-primary/20', 'active-tab');
+			tab.classList.remove('bg-card', 'border-primary/5', 'text-muted-foreground');
+
+			// Filter items
+			let hasVisible = false;
+			items.forEach(item => {
+				const itemLevel = (item as HTMLElement).dataset.level;
+				if (level === 'all' || itemLevel === level) {
+					(item as HTMLElement).style.display = 'block';
+					hasVisible = true;
+				} else {
+					(item as HTMLElement).style.display = 'none';
+				}
+			});
+
+			// Show/Hide no results message
+			if (hasVisible) {
+				container?.classList.remove('hidden');
+				container?.classList.add('grid');
+				noCourses?.classList.add('hidden');
+			} else {
+				container?.classList.add('hidden');
+				container?.classList.remove('grid');
+				noCourses?.classList.remove('hidden');
+			}
+		});
+	});
+</script>

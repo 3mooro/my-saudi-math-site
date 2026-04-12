@@ -1,4 +1,6 @@
 ---
+import { WHATSAPP_NUMBER } from '../consts';
+
 interface Props {
 	title: string;
 	instructor: string;
@@ -11,57 +13,63 @@ interface Props {
 
 const { title, instructor, rating, price, image, tag, id } = Astro.props;
 ---
-<div class="group relative rounded-2xl border bg-card p-4 transition-all hover:shadow-2xl hover:-translate-y-2">
-	<a href={`/courses/${id}`} class="block">
-		<div class="aspect-video w-full overflow-hidden rounded-xl bg-muted mb-4 relative">
-			<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4 z-10">
-				<span class="text-white font-bold text-sm font-cairo text-right w-full">تفاصيل الكورس ←</span>
-			</div>
+<div class="group relative rounded-[2.5rem] bg-card border border-primary/5 hover:border-primary/20 p-2 transition-all duration-500 hover:shadow-[0_20px_50px_rgba(59,130,246,0.1)] flex flex-col h-full reveal">
+	
+	<!-- Top Badge & Image -->
+	<div class="relative aspect-[4/3] overflow-hidden rounded-[2rem]">
+		<a href={`/courses/${id}`}>
 			<img 
 				src={image} 
 				alt={title} 
-				class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+				class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
 				loading="lazy"
 			/>
-			<span class="absolute top-3 right-3 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-primary font-cairo z-10">
-				{tag}
-			</span>
+			<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center p-8">
+				<span class="text-white font-black text-lg font-cairo">استعرض الباقة ←</span>
+			</div>
+		</a>
+		<div class="absolute top-4 right-4 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-4 py-2 rounded-2xl text-xs font-black text-primary font-cairo shadow-sm z-10 border border-primary/10">
+			{tag}
 		</div>
-	</a>
+	</div>
 	
-	<div class="space-y-3">
-		<div class="flex items-center gap-1">
-			{Array.from({ length: 5 }).map((_, i) => (
-				<svg 
-					xmlns="http://www.w3.org/2000/svg" 
-					width="14" height="14" 
-					viewBox="0 0 24 24" 
-					fill={i < Math.floor(rating) ? "currentColor" : "none"} 
-					stroke="currentColor" 
-					stroke-width="2" 
-					class={i < Math.floor(rating) ? "text-yellow-400" : "text-muted-foreground"}
-				>
-					<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-				</svg>
-			))}
-			<span class="text-xs text-muted-foreground font-bold mr-1">({rating})</span>
+	<!-- Content -->
+	<div class="p-6 flex flex-col flex-grow space-y-4">
+		<div class="flex items-center justify-between">
+			<div class="flex items-center gap-1">
+				<span class="text-yellow-400 text-lg">★</span>
+				<span class="text-sm font-black text-muted-foreground">{rating}</span>
+			</div>
+			<span class="text-xs font-bold text-muted-foreground bg-muted px-3 py-1 rounded-full">جلسات تفاعلية</span>
 		</div>
 		
-		<a href={`/courses/${id}`} class="block group/title">
-			<h3 class="font-cairo font-bold text-lg leading-snug line-clamp-2 group-hover/title:text-primary transition-colors">
+		<a href={`/courses/${id}`} class="block flex-grow">
+			<h3 class="font-cairo font-black text-xl lg:text-2xl leading-tight group-hover:text-primary transition-colors line-clamp-2">
 				{title}
 			</h3>
 		</a>
 		
-		<p class="text-sm text-muted-foreground italic">بواسطة {instructor}</p>
+		<div class="flex items-center gap-3 py-2 border-y border-primary/5">
+			<div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+			</div>
+			<div class="flex flex-col">
+				<span class="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">المعلم</span>
+				<span class="text-sm font-black text-foreground">{instructor}</span>
+			</div>
+		</div>
 		
-		<div class="flex items-center justify-between pt-2">
-			<span class="text-xl font-bold text-foreground">{price}</span>
+		<div class="flex items-center justify-between pt-4">
+			<div class="flex flex-col">
+				<span class="text-[10px] text-muted-foreground font-bold">تبدأ من</span>
+				<span class="text-2xl font-black text-primary leading-none">{price}</span>
+			</div>
 			<a 
-				href={`/courses/${id}`} 
-				class="h-9 px-4 rounded-full bg-primary/10 text-primary text-sm font-bold hover:bg-primary hover:text-white transition-colors font-cairo flex items-center justify-center"
+				href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحباً، أود الاستفسار عن باقة: ' + title)}`} 
+				class="h-12 px-6 rounded-2xl bg-zinc-900 dark:bg-white dark:text-zinc-900 text-white text-sm font-black hover:bg-primary dark:hover:bg-primary dark:hover:text-white transition-all font-cairo flex items-center justify-center shadow-lg"
+				target="_blank"
 			>
-				تفاصيل الكورس
+				اشترك الآن
 			</a>
 		</div>
 	</div>
