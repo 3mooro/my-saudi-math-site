@@ -13,12 +13,8 @@ export async function getStaticPaths() {
 }
 
 const course = Astro.props;
-const { title, instructor, rating, image, tag, packages = [] } = course.data;
+const { title, instructor, rating, image, tag, packages = [], syllabus = [] } = course.data;
 const { Content } = await render(course);
-
-// Find the best value package (usually 8 sessions)
-const bestValue = packages.find(p => p.sessions === 8);
-const urgentPkg = packages.find(p => p.isUrgent);
 ---
 
 <MainLayout title={`${title} | أكاديمية KSA`} description={`اشترك الآن في باقات ${title} مع ${instructor}. أفضل شرح للمناهج السعودية أون لاين.`}>
@@ -53,13 +49,48 @@ const urgentPkg = packages.find(p => p.isUrgent);
 						<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
 					</div>
 
+					<!-- Syllabus Section -->
+					{syllabus.length > 0 && (
+						<div class="space-y-8 reveal">
+							<h2 class="text-3xl md:text-4xl font-black font-cairo">خطة المنهج الدراسي</h2>
+							<div class="space-y-4">
+								{syllabus.map((unit, index) => (
+									<div class="group border-2 border-primary/5 rounded-[2rem] bg-card overflow-hidden transition-all hover:border-primary/20">
+										<details class="w-full" open={index === 0}>
+											<summary class="flex items-center justify-between p-6 md:p-8 cursor-pointer list-none">
+												<div class="flex items-center gap-4">
+													<div class="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center font-black text-xl shadow-lg shadow-primary/20">
+														{index + 1}
+													</div>
+													<h3 class="text-xl md:text-2xl font-black font-cairo">{unit.unit}</h3>
+												</div>
+												<span class="text-primary transition-transform group-open:rotate-180">
+													<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+												</span>
+											</summary>
+											<div class="px-8 pb-8 md:px-12 md:pb-10 border-t border-primary/5 pt-6">
+												<ul class="space-y-4">
+													{unit.lessons.map(lesson => (
+														<li class="flex items-center gap-4 text-muted-foreground font-bold text-lg">
+															<div class="w-2 h-2 rounded-full bg-primary/40"></div>
+															{lesson}
+														</li>
+													))}
+												</ul>
+											</div>
+										</details>
+									</div>
+								))}
+							</div>
+						</div>
+					)}
+
 					<div class="space-y-8">
-						<h2 class="text-3xl md:text-4xl font-black font-cairo">تفاصيل الدراسة والمنهج</h2>
+						<h2 class="text-3xl md:text-4xl font-black font-cairo">تفاصيل الدراسة والمميزات</h2>
 						<div class="prose prose-xl dark:prose-invert max-w-none font-cairo leading-loose text-justify text-muted-foreground font-bold">
 							<Content />
-							{/* If no content provided, show default features */}
 							{!course.body && (
-								<p>تشمل هذه الباقة تغطية شاملة للمنهج السعودي، مع التركيز على حل التمارين والواجبات المنزلية، والتحضير المكثف للاختبارات الدورية والنهائية.</p>
+								<p>نقدم لك شرحاً وافياً للمنهج مع التركيز على المهارات الأساسية وتطبيقاتها العملية، مع توفير مراجعات دورية لضمان تثبيت المعلومة.</p>
 							)}
 						</div>
 					</div>
@@ -157,3 +188,9 @@ const urgentPkg = packages.find(p => p.isUrgent);
 		</div>
 	</section>
 </MainLayout>
+
+<style>
+	summary::-webkit-details-marker {
+		display: none;
+	}
+</style>
