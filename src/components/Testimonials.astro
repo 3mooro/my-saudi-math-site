@@ -9,25 +9,32 @@ const testimonials = allTestimonials
 <section class="py-24 bg-muted/20">
 	<div class="container mx-auto px-4">
 		<div class="text-center max-w-2xl mx-auto mb-16">
-			<h2 class="text-3xl md:text-5xl font-cairo font-bold tracking-tight mb-4">آراء طلابنا</h2>
-			<p class="text-lg text-muted-foreground">انضم إلى آلاف الطلاب الذين وثقوا بأكاديمية KSA وحققوا أهدافهم الأكاديمية.</p>
+			<h2 class="text-3xl md:text-5xl font-cairo font-black tracking-tight mb-4 text-gradient">ماذا يقولون عنا؟</h2>
+			<p class="text-xl text-muted-foreground font-bold italic">نفتخر بثقة أكثر من 10,000 طالب وولي أمر</p>
 		</div>
 		
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 			{testimonials.map((t) => (
-				<div class="p-8 rounded-2xl bg-card border shadow-sm transition-all hover:shadow-lg hover:border-primary/20 group">
-					<div class="flex items-center gap-4 mb-6">
-						<img src={t.avatar} alt={t.name} class="w-12 h-12 rounded-full ring-2 ring-primary/20 group-hover:ring-primary/40 transition-all" loading="lazy" />
-						<div>
-							<h4 class="font-bold font-cairo text-foreground">{t.name}</h4>
-							<p class="text-xs text-muted-foreground tracking-wider font-bold">{t.role}</p>
-						</div>
+				<div class="p-10 rounded-[2.5rem] bg-card border border-primary/5 shadow-sm transition-all hover:shadow-2xl hover:border-primary/20 group reveal flex flex-col h-full">
+					<!-- Quote Icon -->
+					<div class="text-primary/20 mb-6 group-hover:text-primary/40 transition-colors">
+						<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H16.017C15.4647 8 15.017 8.44772 15.017 9V12C15.017 12.5523 14.5693 13 14.017 13H13.017V5H21.017V15C21.017 17.2091 19.2261 19 17.017 19H14.017V21ZM3.017 21L3.017 18C3.017 16.8954 3.91243 16 5.017 16H8.017C8.56928 16 9.017 15.5523 9.017 15V9C9.017 8.44772 8.56928 8 8.017 8H5.017C4.46472 8 4.017 8.44772 4.017 9V12C4.017 12.5523 3.56928 13 3.017 13H2.017V5H10.017V15C10.017 17.2091 8.22612 19 6.017 19H3.017V21Z"></path></svg>
 					</div>
-					<p class="text-muted-foreground italic leading-relaxed text-justify">"{t.feedback}"</p>
-					<div class="mt-6 flex gap-1 justify-end">
-						{Array.from({ length: 5 }).map(() => (
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="text-yellow-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
-						))}
+
+					<p class="text-xl text-muted-foreground italic leading-relaxed text-justify mb-8 flex-grow font-bold">
+						"{t.feedback}"
+					</p>
+
+					<div class="pt-6 border-t border-primary/5 flex items-center justify-between">
+						<div>
+							<h4 class="font-black font-cairo text-lg text-foreground leading-none mb-1">{t.name}</h4>
+							<p class="text-xs text-muted-foreground font-bold">{t.role}</p>
+						</div>
+						<div class="flex gap-1">
+							{Array.from({ length: 5 }).map(() => (
+								<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="text-yellow-400"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+							))}
+						</div>
 					</div>
 				</div>
 			))}
