@@ -19,46 +19,61 @@ const levels = [
 		<!-- Header -->
 		<div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
 			<h2 class="text-3xl md:text-6xl font-cairo font-black tracking-tight leading-tight">باقاتنا التعليمية</h2>
-			<p class="text-xl text-muted-foreground font-bold">اختر المرحلة الدراسية واستكشف الباقات المتاحة مع نخبة من المعلمين.</p>
+			<p class="text-xl text-muted-foreground font-bold italic">"اختر المرحلة وابحث عن المادة التي تريد التفوق فيها"</p>
 		</div>
 
-		<!-- Level Tabs -->
-		<div class="flex flex-wrap justify-center gap-2 mb-16" id="level-tabs">
-			{levels.map((level) => (
-				<button 
-					data-level={level.id}
-					class:list={[
-						"px-8 py-4 rounded-2xl font-cairo font-black text-lg transition-all duration-300 border-2",
-						level.id === 'all' 
-							? "bg-primary border-primary text-white shadow-xl shadow-primary/20 active-tab" 
-							: "bg-card border-primary/5 text-muted-foreground hover:border-primary/20"
-					]}
-				>
-					{level.label}
-				</button>
-			))}
+		<!-- Search and Filter Bar -->
+		<div class="max-w-5xl mx-auto mb-16 space-y-8">
+			<!-- Level Tabs -->
+			<div class="flex flex-wrap justify-center gap-3" id="level-tabs">
+				{levels.map((level) => (
+					<button 
+						data-level={level.id}
+						class:list={[
+							"px-8 py-4 rounded-2xl font-cairo font-black text-lg transition-all duration-300 border-2",
+							level.id === 'all' 
+								? "bg-primary border-primary text-white shadow-xl shadow-primary/20 active-tab" 
+								: "bg-card border-primary/5 text-muted-foreground hover:border-primary/20"
+						]}
+					>
+						{level.label}
+					</button>
+				))}
+			</div>
+
+			<!-- Search Input -->
+			<div class="relative max-w-2xl mx-auto group">
+				<input 
+					type="text" 
+					id="courseSearch"
+					placeholder="ابحث عن مادة (مثلاً: رياضيات، لغتي، فيزياء)..." 
+					class="w-full h-16 px-8 pr-14 rounded-2xl bg-card border-2 border-primary/10 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all font-cairo font-bold shadow-lg shadow-primary/5 text-lg"
+				/>
+				<svg class="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+			</div>
 		</div>
 		
 		<!-- Courses Grid -->
 		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="courses-container">
 			{courses.map((course) => (
-				<div class="course-item" data-level={course.data.level}>
+				<div class="course-item reveal" data-level={course.data.level} data-title={course.data.title}>
 					<CourseCard id={course.id} {...course.data} />
 				</div>
 			))}
 		</div>
 
-		<!-- No Results (Hidden by default) -->
+		<!-- No Results -->
 		<div id="no-courses" class="hidden py-24 text-center space-y-6">
-			<div class="text-6xl">📚</div>
-			<h3 class="text-2xl md:text-4xl font-black font-cairo">قريباً.. باقات هذه المرحلة</h3>
-			<p class="text-muted-foreground font-bold">نعمل حالياً على تجهيز أفضل المحتويات التعليمية لهذه المرحلة.</p>
+			<div class="text-6xl animate-bounce">🔍</div>
+			<h3 class="text-2xl md:text-4xl font-black font-cairo text-foreground">لم نجد ما تبحث عنه..</h3>
+			<p class="text-muted-foreground font-bold text-lg">جرب البحث بمصطلحات أخرى أو اختر مرحلة دراسية مختلفة.</p>
+			<button id="reset-search" class="px-10 h-14 rounded-full bg-primary text-white font-black text-lg shadow-xl shadow-primary/20 hover:scale-105 transition-all font-cairo">عرض جميع الباقات</button>
 		</div>
 
-		<div class="mt-16 text-center">
-			<a href="/blog" class="inline-flex items-center gap-2 text-primary font-black hover:underline font-cairo text-xl group">
+		<div class="mt-24 text-center">
+			<a href="/blog" class="inline-flex items-center gap-2 text-primary font-black hover:underline font-cairo text-2xl group">
 				عرض كل المقالات التعليمية
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:-translate-x-2 rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+				<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="transition-transform group-hover:-translate-x-2 rotate-180"><line x1="5" x2="19" y1="12" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 			</a>
 		</div>
 	</div>
@@ -66,44 +81,68 @@ const levels = [
 
 <script>
 	const tabs = document.querySelectorAll('#level-tabs button');
+	const searchInput = document.getElementById('courseSearch') as HTMLInputElement;
 	const items = document.querySelectorAll('.course-item');
 	const container = document.getElementById('courses-container');
 	const noCourses = document.getElementById('no-courses');
+	const resetBtn = document.getElementById('reset-search');
+
+	let currentLevel = 'all';
+	let currentSearch = '';
+
+	const filterCourses = () => {
+		let hasVisible = false;
+		
+		items.forEach(item => {
+			const itemLevel = (item as HTMLElement).dataset.level;
+			const itemTitle = (item as HTMLElement).dataset.title?.toLowerCase() || '';
+			
+			const matchesLevel = currentLevel === 'all' || itemLevel === currentLevel;
+			const matchesSearch = itemTitle.includes(currentSearch.toLowerCase());
+
+			if (matchesLevel && matchesSearch) {
+				(item as HTMLElement).style.display = 'block';
+				hasVisible = true;
+			} else {
+				(item as HTMLElement).style.display = 'none';
+			}
+		});
+
+		if (hasVisible) {
+			container?.classList.remove('hidden');
+			container?.classList.add('grid');
+			noCourses?.classList.add('hidden');
+		} else {
+			container?.classList.add('hidden');
+			container?.classList.remove('grid');
+			noCourses?.classList.remove('hidden');
+		}
+	};
 
 	tabs.forEach(tab => {
 		tab.addEventListener('click', () => {
-			const level = (tab as HTMLElement).dataset.level;
-
-			// Update active tab style
+			currentLevel = (tab as HTMLElement).dataset.level || 'all';
+			
 			tabs.forEach(t => {
 				t.classList.remove('bg-primary', 'border-primary', 'text-white', 'shadow-xl', 'shadow-primary/20', 'active-tab');
 				t.classList.add('bg-card', 'border-primary/5', 'text-muted-foreground');
 			});
 			tab.classList.add('bg-primary', 'border-primary', 'text-white', 'shadow-xl', 'shadow-primary/20', 'active-tab');
 			tab.classList.remove('bg-card', 'border-primary/5', 'text-muted-foreground');
-
-			// Filter items
-			let hasVisible = false;
-			items.forEach(item => {
-				const itemLevel = (item as HTMLElement).dataset.level;
-				if (level === 'all' || itemLevel === level) {
-					(item as HTMLElement).style.display = 'block';
-					hasVisible = true;
-				} else {
-					(item as HTMLElement).style.display = 'none';
-				}
-			});
-
-			// Show/Hide no results message
-			if (hasVisible) {
-				container?.classList.remove('hidden');
-				container?.classList.add('grid');
-				noCourses?.classList.add('hidden');
-			} else {
-				container?.classList.add('hidden');
-				container?.classList.remove('grid');
-				noCourses?.classList.remove('hidden');
-			}
+			
+			filterCourses();
 		});
+	});
+
+	searchInput?.addEventListener('input', (e) => {
+		currentSearch = (e.target as HTMLInputElement).value;
+		filterCourses();
+	});
+
+	resetBtn?.addEventListener('click', () => {
+		currentLevel = 'all';
+		currentSearch = '';
+		searchInput.value = '';
+		tabs[0].dispatchEvent(new Event('click'));
 	});
 </script>
