@@ -52,9 +52,13 @@ const { title, instructor, rating, price, image, tag } = Astro.props;
 		
 		<div class="flex items-center justify-between pt-2">
 			<span class="text-xl font-bold text-foreground">{price}</span>
-			<button class="h-9 px-4 rounded-full bg-primary/10 text-primary text-sm font-bold hover:bg-primary hover:text-white transition-colors font-cairo">
+			<a 
+				href="https://wa.me/201210603349?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C%20%D8%A3%D8%B1%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D8%A7%D9%84%D9%83%D9%88%D8%B1%D8%B3%D8%A7%D8%AA" 
+				class="h-9 px-4 rounded-full bg-primary/10 text-primary text-sm font-bold hover:bg-primary hover:text-white transition-colors font-cairo flex items-center justify-center"
+				target="_blank"
+			>
 				سجل الآن
-			</button>
+			</a>
 		</div>
 	</div>
 </div>
