@@ -85,6 +85,17 @@ collections:
       - { label: "رابط الصورة الشخصية", name: "avatar", widget: "string" }
       - { label: "الترتيب", name: "order", widget: "number", default: 0 }
 
+  - name: "stats"
+    label: "إحصائيات المنصة"
+    folder: "src/content/stats"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "العنوان (مثلاً: طالب نشط)", name: "label", widget: "string" }
+      - { label: "القيمة (مثلاً: +10,000)", name: "value", widget: "string" }
+      - { label: "أيقونة (إيموجي)", name: "icon", widget: "string" }
+      - { label: "الترتيب", name: "order", widget: "number", default: 0 }
+
   - name: "pages"
     label: "الصفحات"
     delete: false

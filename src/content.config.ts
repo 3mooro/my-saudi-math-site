@@ -92,4 +92,14 @@ const pages = defineCollection({
 	}),
 });
 
-export const collections = { blog, settings, courses, faq, testimonials, pages };
+const stats = defineCollection({
+	loader: glob({ base: './src/content/stats', pattern: '**/*.json' }),
+	schema: z.object({
+		label: z.string(),
+		value: z.string(),
+		icon: z.string(),
+		order: z.number().default(0),
+	}),
+});
+
+export const collections = { blog, settings, courses, faq, testimonials, pages, stats };
