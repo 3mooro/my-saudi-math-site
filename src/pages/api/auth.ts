@@ -1,22 +1,9 @@
-export async function onRequest(context) {
-  const { request, env } = context;
-  const url = new URL(request.url);
-  
-  if (request.method === "POST") {
-    const formData = await request.formData();
-    const password = formData.get("password");
+export const prerender = false;
 
-    if (password === "Omar") {
-      const client_id = env.GITHUB_CLIENT_ID || "Ov23liL4Scd5Iih07ZYk";
-      const redirect_uri = `${url.origin}/api/callback`;
-      const githubUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=repo,user&redirect_uri=${encodeURIComponent(redirect_uri)}`;
-      return Response.redirect(githubUrl, 302);
-    } else {
-      return new Response("خطأ: كلمة المرور غير صحيحة!", { status: 403 });
-    }
-  }
+import type { APIRoute } from 'astro';
 
-  // Simple login form
+export const GET: APIRoute = async ({ request, locals }) => {
+  // Simple login form for GET requests
   const html = `
     <!DOCTYPE html>
     <html lang="ar" dir="rtl">
@@ -50,4 +37,21 @@ export async function onRequest(context) {
   return new Response(html, {
     headers: { "content-type": "text/html;charset=UTF-8" },
   });
-}
+};
+
+export const POST: APIRoute = async ({ request, url, locals }) => {
+  const formData = await request.formData();
+  const password = formData.get("password");
+
+  if (password === "Omar") {
+    // Use Cloudflare environment variable if available, fallback for local testing
+    const env = (locals as any)?.runtime?.env || process.env;
+    const client_id = env.GITHUB_CLIENT_ID || "Ov23liL4Scd5Iih07ZYk";
+    const redirect_uri = `${url.origin}/api/callback`;
+    const githubUrl = `https://github.com/login/oauth/authorize?client_id=${client_id}&scope=repo,user&redirect_uri=${encodeURIComponent(redirect_uri)}`;
+    
+    return Response.redirect(githubUrl, 302);
+  } else {
+    return new Response("خطأ: كلمة المرور غير صحيحة!", { status: 403 });
+  }
+};

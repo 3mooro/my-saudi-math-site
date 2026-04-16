@@ -1,6 +1,7 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import cloudflare from '@astrojs/cloudflare';
 
 import tailwindcss from '@tailwindcss/vite';
 
@@ -11,6 +12,9 @@ export default defineConfig({
 
   // تفعيل إضافات المقالات وخريطة الموقع
   integrations: [mdx(), sitemap()],
+
+  output: 'hybrid',
+  adapter: cloudflare(),
 
   // استعادة إعدادات الخطوط التي يبحث عنها القالب
   fonts: [
