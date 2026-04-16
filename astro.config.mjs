@@ -13,7 +13,7 @@ export default defineConfig({
   // تفعيل إضافات المقالات وخريطة الموقع
   integrations: [mdx(), sitemap()],
 
-  output: 'hybrid',
+  output: 'server',
   adapter: cloudflare(),
 
   // استعادة إعدادات الخطوط التي يبحث عنها القالب
