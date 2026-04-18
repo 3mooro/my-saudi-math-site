@@ -1,21 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import { getCollection } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
 import MainLayout from './MainLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
-
 const { title, description, pubDate, updatedDate, heroImage, author, readingTime, tags } = Astro.props;
-
-// Fetch related articles (excluding the current one)
-const allPosts = await getCollection('blog');
-const relatedPosts = allPosts
-	.filter(post => post.data.title !== title)
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-	.slice(0, 3); // Get up to 3 related articles
 ---
 
 <MainLayout 

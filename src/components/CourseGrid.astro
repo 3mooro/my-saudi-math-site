@@ -1,9 +1,32 @@
 ---
-import { getCollection } from 'astro:content';
 import CourseCard from './CourseCard.astro';
+import { env } from 'cloudflare:workers';
 
-const allCourses = await getCollection('courses');
-const courses = allCourses.sort((a, b) => a.data.order - b.data.order);
+let rawCourses = [];
+try {
+	const db = env.DB;
+	const { results } = await db.prepare("SELECT * FROM courses ORDER BY display_order ASC").all();
+	if (results) rawCourses = results;
+} catch (e) {
+	console.error("D1 Fetch Error:", e);
+}
+
+// Transform D1 results to match the expected format for CourseCard
+const courses = rawCourses.map((c: any) => ({
+	id: c.slug,
+	data: {
+		title: c.title,
+		instructor: c.instructor,
+		rating: c.rating,
+		image: c.image,
+		tag: c.tag,
+		level: c.level,
+		order: c.display_order,
+		packages: c.packages ? JSON.parse(c.packages) : [],
+		syllabus: c.syllabus ? JSON.parse(c.syllabus) : [],
+		body: c.body
+	}
+}));
 
 const levels = [
 	{ id: 'all', label: 'الكل' },

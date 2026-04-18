@@ -1,12 +1,27 @@
 ---
-import { getCollection } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
-import { Image } from 'astro:assets';
+import { env } from 'cloudflare:workers';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+let posts = [];
+try {
+	const db = env.DB;
+	const { results } = await db.prepare("SELECT * FROM blog ORDER BY pubDate DESC").all();
+	if (results) {
+		posts = results.map((post: any) => ({
+			id: post.slug,
+			slug: post.slug,
+			data: {
+				title: post.title,
+				description: post.description,
+				pubDate: new Date(post.pubDate),
+				heroImage: post.heroImage,
+			}
+		}));
+	}
+} catch (e) {
+	console.error("D1 Fetch Error:", e);
+}
 ---
 
 <MainLayout title="الكورسات والمقالات | أكاديمية KSA">

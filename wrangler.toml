@@ -1,0 +1,8 @@
+name = "my-math-site"
+compatibility_date = "2024-04-05"
+pages_build_output_dir = "dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "ksa-db"
+database_id = "b2d88435-c1df-4757-9d06-096714a07103"

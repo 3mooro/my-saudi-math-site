@@ -1,22 +1,32 @@
 ---
-export const prerender = true;
-
-import { getCollection, render } from 'astro:content';
 import MainLayout from '../../layouts/MainLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { WHATSAPP_NUMBER } from '../../consts';
+import { env } from 'cloudflare:workers';
+import { marked } from 'marked';
 
-export async function getStaticPaths() {
-	const courses = await getCollection('courses');
-	return courses.map((course) => ({
-		params: { slug: course.id },
-		props: course,
-	}));
+const { slug } = Astro.params;
+const db = env.DB;
+
+let courseRaw;
+try {
+  courseRaw = await db.prepare("SELECT * FROM courses WHERE slug = ?").bind(slug).first();
+} catch (e) {
+  console.error("D1 Fetch Error:", e);
 }
 
-const course = Astro.props;
-const { title, instructor, rating, image, tag, packages = [], syllabus = [] } = course.data;
-const { Content } = await render(course);
+if (!courseRaw) {
+  return Astro.redirect('/404');
+}
+
+const title = courseRaw.title;
+const instructor = courseRaw.instructor;
+const rating = courseRaw.rating;
+const image = courseRaw.image;
+const tag = courseRaw.tag;
+const packages = courseRaw.packages ? JSON.parse(courseRaw.packages) : [];
+const syllabus = courseRaw.syllabus ? JSON.parse(courseRaw.syllabus) : [];
+const contentHtml = marked.parse(courseRaw.body || '');
 ---
 
 <MainLayout title={`${title} | أكاديمية KSA`} description={`اشترك الآن في باقات ${title} مع ${instructor}. أفضل شرح للمناهج السعودية أون لاين.`}>
@@ -56,7 +66,7 @@ const { Content } = await render(course);
 						<div class="space-y-8 reveal">
 							<h2 class="text-3xl md:text-4xl font-black font-cairo">خطة المنهج الدراسي</h2>
 							<div class="space-y-4">
-								{syllabus.map((unit, index) => (
+								{syllabus.map((unit: any, index: number) => (
 									<div class="group border-2 border-primary/5 rounded-[2rem] bg-card overflow-hidden transition-all hover:border-primary/20 shadow-sm">
 										<details class="w-full" open={index === 0}>
 											<summary class="flex items-center justify-between p-6 md:p-8 cursor-pointer list-none">
@@ -72,7 +82,7 @@ const { Content } = await render(course);
 											</summary>
 											<div class="px-8 pb-8 md:px-12 md:pb-10 border-t border-primary/5 pt-6">
 												<ul class="space-y-4">
-													{unit.lessons.map(lesson => (
+													{unit.lessons.map((lesson: string) => (
 														<li class="flex items-center gap-4 text-muted-foreground font-bold text-lg">
 															<div class="w-2 h-2 rounded-full bg-primary/40"></div>
 															{lesson}
@@ -90,7 +100,7 @@ const { Content } = await render(course);
 					<div class="space-y-8">
 						<h2 class="text-3xl md:text-4xl font-black font-cairo">تفاصيل الدراسة والمميزات</h2>
 						<div class="prose prose-xl dark:prose-invert max-w-none font-cairo leading-loose text-justify text-muted-foreground font-bold">
-							<Content />
+							<div set:html={contentHtml} />
 							<p>نقدم لك شرحاً وافياً للمنهج مع التركيز على المهارات الأساسية وتطبيقاتها العملية، مع توفير مراجعات دورية لضمان تثبيت المعلومة.</p>
 						</div>
 					</div>
@@ -120,7 +130,7 @@ const { Content } = await render(course);
 						<h2 class="text-3xl font-black font-cairo text-right">اختر الباقة المناسبة</h2>
 						
 						<div class="space-y-4">
-							{packages.map((pkg) => (
+							{packages.map((pkg: any) => (
 								<div class:list={[
 									"relative p-8 rounded-[2.5rem] border-2 transition-all hover:scale-[1.02] shadow-sm",
 									pkg.isUrgent 
@@ -149,7 +159,7 @@ const { Content } = await render(course);
 										</p>
 
 										<ul class="space-y-3 py-4 border-y border-primary/5">
-											{pkg.features.map(feat => (
+											{pkg.features.map((feat: string) => (
 												<li class="flex items-center gap-3 text-sm font-bold text-foreground/80 justify-end">
 													{feat}
 													<svg class="text-primary shrink-0 rotate-180" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
