@@ -131,6 +131,12 @@
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  /* Don't hide non-reveal elements */
+  .course-item {
+    opacity: 1;
+    transform: none;
+  }
+
   .reveal-visible {
     opacity: 1;
     transform: translateY(0);

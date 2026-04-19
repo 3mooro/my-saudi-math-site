@@ -106,7 +106,7 @@ const {
 			}, observerOptions);
 
 			window.addEventListener('DOMContentLoaded', () => {
-				const revealElements = document.querySelectorAll('section, article, .reveal');
+				const revealElements = document.querySelectorAll('.reveal');
 				revealElements.forEach((el) => {
 					el.classList.add('reveal-hidden');
 					observer.observe(el);
