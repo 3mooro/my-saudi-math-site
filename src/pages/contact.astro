@@ -61,29 +61,20 @@ import { WHATSAPP_NUMBER, TWITTER_LINK, INSTAGRAM_LINK, LINKEDIN_LINK } from '..
 				</div>
 
 				<div class="bg-card border rounded-[3rem] p-8 md:p-12 shadow-2xl">
-					<form class="space-y-6" onsubmit="event.preventDefault(); alert('تم إرسال رسالتك بنجاح! سنتواصل معك قريباً.');">
+					<form method="POST" action="/api/leads" class="space-y-6">
 						<div class="space-y-2">
 							<label class="font-black font-cairo mr-2">الاسم بالكامل</label>
-							<input type="text" placeholder="مثال: أحمد علي" class="w-full h-14 px-6 rounded-2xl bg-muted border-none focus:ring-2 focus:ring-primary font-bold font-cairo" required />
+							<input type="text" name="name" placeholder="مثال: أحمد علي" class="w-full h-14 px-6 rounded-2xl bg-muted border-none focus:ring-2 focus:ring-primary font-bold font-cairo" required />
 						</div>
 						<div class="space-y-2">
-							<label class="font-black font-cairo mr-2">البريد الإلكتروني</label>
-							<input type="email" placeholder="email@example.com" class="w-full h-14 px-6 rounded-2xl bg-muted border-none focus:ring-2 focus:ring-primary font-bold font-cairo" required />
+							<label class="font-black font-cairo mr-2">رقم الجوال</label>
+							<input type="tel" name="phone" placeholder="05xxxxxxxx" class="w-full h-14 px-6 rounded-2xl bg-muted border-none focus:ring-2 focus:ring-primary font-bold font-cairo text-right" dir="ltr" required />
 						</div>
 						<div class="space-y-2">
-							<label class="font-black font-cairo mr-2">الموضوع</label>
-							<select class="w-full h-14 px-6 rounded-2xl bg-muted border-none focus:ring-2 focus:ring-primary font-bold font-cairo">
-								<option>استفسار عن كورس</option>
-								<option>طلب مراجعة خاصة</option>
-								<option>مشكلة تقنية</option>
-								<option>أخرى</option>
-							</select>
+							<label class="font-black font-cairo mr-2">الموضوع أو الكورس</label>
+							<input type="text" name="course" placeholder="استفسار عن كورس القدرات..." class="w-full h-14 px-6 rounded-2xl bg-muted border-none focus:ring-2 focus:ring-primary font-bold font-cairo" required />
 						</div>
-						<div class="space-y-2">
-							<label class="font-black font-cairo mr-2">رسالتك</label>
-							<textarea rows="4" placeholder="كيف يمكننا مساعدتك؟" class="w-full p-6 rounded-2xl bg-muted border-none focus:ring-2 focus:ring-primary font-bold font-cairo" required></textarea>
-						</div>
-						<button type="submit" class="w-full h-16 rounded-full bg-primary text-white font-black text-xl shadow-lg hover:scale-105 transition-all">إرسال الرسالة</button>
+						<button type="submit" class="w-full h-16 rounded-full bg-primary text-white font-black text-xl shadow-lg hover:scale-105 transition-all">إرسال طلب تسجيل</button>
 					</form>
 				</div>
 
