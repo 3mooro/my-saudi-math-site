@@ -29,7 +29,6 @@ const courses = rawCourses.map((c: any) => ({
 }));
 
 const levels = [
-	{ id: 'all', label: 'الكل' },
 	{ id: 'primary', label: 'ابتدائي' },
 	{ id: 'middle', label: 'متوسط' },
 	{ id: 'secondary', label: 'ثانوي' },
@@ -53,10 +52,7 @@ const levels = [
 					<button 
 						data-level={level.id}
 						class:list={[
-							"px-8 py-4 rounded-2xl font-cairo font-black text-lg transition-all duration-300 border-2",
-							level.id === 'all' 
-								? "bg-primary border-primary text-white shadow-xl shadow-primary/20 active-tab" 
-								: "bg-card border-primary/5 text-muted-foreground hover:border-primary/20"
+							"px-8 py-4 rounded-2xl font-cairo font-black text-lg transition-all duration-300 border-2 bg-card border-primary/5 text-muted-foreground hover:border-primary/20"
 						]}
 					>
 						{level.label}
@@ -70,16 +66,23 @@ const levels = [
 					type="text" 
 					id="courseSearch"
 					placeholder="ابحث عن مادة (مثلاً: رياضيات، لغتي، فيزياء)..." 
-					class="w-full h-16 px-8 pr-14 rounded-2xl bg-card border-2 border-primary/10 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all font-cairo font-bold shadow-lg shadow-primary/5 text-lg"
+					class="w-full h-16 px-8 pr-14 rounded-2xl bg-card border-2 border-primary/10 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all font-cairo font-bold shadow-lg shadow-primary/5 text-lg hidden"
 				/>
-				<svg class="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+				<svg id="searchIcon" class="absolute right-5 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
 			</div>
 		</div>
 		
+		<!-- Prompt to select level -->
+		<div id="initial-prompt" class="py-12 text-center space-y-4">
+			<div class="text-5xl animate-bounce">👆</div>
+			<h3 class="text-2xl font-black font-cairo text-foreground">الرجاء اختيار المرحلة الدراسية</h3>
+			<p class="text-muted-foreground font-bold">اختر المرحلة من الأزرار بالأعلى لعرض الباقات المناسبة لك.</p>
+		</div>
+
 		<!-- Courses Grid -->
-		<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="courses-container">
+		<div class="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 hidden" id="courses-container">
 			{courses.map((course) => (
-				<div class="course-item" data-level={course.data.level} data-title={course.data.title}>
+				<div class="course-item hidden" data-level={course.data.level} data-title={course.data.title}>
 					<CourseCard id={course.id} {...course.data} />
 				</div>
 			))}
@@ -105,29 +108,40 @@ const levels = [
 <script>
 	const tabs = document.querySelectorAll('#level-tabs button');
 	const searchInput = document.getElementById('courseSearch') as HTMLInputElement;
+	const searchIcon = document.getElementById('searchIcon');
 	const items = document.querySelectorAll('.course-item');
 	const container = document.getElementById('courses-container');
 	const noCourses = document.getElementById('no-courses');
 	const resetBtn = document.getElementById('reset-search');
+	const initialPrompt = document.getElementById('initial-prompt');
 
-	let currentLevel = 'all';
+	let currentLevel = '';
 	let currentSearch = '';
 
 	const filterCourses = () => {
+		if (currentLevel === '') return; // Do nothing if no level selected yet
+
+		// Hide prompt, show search
+		initialPrompt?.classList.add('hidden');
+		searchInput?.classList.remove('hidden');
+		searchIcon?.classList.remove('hidden');
+
 		let hasVisible = false;
 		
 		items.forEach(item => {
 			const itemLevel = (item as HTMLElement).dataset.level;
 			const itemTitle = (item as HTMLElement).dataset.title?.toLowerCase() || '';
 			
-			const matchesLevel = currentLevel === 'all' || itemLevel === currentLevel;
+			const matchesLevel = itemLevel === currentLevel;
 			const matchesSearch = itemTitle.includes(currentSearch.toLowerCase());
 
 			if (matchesLevel && matchesSearch) {
 				(item as HTMLElement).style.display = 'block';
+				(item as HTMLElement).classList.remove('hidden');
 				hasVisible = true;
 			} else {
 				(item as HTMLElement).style.display = 'none';
+				(item as HTMLElement).classList.add('hidden');
 			}
 		});
 
@@ -144,7 +158,7 @@ const levels = [
 
 	tabs.forEach(tab => {
 		tab.addEventListener('click', () => {
-			currentLevel = (tab as HTMLElement).dataset.level || 'all';
+			currentLevel = (tab as HTMLElement).dataset.level || '';
 			
 			tabs.forEach(t => {
 				t.classList.remove('bg-primary', 'border-primary', 'text-white', 'shadow-xl', 'shadow-primary/20', 'active-tab');
@@ -163,9 +177,8 @@ const levels = [
 	});
 
 	resetBtn?.addEventListener('click', () => {
-		currentLevel = 'all';
 		currentSearch = '';
 		searchInput.value = '';
-		tabs[0].dispatchEvent(new Event('click'));
+		filterCourses();
 	});
 </script>
