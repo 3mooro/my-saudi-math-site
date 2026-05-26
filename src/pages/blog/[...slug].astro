@@ -8,8 +8,11 @@ const { slug } = Astro.params;
 const db = env.DB;
 
 let postRaw;
+let relatedPostsRaw = [];
 try {
   postRaw = await db.prepare("SELECT * FROM blog WHERE slug = ?").bind(slug).first();
+  const relatedRes = await db.prepare("SELECT * FROM blog WHERE slug != ? ORDER BY pubDate DESC LIMIT 3").bind(slug).all();
+  if (relatedRes.results) relatedPostsRaw = relatedRes.results;
 } catch (e) {
   console.error("D1 Fetch Error:", e);
 }
