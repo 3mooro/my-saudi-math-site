@@ -95,6 +95,31 @@ const contentHtml = marked.parse(postRaw.body || '');
 					تصفح باقاتنا التعليمية
 				</a>
 			</div>
+
+			<!-- Related Articles -->
+			{relatedPostsRaw.length > 0 && (
+				<div class="mt-24 reveal">
+					<div class="flex items-center gap-4 mb-10 border-r-4 border-primary pr-4">
+						<h3 class="text-3xl font-black font-cairo text-foreground">مقالات ذات صلة</h3>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+						{relatedPostsRaw.map((post: any) => (
+							<a href={`/blog/${post.slug}`} class="group bg-card rounded-[2rem] overflow-hidden shadow-lg border-2 border-primary/5 hover:border-primary/20 transition-all hover:-translate-y-2 flex flex-col">
+								<div class="aspect-video overflow-hidden">
+									<img src={post.heroImage || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80'} alt={post.title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+								</div>
+								<div class="p-8 flex-1 flex flex-col">
+									<h4 class="font-black font-cairo text-foreground text-xl mb-4 group-hover:text-primary transition-colors line-clamp-2 leading-relaxed">{post.title}</h4>
+									<div class="mt-auto flex items-center text-primary font-bold font-cairo">
+										اقرأ المزيد 
+										<svg class="w-5 h-5 mr-2 rotate-180 transition-transform group-hover:-translate-x-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+									</div>
+								</div>
+							</a>
+						))}
+					</div>
+				</div>
+			)}
 		</div>
 	</article>
 </MainLayout>
