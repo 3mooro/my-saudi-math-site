@@ -7,8 +7,45 @@
   "level": "primary",
   "order": 4,
   "packages": [
-    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 25, "totalPrice": 200, "features": ["تاريخ وجغرافيا", "تبسيط المعلومات"]},
-    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 25, "totalPrice": 50, "features": ["مراجعة"]},
-    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 35, "totalPrice": 35, "isUrgent": true, "features": ["مساعدة عاجلة"]}
+    {
+      "name": "باقة 12 حصة",
+      "sessions": 12,
+      "pricePerSession": 25,
+      "totalPrice": 300,
+      "features": [
+        "تغطية شاملة للمنهج",
+        "متابعة مستمرة",
+        "تأسيس وتدريب مكثف"
+      ]
+    },
+    {
+      "name": "باقة 8 حصص",
+      "sessions": 8,
+      "pricePerSession": 25,
+      "totalPrice": 200,
+      "features": [
+        "تاريخ وجغرافيا",
+        "تبسيط المعلومات"
+      ]
+    },
+    {
+      "name": "باقة حصتين",
+      "sessions": 2,
+      "pricePerSession": 25,
+      "totalPrice": 50,
+      "features": [
+        "مراجعة"
+      ]
+    },
+    {
+      "name": "حصة طارئة",
+      "sessions": 1,
+      "pricePerSession": 35,
+      "totalPrice": 35,
+      "isUrgent": true,
+      "features": [
+        "مساعدة عاجلة"
+      ]
+    }
   ]
 }

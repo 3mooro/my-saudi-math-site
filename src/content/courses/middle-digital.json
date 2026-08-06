@@ -7,8 +7,45 @@
   "level": "middle",
   "order": 16,
   "packages": [
-    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 30, "totalPrice": 240, "features": ["برمجة وحاسب", "مهارات عملية"]},
-    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 30, "totalPrice": 60, "features": ["حل مشروع"]},
-    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 40, "totalPrice": 40, "isUrgent": true, "features": ["حل مشكلة تقنية"]}
+    {
+      "name": "باقة 12 حصة",
+      "sessions": 12,
+      "pricePerSession": 30,
+      "totalPrice": 360,
+      "features": [
+        "تغطية شاملة للمنهج",
+        "متابعة مستمرة",
+        "تأسيس وتدريب مكثف"
+      ]
+    },
+    {
+      "name": "باقة 8 حصص",
+      "sessions": 8,
+      "pricePerSession": 30,
+      "totalPrice": 240,
+      "features": [
+        "برمجة وحاسب",
+        "مهارات عملية"
+      ]
+    },
+    {
+      "name": "باقة حصتين",
+      "sessions": 2,
+      "pricePerSession": 30,
+      "totalPrice": 60,
+      "features": [
+        "حل مشروع"
+      ]
+    },
+    {
+      "name": "حصة طارئة",
+      "sessions": 1,
+      "pricePerSession": 40,
+      "totalPrice": 40,
+      "isUrgent": true,
+      "features": [
+        "حل مشكلة تقنية"
+      ]
+    }
   ]
 }

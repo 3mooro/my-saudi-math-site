@@ -7,8 +7,45 @@
   "level": "middle",
   "order": 15,
   "packages": [
-    {"name": "باقة 8 حصص", "sessions": 8, "pricePerSession": 30, "totalPrice": 240, "features": ["تاريخ المملكة", "جغرافيا العالم"]},
-    {"name": "باقة حصتين", "sessions": 2, "pricePerSession": 30, "totalPrice": 60, "features": ["مراجعة"]},
-    {"name": "حصة طارئة", "sessions": 1, "pricePerSession": 40, "totalPrice": 40, "isUrgent": true, "features": ["مساعدة عاجلة"]}
+    {
+      "name": "باقة 12 حصة",
+      "sessions": 12,
+      "pricePerSession": 30,
+      "totalPrice": 360,
+      "features": [
+        "تغطية شاملة للمنهج",
+        "متابعة مستمرة",
+        "تأسيس وتدريب مكثف"
+      ]
+    },
+    {
+      "name": "باقة 8 حصص",
+      "sessions": 8,
+      "pricePerSession": 30,
+      "totalPrice": 240,
+      "features": [
+        "تاريخ المملكة",
+        "جغرافيا العالم"
+      ]
+    },
+    {
+      "name": "باقة حصتين",
+      "sessions": 2,
+      "pricePerSession": 30,
+      "totalPrice": 60,
+      "features": [
+        "مراجعة"
+      ]
+    },
+    {
+      "name": "حصة طارئة",
+      "sessions": 1,
+      "pricePerSession": 40,
+      "totalPrice": 40,
+      "isUrgent": true,
+      "features": [
+        "مساعدة عاجلة"
+      ]
+    }
   ]
 }
