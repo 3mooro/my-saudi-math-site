@@ -108,3 +108,38 @@ if (type === 'article') {
 
 <!-- JSON-LD Structured Data for SEO -->
 <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+<!-- OneSignal Push Notifications -->
+<script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+<script>
+  // Get external ID from cookies (client-side approach to avoid SSR caching issues if any)
+  const getCookie = (name) => {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+    return null;
+  };
+  
+  const studentAuth = getCookie('student_auth');
+  const teacherAuth = getCookie('teacher_auth');
+  let externalId = null;
+  
+  if (teacherAuth) {
+    externalId = `teacher_${teacherAuth}`;
+  } else if (studentAuth) {
+    externalId = `student_${studentAuth}`;
+  }
+
+  window.OneSignalDeferred = window.OneSignalDeferred || [];
+  OneSignalDeferred.push(async function(OneSignal) {
+    await OneSignal.init({
+      appId: "d6d3c46f-3d7f-4f60-a826-2184d73cc8d3",
+    });
+    
+    if (externalId) {
+      OneSignal.login(externalId);
+    } else {
+      OneSignal.logout();
+    }
+  });
+</script>

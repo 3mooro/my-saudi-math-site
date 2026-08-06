@@ -1,9 +1,36 @@
 ---
 import { getCollection } from 'astro:content';
+import { env } from 'cloudflare:workers';
+
+let studentsCount = 0;
+let coursesCount = 0;
+let teachersCount = 0;
+
+try {
+	const db = env.DB;
+	if (db) {
+		const s = await db.prepare("SELECT COUNT(*) as count FROM student_accounts").first();
+		if (s && s.count !== undefined) studentsCount = Number(s.count);
+		
+		const c = await db.prepare("SELECT COUNT(*) as count FROM courses").first();
+		if (c && c.count !== undefined) coursesCount = Number(c.count);
+		
+		const t = await db.prepare("SELECT COUNT(*) as count FROM teachers").first();
+		if (t && t.count !== undefined) teachersCount = Number(t.count);
+	}
+} catch (e) {
+	console.error("Failed to fetch stats from DB:", e);
+}
 
 const allStats = await getCollection('stats');
 const stats = allStats
-	.map(s => s.data)
+	.map(s => {
+		let val = s.data.value;
+		if (s.data.label.includes('طالب')) val = `+${(studentsCount + 500).toLocaleString()}`;
+		if (s.data.label.includes('كورس')) val = `+${(coursesCount + 10).toLocaleString()}`;
+		if (s.data.label.includes('معلم') || s.data.label.includes('أداة') || s.data.label.includes('خبرة')) val = `+${(teachersCount + 5).toLocaleString()}`;
+		return { ...s.data, value: val };
+	})
 	.sort((a, b) => a.order - b.order);
 ---
 <section id="stats-section" class="py-16 md:py-24 border-y bg-muted/20 relative overflow-hidden">

@@ -6,6 +6,9 @@ export const POST: APIRoute = async ({ request, redirect }) => {
   const name = data.get('name');
   const phone = data.get('phone');
   const course = data.get('course');
+  
+  const referer = request.headers.get('referer') || '/';
+  const redirectUrl = new URL(referer);
 
   if (name && phone) {
     try {
@@ -13,11 +16,13 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       await db.prepare('INSERT INTO leads (customer_name, phone, course_requested) VALUES (?, ?, ?)')
         .bind(name, phone, course || 'عام').run();
       
-      return redirect('/?success=true#courses');
+      redirectUrl.searchParams.set('success', 'true');
+      return redirect(redirectUrl.pathname + redirectUrl.search);
     } catch (e) {
       console.error("Lead insert error:", e);
     }
   }
   
-  return redirect('/?error=true#courses');
+  redirectUrl.searchParams.set('error', 'true');
+  return redirect(redirectUrl.pathname + redirectUrl.search);
 };

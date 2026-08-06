@@ -104,6 +104,23 @@
   .prose img {
     @apply rounded-2xl shadow-lg my-8 mx-auto hover:scale-[1.02] transition-transform duration-500 border border-primary/10;
   }
+  .prose strong, .prose b {
+    color: var(--foreground) !important;
+    font-weight: 900 !important;
+  }
+  
+  html.light .prose strong, html.light .prose b, :root:not(.dark) .prose strong, :root:not(.dark) .prose b {
+    color: #000000 !important;
+  }
+
+  .prose a {
+    color: var(--primary) !important;
+    text-decoration: underline;
+    font-weight: 700;
+  }
+  .prose a:hover {
+    color: var(--foreground) !important;
+  }
   .glass {
     @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
   }

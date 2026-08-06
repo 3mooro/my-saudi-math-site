@@ -1,0 +1,166 @@
+---
+export const prerender = false;
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { env } from 'cloudflare:workers';
+
+const authCookie = Astro.cookies.get('teacher_auth')?.value;
+if (!authCookie) {
+  return Astro.redirect('/teacher-login');
+}
+
+const db = env.DB;
+let teacher: any = null;
+let students: any[] = [];
+let schedules: any[] = [];
+
+if (db) {
+  try {
+    teacher = await db.prepare('SELECT * FROM teachers WHERE id = ?').bind(authCookie).first();
+    if (!teacher) {
+      Astro.cookies.delete('teacher_auth', { path: '/' });
+      return Astro.redirect('/teacher-login');
+    }
+
+    const studentsResult = await db.prepare(`
+      SELECT cs.*, sa.name as student_name, sa.stage as student_stage, sa.grade as student_grade,
+      (SELECT COUNT(*) FROM chat_messages WHERE receiver_id = cs.id AND sender_type = 'student' AND is_read = 0) as unread_count
+      FROM course_subscriptions cs 
+      JOIN student_accounts sa ON cs.student_id = sa.id 
+      WHERE cs.teacher_id = ? AND cs.status = 'active'
+      ORDER BY cs.created_at DESC
+    `).bind(teacher.id).all();
+    
+    students = studentsResult.results || [];
+
+    const schedulesResult = await db.prepare(`
+      SELECT cs.*, sa.name as student_name 
+      FROM class_schedules cs 
+      JOIN student_accounts sa ON cs.student_id = sa.id 
+      WHERE cs.teacher_id = ? AND cs.status = 'scheduled'
+      ORDER BY cs.scheduled_at ASC
+    `).bind(teacher.id).all();
+    schedules = schedulesResult.results || [];
+  } catch (e) {
+    console.error(e);
+  }
+} else {
+  // Mock data for local dev
+  teacher = { name: 'معلم تجريبي', phone: '0500000000', sessions_completed: 10, session_price: 50 };
+  students = [
+    { id: 1, course_name: 'رياضيات اول ثانوي', package_name: '8 حصص', remaining_sessions: 6, student_name: 'طالب أ', student_stage: 'الثانوية', student_grade: 'الأول الثانوي' }
+  ];
+}
+---
+
+<!doctype html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+	<head>
+		<BaseHead title={`بوابة المعلم - ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+	</head>
+	<body class="bg-background text-foreground flex flex-col min-h-screen">
+		<Header />
+		
+		<main class="flex-1 container mx-auto px-4 py-12">
+      <div class="flex justify-between items-center mb-10">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-black font-cairo text-gradient">مرحباً أ. {teacher?.name}</h1>
+          <p class="text-muted-foreground mt-2 font-bold">الحصص المنجزة: {teacher?.sessions_completed || 0} | إجمالي المستحقات: {(teacher?.sessions_completed || 0) * (teacher?.session_price || 0)} ريال</p>
+        </div>
+        <a href="/api/auth/teacher-logout" class="bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 px-4 py-2 rounded-xl font-bold transition-colors">تسجيل الخروج</a>
+      </div>
+
+      <h2 class="text-2xl font-black font-cairo mb-6 border-b pb-4">طلابي الحاليين</h2>
+      
+      {teacher?.status === 'pending' ? (
+        <div class="text-center py-12 bg-card rounded-3xl border border-yellow-200 bg-yellow-50 dark:bg-yellow-900/20 dark:border-yellow-800">
+          <p class="text-yellow-800 dark:text-yellow-400 font-bold text-lg mb-2">حسابك قيد المراجعة</p>
+          <p class="text-muted-foreground text-sm">سيتم تفعيل حسابك من قبل الإدارة قريباً.</p>
+        </div>
+      ) : students.length === 0 ? (
+        <div class="text-center py-12 bg-card rounded-3xl border border-dashed">
+          <p class="text-muted-foreground font-bold text-lg">لا يوجد طلاب نشطين حالياً</p>
+        </div>
+      ) : (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {students.map(sub => (
+            <div class="bg-card border rounded-3xl p-6 shadow-sm hover:shadow-md transition-shadow">
+              <div class="flex items-start justify-between mb-4">
+                <div>
+                  <h3 class="text-xl font-black">{sub.student_name}</h3>
+                  <p class="text-sm text-muted-foreground font-bold mt-1">الصف: {sub.student_grade || '-'} ({sub.student_stage || '-'})</p>
+                </div>
+                <div class="bg-primary/10 text-primary px-3 py-1 rounded-lg text-sm font-bold text-center">
+                  <span class="block text-[10px] opacity-80">المتبقي</span>
+                  <span class="block text-xl">{sub.remaining_sessions}</span>
+                </div>
+              </div>
+              
+              <div class="bg-accent/50 p-3 rounded-xl mb-6">
+                <p class="text-sm font-bold"><span class="text-muted-foreground">المادة:</span> {sub.course_name}</p>
+                <p class="text-sm font-bold mt-1"><span class="text-muted-foreground">الباقة:</span> {sub.package_name}</p>
+              </div>
+
+              <a href={`/chat/${sub.id}`} class="w-full relative bg-blue-600 hover:bg-blue-700 text-white flex justify-center items-center gap-2 py-3 rounded-xl font-bold transition-colors mt-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                محادثة الطالب
+                {sub.unread_count > 0 && (
+                  <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-6 h-6 flex items-center justify-center rounded-full animate-bounce shadow-lg">{sub.unread_count}</span>
+                )}
+              </a>
+              <form action="/api/teacher/schedule-class" method="POST" class="mt-4 border-t pt-4">
+                <input type="hidden" name="subscription_id" value={sub.id} />
+                <input type="hidden" name="student_id" value={sub.student_id} />
+                <label class="block text-xs font-bold text-muted-foreground mb-1">تحديد موعد حصة جديدة:</label>
+                <div class="flex gap-2">
+                  <input type="datetime-local" name="scheduled_at" required class="flex-1 bg-background border rounded-lg px-2 text-sm" />
+                  <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-3 rounded-lg text-sm font-bold transition-colors">حفظ</button>
+                </div>
+              </form>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {schedules.length > 0 && (
+        <div class="mt-12">
+          <h2 class="text-2xl font-black font-cairo mb-6 border-b pb-4">مواعيد الحصص القادمة</h2>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {schedules.map(sch => (
+              <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 flex justify-between items-center">
+                <div>
+                  <p class="font-bold text-blue-900 dark:text-blue-300">الطالب: {sch.student_name}</p>
+                  <p class="text-sm font-bold text-blue-700 dark:text-blue-400 mt-1 scheduled-time" data-utc={sch.scheduled_at}></p>
+                </div>
+                <a href={`/chat/${sch.subscription_id}`} class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                </a>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+		</main>
+
+		<Footer />
+    <script>
+      // Convert UTC times to Local times dynamically
+      document.querySelectorAll('.scheduled-time').forEach(el => {
+        const utcTime = el.getAttribute('data-utc');
+        if (utcTime) {
+          const date = new Date(utcTime);
+          el.textContent = date.toLocaleString('ar-EG', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric', 
+            hour: '2-digit', 
+            minute: '2-digit' 
+          });
+        }
+      });
+    </script>
+	</body>
+</html>
