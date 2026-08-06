@@ -7,8 +7,13 @@ export const POST: APIRoute = async ({ request, redirect, cookies }) => {
   if (!authCookie) return redirect('/login');
 
   const data = await request.formData();
-  const course_name = data.get('course_name');
+  let course_name = data.get('course_name')?.toString();
   const package_name = data.get('package_name');
+  const grade = data.get('grade')?.toString();
+
+  if (grade && course_name) {
+    course_name = `${course_name} - ${grade}`;
+  }
 
   if (course_name && package_name) {
     try {

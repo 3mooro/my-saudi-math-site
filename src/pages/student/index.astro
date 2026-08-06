@@ -140,7 +140,7 @@ const success = Astro.url.searchParams.get('success');
               <div class="grid grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-bold mb-2">المرحلة</label>
-                  <select id="level_select" required class="w-full bg-background border border-input rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary focus:border-transparent">
+                  <select name="stage" id="level_select" required class="w-full bg-background border border-input rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary focus:border-transparent">
                     <option value="" disabled selected>اختر المرحلة...</option>
                     <option value="ابتدائي">ابتدائي</option>
                     <option value="متوسط">متوسط</option>
@@ -149,28 +149,49 @@ const success = Astro.url.searchParams.get('success');
                   </select>
                 </div>
                 <div>
-                  <label class="block text-sm font-bold mb-2">اختر الكورس</label>
-                  <select name="course_name" id="course_select" required disabled class="w-full bg-background border border-input rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50">
-                    <option value="" disabled selected>اختر الكورس...</option>
+                  <label class="block text-sm font-bold mb-2">الصف الدراسي</label>
+                  <select name="grade" id="grade_select" required disabled class="w-full bg-background border border-input rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50">
+                    <option value="" disabled selected>اختر الصف...</option>
                   </select>
                 </div>
               </div>
 
               <div>
+                <label class="block text-sm font-bold mb-2">اختر المادة</label>
+                <select name="course_name" id="course_select" required disabled class="w-full bg-background border border-input rounded-xl px-4 py-3 text-sm font-bold focus:ring-2 focus:ring-primary focus:border-transparent disabled:opacity-50">
+                  <option value="" disabled selected>اختر المادة...</option>
+                </select>
+              </div>
+
+              <div>
                 <label class="block text-sm font-bold mb-2">اختر الباقة</label>
-                <div class="space-y-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                   <label class="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-accent transition-colors">
-                    <input type="radio" name="package_name" value="8 حصص" required class="text-primary focus:ring-primary w-4 h-4" />
+                    <input type="radio" name="package_name" value="باقة 12 حصة" required class="text-primary focus:ring-primary w-4 h-4" />
                     <div>
-                      <span class="block font-bold">باقة 8 حصص شهرياً</span>
+                      <span class="block font-bold">باقة 12 حصة</span>
+                      <span class="block text-xs text-muted-foreground">3 حصص أسبوعياً</span>
+                    </div>
+                  </label>
+                  <label class="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-accent transition-colors">
+                    <input type="radio" name="package_name" value="باقة 8 حصص" required class="text-primary focus:ring-primary w-4 h-4" />
+                    <div>
+                      <span class="block font-bold">باقة 8 حصص</span>
                       <span class="block text-xs text-muted-foreground">حصتين أسبوعياً</span>
                     </div>
                   </label>
                   <label class="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-accent transition-colors">
-                    <input type="radio" name="package_name" value="حصص عاجلة" required class="text-primary focus:ring-primary w-4 h-4" />
+                    <input type="radio" name="package_name" value="باقة حصتين" required class="text-primary focus:ring-primary w-4 h-4" />
                     <div>
-                      <span class="block font-bold">حصص عاجلة (مراجعة/اختبار)</span>
-                      <span class="block text-xs text-muted-foreground">حسب الاتفاق</span>
+                      <span class="block font-bold">باقة حصتين</span>
+                      <span class="block text-xs text-muted-foreground">شرح وحدة محددة</span>
+                    </div>
+                  </label>
+                  <label class="flex items-center gap-3 p-3 border rounded-xl cursor-pointer hover:bg-accent transition-colors">
+                    <input type="radio" name="package_name" value="حصة طارئة" required class="text-primary focus:ring-primary w-4 h-4" />
+                    <div>
+                      <span class="block font-bold">حصة طارئة</span>
+                      <span class="block text-xs text-muted-foreground">مراجعة ليلة الاختبار</span>
                     </div>
                   </label>
                 </div>
@@ -207,20 +228,40 @@ const success = Astro.url.searchParams.get('success');
 		<Footer />
     <script>
       const coursesByLevel: Record<string, string[]> = {
-        'ابتدائي': ['تأسيس رياضيات', 'لغتي', 'علوم', 'أخرى'],
-        'متوسط': ['رياضيات (متوسط)', 'علوم', 'لغتي', 'أخرى'],
-        'ثانوي': ['رياضيات (ثانوي)', 'فيزياء', 'كيمياء', 'أخرى'],
-        'جامعي': ['قدرات كمي', 'قدرات لفظي', 'تحصيلي رياضيات', 'تحصيلي علمي', 'أخرى']
+        'ابتدائي': ['رياضيات', 'لغتي', 'علوم', 'إنجليزي', 'دراسات إسلامية', 'دراسات اجتماعية'],
+        'متوسط': ['رياضيات', 'لغتي', 'علوم', 'إنجليزي', 'دراسات إسلامية', 'دراسات اجتماعية', 'مهارات رقمية'],
+        'ثانوي': ['رياضيات', 'فيزياء', 'كيمياء', 'أحياء', 'إنجليزي', 'لغتي', 'مهارات رقمية', 'قدرات كمي', 'قدرات لفظي', 'تحصيلي'],
+        'جامعي': ['تفاضل وتكامل', 'جبر خطي', 'فيزياء عامة', 'كيمياء عامة', 'إحصاء', 'أخرى']
+      };
+
+      const gradesByLevel: Record<string, string[]> = {
+        'ابتدائي': ['الأول الابتدائي', 'الثاني الابتدائي', 'الثالث الابتدائي', 'الرابع الابتدائي', 'الخامس الابتدائي', 'السادس الابتدائي'],
+        'متوسط': ['الأول المتوسط', 'الثاني المتوسط', 'الثالث المتوسط'],
+        'ثانوي': ['الأول الثانوي', 'الثاني الثانوي', 'الثالث الثانوي'],
+        'جامعي': ['السنة التحضيرية', 'مستوى أول', 'مستوى ثاني', 'مستوى ثالث', 'أخرى']
       };
 
       const levelSelect = document.getElementById('level_select') as HTMLSelectElement;
+      const gradeSelect = document.getElementById('grade_select') as HTMLSelectElement;
       const courseSelect = document.getElementById('course_select') as HTMLSelectElement;
 
-      if (levelSelect && courseSelect) {
+      if (levelSelect && courseSelect && gradeSelect) {
         levelSelect.addEventListener('change', (e) => {
           const level = (e.target as HTMLSelectElement).value;
           const courses = coursesByLevel[level] || [];
+          const grades = gradesByLevel[level] || [];
           
+          // Populate Grades
+          gradeSelect.innerHTML = '<option value="" disabled selected>اختر الصف...</option>';
+          grades.forEach(grade => {
+            const option = document.createElement('option');
+            option.value = grade;
+            option.textContent = grade;
+            gradeSelect.appendChild(option);
+          });
+          gradeSelect.disabled = false;
+
+          // Populate Courses
           courseSelect.innerHTML = '<option value="" disabled selected>اختر المادة...</option>';
           courses.forEach(course => {
             const option = document.createElement('option');
@@ -228,7 +269,6 @@ const success = Astro.url.searchParams.get('success');
             option.textContent = course;
             courseSelect.appendChild(option);
           });
-          
           courseSelect.disabled = false;
         });
       }
