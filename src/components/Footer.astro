@@ -1,5 +1,5 @@
 ---
-import { SITE_TITLE, WHATSAPP_NUMBER, TWITTER_LINK, INSTAGRAM_LINK, LINKEDIN_LINK } from '../consts';
+import { SITE_TITLE, TWITTER_LINK, INSTAGRAM_LINK, LINKEDIN_LINK } from '../consts';
 const today = new Date();
 ---
 
@@ -48,13 +48,13 @@ const today = new Date();
 			<div class="space-y-6">
 				<h4 class="font-black font-cairo mb-8 text-lg uppercase tracking-wider text-foreground">تواصل معنا</h4>
 				<div class="space-y-4">
-					<a href={`https://wa.me/${WHATSAPP_NUMBER}`} class="flex items-center gap-4 group">
+					<a href={`https://wa.me/${Astro.locals.whatsapp}`} class="flex items-center gap-4 group">
 						<div class="w-12 h-12 rounded-2xl bg-[#25D366]/10 flex items-center justify-center text-[#25D366] group-hover:bg-[#25D366] group-hover:text-white transition-all">
 							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.79 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
 						</div>
 						<div class="text-right">
 							<span class="block text-xs text-muted-foreground font-bold">واتساب مباشر</span>
-							<span class="block font-black text-foreground">{WHATSAPP_NUMBER}</span>
+							<span class="block font-black text-foreground">{Astro.locals.whatsapp}</span>
 						</div>
 					</a>
 					<div class="flex items-center gap-4 group">

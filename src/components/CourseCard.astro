@@ -1,5 +1,5 @@
 ---
-import { WHATSAPP_NUMBER } from '../consts';
+
 
 interface Package {
 	name: string;
@@ -78,7 +78,7 @@ const { title, instructor, rating, image, tag, id, packages = [] } = Astro.props
 
 				<div class="mt-4">
 					<a 
-						href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('مرحباً، أود الاشتراك في باقة: ' + pkg.name + ' لمادة ' + title)}`} 
+						href={`https://wa.me/${Astro.locals.whatsapp}?text=${encodeURIComponent('مرحباً، أود الاشتراك في باقة: ' + pkg.name + ' لمادة ' + title)}`} 
 						class:list={[
 							"w-full h-12 flex items-center justify-center rounded-2xl font-black font-cairo text-sm transition-all shadow-md active:scale-95",
 							pkg.isUrgent ? "bg-secondary text-white hover:bg-secondary/90" : "bg-primary text-white hover:bg-primary/90"

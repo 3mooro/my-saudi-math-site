@@ -1,26 +1,10 @@
 ---
-import { WHATSAPP_NUMBER } from '../consts';
-import { env } from 'cloudflare:workers';
-
 let siteSettings = {
-  hero_title: "مستقبلك يبدأ مع <br /><span class='text-gradient'>أفضل المعلمين</span>",
-  hero_subtitle: "دروس خصوصية تفاعلية بأسعار تنافسية تبدأ من <span class='text-primary font-black'>25 ريال</span> فقط للحصة. نضمن لك الفهم الكامل والتميز الدراسي.",
-  hero_image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000",
-  whatsapp_number: WHATSAPP_NUMBER
+  hero_title: Astro.locals.siteSettings?.hero_title || "مستقبلك يبدأ مع <br /><span class='text-gradient'>أفضل المعلمين</span>",
+  hero_subtitle: Astro.locals.siteSettings?.hero_subtitle || "دروس خصوصية تفاعلية بأسعار تنافسية تبدأ من <span class='text-primary font-black'>25 ريال</span> فقط للحصة. نضمن لك الفهم الكامل والتميز الدراسي.",
+  hero_image: Astro.locals.siteSettings?.hero_image || "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&q=80&w=1000",
+  whatsapp_number: Astro.locals.whatsapp
 };
-
-try {
-  const db = env.DB;
-  const settings = await db.prepare("SELECT * FROM site_settings WHERE id = 1").first();
-  if (settings) {
-    if (settings.hero_title) siteSettings.hero_title = settings.hero_title as string;
-    if (settings.hero_subtitle) siteSettings.hero_subtitle = settings.hero_subtitle as string;
-    if (settings.hero_image) siteSettings.hero_image = settings.hero_image as string;
-    if (settings.whatsapp_number) siteSettings.whatsapp_number = settings.whatsapp_number as string;
-  }
-} catch (e) {
-  console.error("D1 Fetch Error:", e);
-}
 ---
 <section class="relative py-16 lg:py-24 bg-background overflow-hidden border-b border-primary/5">
 	<!-- Modern Geometric Pattern Background -->
@@ -56,7 +40,7 @@ try {
 						<span class="mr-3 group-hover:-translate-x-2 transition-transform">←</span>
 					</a>
 					<a 
-						href={`https://wa.me/${siteSettings.whatsapp_number}?text=${encodeURIComponent('مرحباً، أحتاج جلسة طارئة لمراجعة المناهج')}`} 
+						href={`https://wa.me/${Astro.locals.whatsapp}?text=${encodeURIComponent('مرحباً، أحتاج جلسة طارئة لمراجعة المناهج')}`} 
 						class="h-20 px-12 items-center justify-center flex rounded-3xl border-2 border-primary/20 bg-card text-primary text-2xl font-black hover:bg-primary/5 transition-all font-cairo shadow-lg"
 						target="_blank"
 					>
