@@ -1,5 +1,4 @@
 import { defineMiddleware } from "astro:middleware";
-import { env } from 'cloudflare:workers';
 import { WHATSAPP_NUMBER as DEFAULT_WHATSAPP } from './consts';
 
 export const onRequest = defineMiddleware(async (context, next) => {
@@ -8,7 +7,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
   };
   
   try {
-    const db = context.locals.runtime?.env?.DB || env.DB;
+    // Rely strictly on Astro's runtime locals for Cloudflare
+    const db = context.locals.runtime?.env?.DB;
+    
     if (db) {
       const dbSettings = await db.prepare("SELECT * FROM site_settings WHERE id = 1").first();
       if (dbSettings) {
@@ -18,9 +19,11 @@ export const onRequest = defineMiddleware(async (context, next) => {
           whatsapp: dbSettings.whatsapp_number || DEFAULT_WHATSAPP
         };
       }
+    } else {
+      console.warn("DB binding not found in context.locals.runtime.env");
     }
   } catch (e) {
-    // silently fail and fallback to default
+    console.error("Middleware DB Error:", e);
   }
 
   context.locals.siteSettings = siteSettings;
