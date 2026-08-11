@@ -7,23 +7,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
   };
   
   try {
-    // Rely strictly on Astro's runtime locals for Cloudflare
-    const db = context.locals.runtime?.env?.DB;
-    
-    if (db) {
-      const dbSettings = await db.prepare("SELECT * FROM site_settings WHERE id = 1").first();
-      if (dbSettings) {
+    // Fetch settings from the dashboard API since D1 binding might not be configured
+    const response = await fetch('https://ksa-dashboard.pages.dev/api/settings');
+    if (response.ok) {
+      const dbSettings = await response.json();
+      if (dbSettings && dbSettings.whatsapp_number) {
         siteSettings = {
           ...siteSettings,
           ...dbSettings,
           whatsapp: dbSettings.whatsapp_number || DEFAULT_WHATSAPP
         };
       }
-    } else {
-      console.warn("DB binding not found in context.locals.runtime.env");
     }
   } catch (e) {
-    console.error("Middleware DB Error:", e);
+    console.error("Middleware API Fetch Error:", e);
   }
 
   context.locals.siteSettings = siteSettings;
