@@ -17,10 +17,11 @@ interface Props {
 	image: string;
 	tag: string;
 	id: string;
+	description?: string;
 	packages?: Package[];
 }
 
-const { title, instructor, rating, image, tag, id, packages = [] } = Astro.props;
+const { title, instructor, rating, image, tag, id, description, packages = [] } = Astro.props;
 ---
 <div class="group relative rounded-[3rem] bg-card border border-primary/10 p-8 transition-all duration-500 hover:shadow-[0_30px_100px_rgba(59,130,246,0.15)] flex flex-col h-full">
 	
@@ -33,6 +34,11 @@ const { title, instructor, rating, image, tag, id, packages = [] } = Astro.props
 			<h3 class="font-cairo font-black text-3xl lg:text-4xl text-foreground group-hover:text-primary transition-colors leading-tight">
 				{title}
 			</h3>
+			{description && (
+				<p class="text-sm text-muted-foreground font-bold leading-relaxed line-clamp-2">
+					{description}
+				</p>
+			)}
 			<div class="flex items-center gap-2 text-muted-foreground font-bold text-sm">
 				<span>بواسطة {instructor}</span>
 				<span>•</span>

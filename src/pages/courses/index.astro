@@ -1,0 +1,95 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import CourseCard from '../../components/CourseCard.astro';
+import { getCollection } from 'astro:content';
+
+const courses = await getCollection('courses');
+
+// Group courses by level
+const primaryCourses = courses.filter(c => c.data.level === 'primary').sort((a, b) => a.data.order - b.data.order);
+const middleCourses = courses.filter(c => c.data.level === 'middle').sort((a, b) => a.data.order - b.data.order);
+const secondaryCourses = courses.filter(c => c.data.level === 'secondary').sort((a, b) => a.data.order - b.data.order);
+const universityCourses = courses.filter(c => c.data.level === 'university').sort((a, b) => a.data.order - b.data.order);
+
+const title = "الدورات التعليمية والباقات | أكاديمية KSA";
+const description = "تصفح جميع الدورات التعليمية التفاعلية لمختلف المراحل الدراسية (الابتدائية، المتوسطة، الثانوية، والجامعية) في أكاديمية KSA. تغطية شاملة وتأسيس قوي مع نخبة من المعلمين.";
+---
+<MainLayout title={title} description={description}>
+	<!-- Hero Section -->
+	<section class="relative py-24 lg:py-32 overflow-hidden bg-background border-b border-primary/5">
+		<div class="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-400/[0.05] dark:bg-bottom"></div>
+		<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/20 blur-[128px] rounded-full pointer-events-none"></div>
+		<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-secondary/20 blur-[128px] rounded-full pointer-events-none"></div>
+		
+		<div class="container mx-auto px-4 relative z-10 text-center max-w-4xl space-y-8">
+			<h1 class="text-5xl md:text-7xl font-cairo font-black tracking-tight text-foreground leading-tight">
+				الدورات <span class="text-transparent bg-clip-text bg-gradient-to-l from-primary to-secondary">التعليمية</span>
+			</h1>
+			<p class="text-xl md:text-2xl text-muted-foreground font-bold leading-relaxed max-w-3xl mx-auto">
+				{description}
+			</p>
+		</div>
+	</section>
+
+	<section class="py-24 bg-background">
+		<div class="container mx-auto px-4 max-w-7xl space-y-32">
+			
+			{primaryCourses.length > 0 && (
+				<div class="space-y-12">
+					<div class="border-r-4 border-primary pr-6">
+						<h2 class="text-3xl md:text-5xl font-cairo font-black text-foreground">المرحلة الابتدائية</h2>
+						<p class="text-muted-foreground font-bold mt-2 text-lg">باقات تأسيسية شاملة لطلاب المرحلة الابتدائية</p>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{primaryCourses.map((course) => (
+							<CourseCard id={course.id} {...course.data} />
+						))}
+					</div>
+				</div>
+			)}
+
+			{middleCourses.length > 0 && (
+				<div class="space-y-12">
+					<div class="border-r-4 border-primary pr-6">
+						<h2 class="text-3xl md:text-5xl font-cairo font-black text-foreground">المرحلة المتوسطة</h2>
+						<p class="text-muted-foreground font-bold mt-2 text-lg">كورسات تفاعلية تغطي مناهج المرحلة المتوسطة بالكامل</p>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{middleCourses.map((course) => (
+							<CourseCard id={course.id} {...course.data} />
+						))}
+					</div>
+				</div>
+			)}
+
+			{secondaryCourses.length > 0 && (
+				<div class="space-y-12">
+					<div class="border-r-4 border-primary pr-6">
+						<h2 class="text-3xl md:text-5xl font-cairo font-black text-foreground">المرحلة الثانوية والقدرات</h2>
+						<p class="text-muted-foreground font-bold mt-2 text-lg">إعداد قوي للثانوية العامة واختبارات القياس والتحصيلي</p>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{secondaryCourses.map((course) => (
+							<CourseCard id={course.id} {...course.data} />
+						))}
+					</div>
+				</div>
+			)}
+
+			{universityCourses.length > 0 && (
+				<div class="space-y-12">
+					<div class="border-r-4 border-primary pr-6">
+						<h2 class="text-3xl md:text-5xl font-cairo font-black text-foreground">المرحلة الجامعية</h2>
+						<p class="text-muted-foreground font-bold mt-2 text-lg">مقررات متقدمة لدعم طلاب الجامعات في مختلف التخصصات</p>
+					</div>
+					<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{universityCourses.map((course) => (
+							<CourseCard id={course.id} {...course.data} />
+						))}
+					</div>
+				</div>
+			)}
+
+		</div>
+	</section>
+</MainLayout>
