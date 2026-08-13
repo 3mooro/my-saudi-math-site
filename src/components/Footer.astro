@@ -1,6 +1,8 @@
 ---
+import { getCollection } from 'astro:content';
 import { SITE_TITLE, TWITTER_LINK, INSTAGRAM_LINK, LINKEDIN_LINK } from '../consts';
 const today = new Date();
+const courses = await getCollection('courses');
 ---
 
 <footer class="bg-card border-t border-primary/5 py-16 md:py-24">
@@ -36,12 +38,11 @@ const today = new Date();
 			</div>
 			
 			<div>
-				<h4 class="font-black font-cairo mb-8 text-lg uppercase tracking-wider text-foreground">المساعدة</h4>
+				<h4 class="font-black font-cairo mb-8 text-lg uppercase tracking-wider text-foreground">أحدث الدورات</h4>
 				<ul class="space-y-4 text-muted-foreground font-bold">
-					<li><a href="/contact" class="hover:text-primary transition-colors">الأسئلة الشائعة</a></li>
-					<li><a href="#" class="hover:text-primary transition-colors">سياسة الخصوصية</a></li>
-					<li><a href="#" class="hover:text-primary transition-colors">شروط الخدمة</a></li>
-					<li><a href="#" class="hover:text-primary transition-colors">الدعم الفني</a></li>
+					{courses.slice(0, 4).map((course) => (
+						<li><a href={`/courses/${course.slug}`} class="hover:text-primary transition-colors">{course.data.title}</a></li>
+					))}
 				</ul>
 			</div>
 			
