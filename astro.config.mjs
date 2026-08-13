@@ -14,7 +14,12 @@ export default defineConfig({
   integrations: [mdx(), sitemap()],
 
   output: 'server',
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    platformProxy: {
+      enabled: true,
+      configPath: 'wrangler.dev.json'
+    }
+  }),
 
   // استعادة إعدادات الخطوط التي يبحث عنها القالب
   fonts: [
