@@ -9,15 +9,41 @@ const db = env.DB;
 
 let postRaw;
 let relatedPostsRaw = [];
-try {
-  // Update views
-  await db.prepare("UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ?").bind(slug).run();
 
-  postRaw = await db.prepare("SELECT * FROM blog WHERE slug = ?").bind(slug).first();
-  const relatedRes = await db.prepare("SELECT * FROM blog WHERE slug != ? ORDER BY pubDate DESC LIMIT 3").bind(slug).all();
-  if (relatedRes.results) relatedPostsRaw = relatedRes.results;
-} catch (e) {
-  console.error("D1 Fetch Error:", e);
+// Try fetching from Markdown Collection first
+import { getEntry, getCollection } from 'astro:content';
+const mdPost = await getEntry('blog', slug);
+
+if (mdPost) {
+  postRaw = {
+    title: mdPost.data.title,
+    description: mdPost.data.description,
+    pubDate: mdPost.data.pubDate,
+    heroImage: mdPost.data.heroImage,
+    author: "أكاديمية KSA",
+    readingTime: "5 دقائق",
+    views: 0,
+    tags: JSON.stringify(mdPost.data.tags || []),
+    body: mdPost.body
+  };
+  
+  // Get related from MD
+  const allMd = await getCollection('blog');
+  relatedPostsRaw = allMd.filter(p => p.slug !== slug).slice(0, 3).map(p => ({
+    slug: p.slug,
+    title: p.data.title,
+    heroImage: p.data.heroImage
+  }));
+} else {
+  // If not found in MD, try D1 Database
+  try {
+    await db.prepare("UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ?").bind(slug).run();
+    postRaw = await db.prepare("SELECT * FROM blog WHERE slug = ?").bind(slug).first();
+    const relatedRes = await db.prepare("SELECT * FROM blog WHERE slug != ? ORDER BY pubDate DESC LIMIT 3").bind(slug).all();
+    if (relatedRes.results) relatedPostsRaw = relatedRes.results;
+  } catch (e) {
+    console.error("D1 Fetch Error:", e);
+  }
 }
 
 if (!postRaw) {
@@ -31,8 +57,16 @@ const heroImage = postRaw.heroImage;
 const author = postRaw.author;
 const readingTime = postRaw.readingTime;
 const views = postRaw.views || 0;
-const tags = postRaw.tags ? JSON.parse(postRaw.tags) : [];
-const contentHtml = marked.parse(postRaw.body || '');
+const tags = postRaw.tags ? (typeof postRaw.tags === 'string' ? JSON.parse(postRaw.tags) : postRaw.tags) : [];
+
+let contentHtml = '';
+if (mdPost) {
+  const { Content } = await mdPost.render();
+  // We can't easily convert Astro Component to HTML string here, so we will use marked.parse on the raw body for simplicity
+  contentHtml = marked.parse(postRaw.body || '');
+} else {
+  contentHtml = marked.parse(postRaw.body || '');
+}
 ---
 
 <MainLayout title={`${title} | أكاديمية KSA`} description={description}>
