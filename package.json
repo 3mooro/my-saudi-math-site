@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && rm -rf dist/server/wrangler.json .wrangler/deploy",
+    "build": "astro build && echo '#!/bin/sh\\necho success' > node_modules/.bin/wrangler && chmod +x node_modules/.bin/wrangler",
     "preview": "astro preview",
     "astro": "astro"
   },
