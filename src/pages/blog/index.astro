@@ -14,10 +14,9 @@ let posts = mdPosts.map(p => ({
 
 let dbError = "";
 try {
-	// Try Astro.locals first, fallback to env
-	const db = Astro.locals?.runtime?.env?.DB || env.DB;
+	const db = env.DB;
 	if (!db) {
-		dbError = "DB binding is undefined. Astro.locals.runtime: " + !!Astro.locals?.runtime + " env: " + !!env;
+		dbError = "DB binding is undefined in env.";
 	} else {
 		const { results } = await db.prepare("SELECT * FROM blog ORDER BY pubDate DESC").all();
 		if (results) {

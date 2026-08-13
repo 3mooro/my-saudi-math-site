@@ -37,10 +37,12 @@ if (mdPost) {
 } else {
   // If not found in MD, try D1 Database
   try {
-    await db.prepare("UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ?").bind(slug).run();
-    postRaw = await db.prepare("SELECT * FROM blog WHERE slug = ?").bind(slug).first();
-    const relatedRes = await db.prepare("SELECT * FROM blog WHERE slug != ? ORDER BY pubDate DESC LIMIT 3").bind(slug).all();
-    if (relatedRes.results) relatedPostsRaw = relatedRes.results;
+    if (db) {
+      await db.prepare("UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ?").bind(slug).run();
+      postRaw = await db.prepare("SELECT * FROM blog WHERE slug = ?").bind(slug).first();
+      const relatedRes = await db.prepare("SELECT * FROM blog WHERE slug != ? ORDER BY pubDate DESC LIMIT 3").bind(slug).all();
+      if (relatedRes.results) relatedPostsRaw = relatedRes.results;
+    }
   } catch (e) {
     console.error("D1 Fetch Error:", e);
   }

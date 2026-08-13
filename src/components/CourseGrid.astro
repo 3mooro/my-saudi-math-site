@@ -5,8 +5,10 @@ import { env } from 'cloudflare:workers';
 let rawCourses = [];
 try {
 	const db = env.DB;
-	const { results } = await db.prepare("SELECT * FROM courses ORDER BY display_order ASC").all();
-	if (results) rawCourses = results;
+	if (db) {
+		const { results } = await db.prepare("SELECT * FROM courses ORDER BY display_order ASC").all();
+		if (results) rawCourses = results;
+	}
 } catch (e) {
 	console.error("D1 Fetch Error:", e);
 }
