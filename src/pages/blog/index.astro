@@ -12,11 +12,16 @@ let posts = mdPosts.map(p => ({
 	data: { ...p.data }
 }));
 
+let dbError = "";
 try {
-	const db = env.DB;
-	const { results } = await db.prepare("SELECT * FROM blog ORDER BY pubDate DESC").all();
-	if (results) {
-		const dbPosts = results.map((post: any) => ({
+	// Try Astro.locals first, fallback to env
+	const db = Astro.locals?.runtime?.env?.DB || env.DB;
+	if (!db) {
+		dbError = "DB binding is undefined. Astro.locals.runtime: " + !!Astro.locals?.runtime + " env: " + !!env;
+	} else {
+		const { results } = await db.prepare("SELECT * FROM blog ORDER BY pubDate DESC").all();
+		if (results) {
+			const dbPosts = results.map((post: any) => ({
 			id: post.slug,
 			slug: post.slug,
 			data: {
@@ -26,16 +31,24 @@ try {
 				heroImage: post.heroImage,
 			}
 		}));
-		posts = [...posts, ...dbPosts].sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+			posts = [...posts, ...dbPosts].sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+		}
 	}
-} catch (e) {
+} catch (e: any) {
 	console.error("D1 Fetch Error:", e);
+	dbError = "Error: " + e.message;
 }
 ---
 
 <MainLayout title="الكورسات والمقالات | أكاديمية KSA">
 	<section class="py-24">
 		<div class="container mx-auto px-4">
+			{dbError && (
+				<div class="bg-red-500/10 border-2 border-red-500 text-red-500 p-6 rounded-2xl mb-8 font-cairo font-bold dir-ltr text-left">
+					<p>D1 Database Connection Error:</p>
+					<code>{dbError}</code>
+				</div>
+			)}
 			<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
 				<div class="max-w-2xl space-y-4 text-right">
 					<h1 class="text-4xl md:text-6xl font-cairo font-black tracking-tight text-gradient leading-tight">
