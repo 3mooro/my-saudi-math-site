@@ -63,7 +63,6 @@ const tags = postRaw.tags ? (typeof postRaw.tags === 'string' ? JSON.parse(postR
 
 let contentHtml = '';
 if (mdPost) {
-  const { Content } = await mdPost.render();
   // We can't easily convert Astro Component to HTML string here, so we will use marked.parse on the raw body for simplicity
   contentHtml = marked.parse(postRaw.body || '');
 } else {
