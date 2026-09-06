@@ -4,13 +4,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import { env } from 'cloudflare:workers';
 
-import { getCollection } from 'astro:content';
-
-const mdPosts = await getCollection('blog');
-let posts = mdPosts.map(p => ({
-	id: p.slug,
-	data: { ...p.data }
-}));
+let posts: any[] = [];
 
 let dbError = "";
 try {
