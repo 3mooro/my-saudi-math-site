@@ -111,6 +111,21 @@ const {
 					el.classList.add('reveal-hidden');
 					observer.observe(el);
 				});
+
+				// Track Global Visit
+				if (!sessionStorage.getItem('visit_tracked')) {
+					fetch('/api/track-visit', { method: 'POST' }).then(() => {
+						sessionStorage.setItem('visit_tracked', 'true');
+					}).catch(console.error);
+				}
+
+				// Track WhatsApp Clicks
+				const waLinks = document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp.com"]');
+				waLinks.forEach(link => {
+					link.addEventListener('click', () => {
+						fetch('/api/track-whatsapp', { method: 'POST' }).catch(console.error);
+					});
+				});
 			});
 		</script>
 	</body>

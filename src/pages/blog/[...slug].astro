@@ -12,6 +12,7 @@ let relatedPostsRaw = [];
 
 try {
   if (db) {
+    await db.prepare('UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ?').bind(slug).run();
     postRaw = await db.prepare('SELECT * FROM blog WHERE slug = ?').bind(slug).first();
   }
 } catch (e) {
