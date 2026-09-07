@@ -113,18 +113,15 @@ const {
 				});
 
 				// Track Global Visit
-				if (!sessionStorage.getItem('visit_tracked')) {
-					fetch('/api/track-visit', { method: 'POST' }).then(() => {
-						sessionStorage.setItem('visit_tracked', 'true');
-					}).catch(console.error);
-				}
+				navigator.sendBeacon('/api/track-visit');
 
-				// Track WhatsApp Clicks
-				const waLinks = document.querySelectorAll('a[href*="wa.me"], a[href*="whatsapp.com"]');
-				waLinks.forEach(link => {
-					link.addEventListener('click', () => {
-						fetch('/api/track-whatsapp', { method: 'POST' }).catch(console.error);
-					});
+				// Track WhatsApp Clicks via Event Delegation
+				document.addEventListener('click', (e) => {
+					const target = e.target as HTMLElement;
+					const link = target.closest('a');
+					if (link && (link.href.includes('wa.me') || link.href.includes('whatsapp.com'))) {
+						navigator.sendBeacon('/api/track-whatsapp');
+					}
 				});
 			});
 		</script>
