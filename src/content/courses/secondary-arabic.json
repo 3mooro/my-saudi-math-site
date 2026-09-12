@@ -30,12 +30,13 @@
       ]
     },
     {
-      "name": "باقة حصتين",
-      "sessions": 2,
+      "name": "باقة 4 حصص",
+      "sessions": 4,
       "pricePerSession": 35,
-      "totalPrice": 70,
+      "totalPrice": 140,
       "features": [
-        "مراجعة قاعدة"
+        "شرح مفصل للمفاهيم",
+        "مراجعة وتطبيقات"
       ]
     },
     {

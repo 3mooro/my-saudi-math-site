@@ -6,6 +6,49 @@
   "tag": "اختبارات",
   "level": "secondary",
   "order": 22,
-  "packages": [{"name":"باقة 12 حصة","sessions":12,"pricePerSession":45,"totalPrice":540,"features":["تغطية شاملة للمنهج","متابعة مستمرة","تأسيس وتدريب مكثف"]},{"name":"باقة 8 حصص","sessions":8,"pricePerSession":50,"totalPrice":400,"features":["تأسيس وتدريب","أحدث النماذج","استراتيجيات الحل"]},{"name":"باقة حصتين","sessions":2,"pricePerSession":60,"totalPrice":120,"features":["تدريب مكثف"]},{"name":"حصة طارئة","sessions":1,"pricePerSession":100,"totalPrice":100,"isUrgent":true,"features":["مراجعة ليلة الاختبار"]}],
+  "packages": [
+    {
+      "name": "باقة 12 حصة",
+      "sessions": 12,
+      "pricePerSession": 45,
+      "totalPrice": 540,
+      "features": [
+        "تغطية شاملة للمنهج",
+        "متابعة مستمرة",
+        "تأسيس وتدريب مكثف"
+      ]
+    },
+    {
+      "name": "باقة 8 حصص",
+      "sessions": 8,
+      "pricePerSession": 50,
+      "totalPrice": 400,
+      "features": [
+        "تأسيس وتدريب",
+        "أحدث النماذج",
+        "استراتيجيات الحل"
+      ]
+    },
+    {
+      "name": "باقة 4 حصص",
+      "sessions": 4,
+      "pricePerSession": 60,
+      "totalPrice": 240,
+      "features": [
+        "شرح مفصل للمفاهيم",
+        "مراجعة وتطبيقات"
+      ]
+    },
+    {
+      "name": "حصة طارئة",
+      "sessions": 1,
+      "pricePerSession": 100,
+      "totalPrice": 100,
+      "isUrgent": true,
+      "features": [
+        "مراجعة ليلة الاختبار"
+      ]
+    }
+  ],
   "description": "دورة القدرات والتحصيلي التفاعلية والمتميزة. نقدم في هذه الدورة تغطية شاملة لجميع دروس ومفاهيم مادة اختبارات بأسلوب مبسط وممتع، مع تدريب مكثف، وحل بنوك الأسئلة، ومتابعة مستمرة لضمان التفوق بأعلى الدرجات."
 }
