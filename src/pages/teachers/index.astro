@@ -1,0 +1,84 @@
+---
+export const prerender = false;
+import MainLayout from '../../layouts/MainLayout.astro';
+import { env } from 'cloudflare:workers';
+
+let teachers: any[] = [];
+try {
+  const db = env.DB;
+  if (db) {
+    const { results } = await db.prepare("SELECT * FROM teachers WHERE status = 'active' ORDER BY created_at DESC").all();
+    if (results) teachers = results;
+  }
+} catch (e) {
+  console.error("Error fetching teachers:", e);
+}
+
+const title = "معلمينا المتميزين | أكاديمية KSA";
+const description = "تعرف على نخبة من أفضل المعلمين والمعلمات في أكاديمية KSA.";
+---
+
+<MainLayout title={title} description={description}>
+  <section class="relative py-24 lg:py-32 overflow-hidden bg-background border-b border-primary/5">
+    <div class="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-400/[0.05] dark:bg-bottom"></div>
+    <div class="absolute -top-24 -left-24 w-96 h-96 bg-primary/20 blur-[128px] rounded-full pointer-events-none"></div>
+    
+    <div class="container mx-auto px-4 relative z-10 text-center max-w-4xl space-y-8">
+      <h1 class="text-5xl md:text-7xl font-cairo font-black tracking-tight text-foreground leading-tight">
+        فريق <span class="text-transparent bg-clip-text bg-gradient-to-l from-primary to-secondary">المعلمين</span>
+      </h1>
+      <p class="text-xl md:text-2xl text-muted-foreground font-bold leading-relaxed max-w-3xl mx-auto">
+        تعرف على نخبة المعلمين والمعلمات الذين يشاركوننا في بناء مستقبل أفضل لأبنائنا.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-24 bg-background">
+    <div class="container mx-auto px-4 max-w-6xl">
+      {teachers.length === 0 ? (
+        <div class="text-center text-muted-foreground font-bold text-xl">
+          جاري إضافة المعلمين قريباً...
+        </div>
+      ) : (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+          {teachers.map((t) => (
+            <div class="bg-card rounded-[2rem] p-8 border-4 border-primary/5 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 reveal flex flex-col items-center text-center group">
+              
+              <div class="relative w-32 h-32 rounded-full mb-6 mx-auto group-hover:scale-105 transition-transform duration-500">
+                <div class="absolute inset-0 bg-gradient-to-tr from-primary to-secondary rounded-full blur-md opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                {t.image ? (
+                  <img src={t.image} alt={t.name} class="relative w-full h-full object-cover rounded-full border-4 border-card shadow-lg" />
+                ) : (
+                  <div class="relative w-full h-full rounded-full bg-primary/10 border-4 border-card shadow-lg flex items-center justify-center text-primary">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                  </div>
+                )}
+              </div>
+
+              <h3 class="text-2xl font-black font-cairo text-foreground mb-2 group-hover:text-primary transition-colors">{t.name}</h3>
+              <span class="inline-block px-4 py-1.5 bg-primary/10 text-primary font-bold text-sm rounded-full mb-4">
+                تخصص: {t.subject}
+              </span>
+              
+              {t.experience && (
+                <p class="text-sm font-bold text-muted-foreground mb-4 w-full bg-muted/50 p-3 rounded-xl border border-border">
+                  {t.experience}
+                </p>
+              )}
+              
+              {t.bio && (
+                <p class="text-base text-muted-foreground font-bold leading-relaxed">
+                  {t.bio}
+                </p>
+              )}
+
+              <a href={`https://wa.me/${Astro.locals.whatsapp}?text=${encodeURIComponent('مرحباً، أود الاستفسار عن دروس مع المعلم/ة: ' + t.name)}`} target="_blank" class="mt-8 w-full py-3 rounded-xl bg-primary text-white font-black hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 block text-center">
+                تواصل للحجز
+              </a>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+</MainLayout>

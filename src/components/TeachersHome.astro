@@ -15,7 +15,7 @@ const teachers = aboutPage?.data.teachers || [];
 
 		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8 md:gap-12 max-w-5xl mx-auto">
 			{teachers.map((teacher) => (
-				<div class="text-center space-y-6 group reveal">
+				<a href="/teachers" class="text-center space-y-6 group reveal block">
 					<div class="relative inline-block">
 						<!-- Background decorative circles -->
 						<div class="absolute -inset-4 bg-primary/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500"></div>
@@ -34,7 +34,7 @@ const teachers = aboutPage?.data.teachers || [];
 						<h4 class="text-xl md:text-2xl font-black font-cairo text-foreground group-hover:text-primary transition-colors">{teacher.name}</h4>
 						<p class="text-sm md:text-base text-muted-foreground font-bold uppercase tracking-widest">{teacher.role}</p>
 					</div>
-				</div>
+				</a>
 			))}
 		</div>
 
