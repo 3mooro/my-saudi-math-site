@@ -112,8 +112,11 @@ const {
 					observer.observe(el);
 				});
 
-				// Track Global Visit
-				navigator.sendBeacon('/api/track-visit');
+				// Track Global Visit (Once per session)
+				if (!sessionStorage.getItem('site_visited')) {
+					navigator.sendBeacon('/api/track-visit');
+					sessionStorage.setItem('site_visited', 'true');
+				}
 
 				// Track WhatsApp Clicks via Event Delegation
 				document.addEventListener('click', (e) => {

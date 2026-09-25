@@ -12,7 +12,14 @@ let relatedPostsRaw = [];
 
 try {
   if (db) {
-    await db.prepare('UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ?').bind(slug).run();
+    const viewCookieName = `viewed_article_${slug}`;
+    if (!Astro.cookies.has(viewCookieName)) {
+      await db.prepare('UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ?').bind(slug).run();
+      Astro.cookies.set(viewCookieName, 'true', {
+        path: '/',
+        maxAge: 60 * 60 * 24 // 24 hours
+      });
+    }
     postRaw = await db.prepare('SELECT * FROM blog WHERE slug = ?').bind(slug).first();
   }
 } catch (e) {
