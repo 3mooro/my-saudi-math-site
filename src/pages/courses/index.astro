@@ -13,8 +13,12 @@ const universityCourses = courses.filter(c => c.data.level === 'university').sor
 
 const title = "الدورات التعليمية والباقات | أكاديمية KSA";
 const description = "تصفح جميع الدورات التعليمية التفاعلية لمختلف المراحل الدراسية (الابتدائية، المتوسطة، الثانوية، والجامعية) في أكاديمية KSA. تغطية شاملة وتأسيس قوي مع نخبة من المعلمين.";
+const breadcrumbs = [
+  { name: 'الرئيسية', url: '/' },
+  { name: 'الدورات التعليمية', url: '/courses' }
+];
 ---
-<MainLayout title={title} description={description}>
+<MainLayout title={title} description={description} breadcrumbs={breadcrumbs}>
 	<!-- Hero Section -->
 	<section class="relative py-24 lg:py-32 overflow-hidden bg-background border-b border-primary/5">
 		<div class="absolute inset-0 bg-grid-slate-900/[0.04] bg-[bottom_1px_center] dark:bg-grid-slate-400/[0.05] dark:bg-bottom"></div>

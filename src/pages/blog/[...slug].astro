@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import { env } from 'cloudflare:workers';
 import { marked } from 'marked';
 
@@ -49,98 +50,158 @@ const views = postRaw.views || 0;
 const tags = postRaw.tags ? (typeof postRaw.tags === 'string' ? JSON.parse(postRaw.tags) : postRaw.tags) : [];
 
 const contentHtml = marked.parse(postRaw.body || '');
+
+const breadcrumbsData = [
+  { name: 'الرئيسية', url: '/' },
+  { name: 'المقالات والمدونة', url: '/blog' },
+  { name: title, url: `/blog/${slug}` }
+];
+
+const whatsappText = encodeURIComponent(`مرحباً أكاديمية KSA، قرأت مقال "${title}" وأرغب في حجز حصة تجريبية / استشارة مع معلم متخصص.`);
 ---
 
-<MainLayout title={`${title} | أكاديمية KSA`} description={description}>
-	<article class="py-12 md:py-24">
+<MainLayout 
+	title={`${title} | أكاديمية KSA`} 
+	description={description}
+	image={heroImage}
+	type="article"
+	articleDate={pubDate}
+	author={author}
+	breadcrumbs={breadcrumbsData}
+	keywords={tags && tags.length > 0 ? tags.join(', ') + ', المناهج السعودية, أكاديمية KSA, دروس خصوصية' : undefined}
+>
+	<article class="py-8 md:py-16">
 		<div class="container mx-auto px-4 max-w-4xl">
-			<div class="space-y-8 mb-12 text-center reveal">
+			
+			<div class="mb-8">
+				<Breadcrumbs items={[{ label: 'المقالات التعليمية', href: '/blog' }, { label: title }]} />
+			</div>
+
+			<div class="space-y-6 mb-10 text-center reveal">
 				{tags && tags.length > 0 && (
-					<div class="flex justify-center gap-2 mb-4">
+					<div class="flex flex-wrap justify-center gap-2 mb-2">
 						{tags.map((tag: string) => (
-							<span class="px-4 py-1 bg-primary/10 text-primary text-sm font-black rounded-full font-cairo">
-								{tag}
+							<span class="px-3.5 py-1 bg-primary/10 text-primary text-xs md:text-sm font-black rounded-full font-cairo">
+								#{tag}
 							</span>
 						))}
 					</div>
 				)}
 				
-				<h1 class="text-4xl md:text-6xl font-cairo font-black tracking-tight leading-tight">
+				<h1 class="text-3xl md:text-5xl lg:text-6xl font-cairo font-black tracking-tight leading-tight text-foreground">
 					{title}
 				</h1>
 				
-				<div class="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-muted-foreground font-bold text-sm md:text-base">
+				<div class="flex flex-wrap items-center justify-center gap-4 md:gap-6 text-muted-foreground font-bold text-xs md:text-sm">
 					<div class="flex items-center gap-2">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
 						<FormattedDate date={pubDate} />
 					</div>
 					<div class="flex items-center gap-2">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
 						<span>{readingTime}</span>
 					</div>
 					<div class="flex items-center gap-2">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-						<span>{views} مشاهدة</span>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+						<span>{views} قراءة</span>
 					</div>
 					<div class="flex items-center gap-2">
-						<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
 						<span>{author}</span>
 					</div>
 				</div>
 			</div>
 
 			{heroImage && (
-				<div class="aspect-video rounded-[3rem] overflow-hidden shadow-2xl mb-16 border-8 border-card reveal">
+				<div class="aspect-video rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-2xl mb-12 border-4 md:border-8 border-card reveal">
 					<img 
 						src={heroImage} 
 						alt={postRaw.imageAlt || title}
 						title={postRaw.imageAlt || title}
 						class="w-full h-full object-cover"
+						loading="lazy"
 					/>
 				</div>
 			)}
+
+			<!-- Interactive Conversion Banner (Top) -->
+			<div class="mb-12 p-6 md:p-8 rounded-3xl bg-gradient-to-r from-primary/10 via-secondary/10 to-primary/5 border-2 border-primary/20 flex flex-col sm:flex-row items-center justify-between gap-6 reveal">
+				<div class="space-y-2 text-center sm:text-right">
+					<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/20 text-primary text-xs font-black">
+						🎯 حصة تجريبية مباشرة
+					</span>
+					<h3 class="text-xl md:text-2xl font-black font-cairo text-foreground">
+						هل ترغب في فهم هذا الدرس بتفصيل أكثر مع معلم متخصص؟
+					</h3>
+					<p class="text-sm font-bold text-muted-foreground">
+						جرّب حصة خصوصية تفاعلية بأسعار تبدأ من <span class="text-primary font-black">25 ريال فقط</span>، نضمن لك الفهم الكامل.
+					</p>
+				</div>
+				<a 
+					href={`https://wa.me/${Astro.locals.whatsapp}?text=${whatsappText}`} 
+					target="_blank"
+					class="shrink-0 px-6 py-3.5 bg-primary text-white rounded-2xl font-black font-cairo shadow-lg shadow-primary/30 hover:scale-105 active:scale-95 transition-all text-sm md:text-base flex items-center gap-2"
+				>
+					<span>احجز حصتك الآن</span>
+					<span>←</span>
+				</a>
+			</div>
 
 			<div class="prose prose-xl dark:prose-invert max-w-none font-cairo leading-loose text-justify text-muted-foreground font-bold article-content reveal">
 				<div set:html={contentHtml} />
 			</div>
 			
-			<!-- Share & CTA -->
-			<div class="mt-16 pt-8 border-t-2 border-primary/5 flex flex-col md:flex-row justify-between items-center gap-8 reveal">
-				<div class="flex items-center gap-4">
-					<span class="font-black text-foreground font-cairo">مشاركة المقال:</span>
-					<!-- Share buttons (simplified for example) -->
-					<div class="flex gap-2">
-						<button class="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-						</button>
-						<button class="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
-							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
-						</button>
-					</div>
-				</div>
+			<!-- Bottom Conversion Call to Action -->
+			<div class="mt-16 p-8 md:p-12 rounded-[2.5rem] bg-card border-2 border-primary/20 shadow-2xl text-center space-y-6 relative overflow-hidden reveal">
+				<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+				<div class="absolute -left-8 -bottom-8 w-32 h-32 bg-secondary/10 rounded-full blur-2xl pointer-events-none"></div>
 				
-				<a href="/#courses" class="px-8 py-4 bg-primary text-white rounded-full font-black font-cairo shadow-lg shadow-primary/20 hover:-translate-y-1 transition-transform">
-					تصفح باقاتنا التعليمية
-				</a>
+				<div class="inline-block p-4 bg-primary/10 rounded-2xl text-primary mb-2">
+					<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="m17 5-5-3-5 3"/><path d="m17 19-5 3-5-3"/><path d="M2 12h20"/><path d="m5 7-3 5 3 5"/><path d="m19 7 3 5-3 5"/></svg>
+				</div>
+
+				<h3 class="text-2xl md:text-4xl font-black font-cairo text-foreground">
+					لا تدع صعوبة المناهج أو اختبارات قياس تقف في طريقك!
+				</h3>
+				<p class="text-muted-foreground font-bold text-base md:text-xl max-w-2xl mx-auto leading-relaxed">
+					في أكاديمية KSA نوفر لك نخبة من أفضل معلمي المناهج السعودية والقدرات والتحصيلي لمتابعتك خطوة بخطوة بجلسات فردية وجماعية مخصصة.
+				</p>
+
+				<div class="flex flex-wrap justify-center gap-4 pt-4">
+					<a 
+						href={`https://wa.me/${Astro.locals.whatsapp}?text=${whatsappText}`} 
+						target="_blank" 
+						class="px-8 py-4 bg-primary text-white rounded-2xl font-black font-cairo shadow-xl shadow-primary/30 hover:scale-105 active:scale-95 transition-all text-lg flex items-center gap-2"
+					>
+						<span>تواصل عبر واتساب فوراً</span>
+						<span>💬</span>
+					</a>
+					<a 
+						href="/#courses" 
+						class="px-8 py-4 border-2 border-primary/20 bg-background text-foreground hover:bg-primary/5 rounded-2xl font-black font-cairo transition-all text-lg"
+					>
+						تصفح جميع باقاتنا التعليمية
+					</a>
+				</div>
 			</div>
 
 			<!-- Related Articles -->
 			{relatedPostsRaw.length > 0 && (
-				<div class="mt-24 reveal">
-					<div class="flex items-center gap-4 mb-10 border-r-4 border-primary pr-4">
-						<h3 class="text-3xl font-black font-cairo text-foreground">مقالات ذات صلة</h3>
+				<div class="mt-20 reveal">
+					<div class="flex items-center gap-4 mb-8 border-r-4 border-primary pr-4">
+						<h3 class="text-2xl md:text-3xl font-black font-cairo text-foreground">مقالات مقترحة لمتابعة قراءتك</h3>
 					</div>
-					<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+					<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 						{relatedPostsRaw.map((post: any) => (
-							<a href={`/blog/${post.slug}`} class="group bg-card rounded-[2rem] overflow-hidden shadow-lg border-2 border-primary/5 hover:border-primary/20 transition-all hover:-translate-y-2 flex flex-col">
+							<a href={`/blog/${post.slug}`} class="group bg-card rounded-3xl overflow-hidden shadow-md border border-primary/10 hover:border-primary/30 transition-all hover:-translate-y-2 flex flex-col">
 								<div class="aspect-video overflow-hidden">
-									<img src={post.heroImage || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80'} alt={post.title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+									<img src={post.heroImage || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80'} alt={post.title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
 								</div>
-								<div class="p-8 flex-1 flex flex-col">
-									<h4 class="font-black font-cairo text-foreground text-xl mb-4 group-hover:text-primary transition-colors line-clamp-2 leading-relaxed">{post.title}</h4>
-									<div class="mt-auto flex items-center text-primary font-bold font-cairo">
-										اقرأ المزيد 
-										<svg class="w-5 h-5 mr-2 rotate-180 transition-transform group-hover:-translate-x-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+								<div class="p-6 flex-1 flex flex-col">
+									<h4 class="font-black font-cairo text-foreground text-lg mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-relaxed">{post.title}</h4>
+									<div class="mt-auto flex items-center text-primary font-bold text-sm font-cairo">
+										اقرأ الدليل 
+										<svg class="w-4 h-4 mr-2 rotate-180 transition-transform group-hover:-translate-x-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
 									</div>
 								</div>
 							</a>

@@ -1,10 +1,29 @@
 ---
 const tips = [
-	"هل تعلم؟ الصفر هو الرقم الوحيد الذي لا يمكن تمثيله بالأرقام الرومانية.",
-	"نصيحة: لحل أي مسألة معقدة، ابدأ دائماً برسم شكل توضيحي بسيط للمعطيات.",
-	"حقيقة: الرقم 2 هو الرقم الأولي الزوجي الوحيد في عالم الرياضيات.",
-	"سر النجاح: التدرب على حل المسائل يومياً لمدة 15 دقيقة أفضل من المذاكرة لـ 5 ساعات مرة واحدة أسبوعياً.",
-	"هل تعلم؟ مجموع زوايا أي مثلث يساوي دائماً 180 درجة، مهما كان شكله!"
+	{
+		subject: "القدرات العامة",
+		tip: "سر اختبار القدرات: استراتيجية (استبعاد الخيارات غير المنطقية والتجريب السريع) توفر عليك أكثر من 30 ثانية لكل سؤال في القسمين الكمي واللفظي."
+	},
+	{
+		subject: "التحصيلي العلمي",
+		tip: "التحصيلي تراكمي: البدء بمراجعة أساسيات مقررات أول وثاني ثانوي في (الرياضيات، الفيزياء، الكيمياء، الأحياء) مبكراً هو الفارق الحاسم لتحقيق +90."
+	},
+	{
+		subject: "الرياضيات",
+		tip: "نصيحة لحل المسائل: حدد المعطيات والمطلوب أولاً، وارسم شكلاً بيانياً أو توضيحياً بسيطاً للمسألة قبل الشروع في كتابة خطوات الحل."
+	},
+	{
+		subject: "الفيزياء والكيمياء",
+		tip: "سر العلوم الطبيعية: فهم دلالة الوحدات الفيزيائية واشتقاق القوانين يغنيك عن حفظ عشرات المعادلات الجافة ويسهّل عليك حل مسائل الاختبار بثقة."
+	},
+	{
+		subject: "مادة لغتي",
+		tip: "قاعدة ذهبية في النحو: الإعراب فرع المعنى! اسأل نفسك دائماً: (ماذا حدث؟ من قام بالفعل؟ وعلى من وقع؟) قبل وضع أي حركة إعرابية."
+	},
+	{
+		subject: "المذاكرة الذكية",
+		tip: "تقنية الاسترجاع النشط (Active Recall): إغلاق الكتاب وتلخيص ما فهمته شفهياً أو في خريطة مفاهيمية يرفع نسبة استقرار المعلومة في الذاكرة بنسبة 80%."
+	}
 ];
 ---
 
@@ -15,12 +34,15 @@ const tips = [
 			<div class="absolute -right-4 -top-4 text-8xl opacity-10 rotate-12 group-hover:rotate-0 transition-transform duration-500">💡</div>
 			
 			<div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
-				<div class="w-20 h-20 rounded-2xl bg-primary text-white flex items-center justify-center text-4xl shadow-lg shadow-primary/30 shrink-0">
+				<div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-primary to-secondary text-white flex items-center justify-center text-4xl shadow-lg shadow-primary/30 shrink-0">
 					<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.7 1.5-1.7 1.5-2.5 0-2.2-1.8-4-4-4s-4 1.8-4 4c0 .8.5 1.8 1.5 2.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></svg>
 				</div>
-				<div class="space-y-4 text-center md:text-right">
-					<h3 class="text-xl font-black font-cairo text-primary uppercase tracking-widest">معلومة رياضية سريعة</h3>
-					<p id="math-tip-text" class="text-2xl md:text-3xl font-bold font-cairo leading-relaxed">
+				<div class="space-y-3 text-center md:text-right">
+					<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-black font-cairo">
+						<span id="study-tip-subject">مهارة وتفوق دراسي</span>
+					</div>
+					<h3 class="text-xl font-black font-cairo text-foreground">نصيحة اليوم للتفوق في المناهج واختبارات القياس</h3>
+					<p id="study-tip-text" class="text-lg md:text-2xl font-bold font-cairo leading-relaxed text-muted-foreground">
 						جاري تحميل نصيحة اليوم...
 					</p>
 				</div>
@@ -31,9 +53,11 @@ const tips = [
 
 <script define:vars={{ tips }}>
 	// Rotate tips logic
-	const tipText = document.getElementById('math-tip-text');
-	if (tipText) {
-		const randomTip = tips[Math.floor(Math.random() * tips.length)];
-		tipText.innerText = randomTip;
+	const tipText = document.getElementById('study-tip-text');
+	const tipSubject = document.getElementById('study-tip-subject');
+	if (tipText && tipSubject && tips.length > 0) {
+		const random = tips[Math.floor(Math.random() * tips.length)];
+		tipText.innerText = random.tip;
+		tipSubject.innerText = random.subject;
 	}
 </script>

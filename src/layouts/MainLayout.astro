@@ -8,9 +8,13 @@ interface Props {
 	title?: string;
 	description?: string;
 	image?: any;
-	type?: 'website' | 'article';
+	type?: 'website' | 'article' | 'course';
 	articleDate?: Date;
 	author?: string;
+	keywords?: string;
+	breadcrumbs?: { name: string; url: string }[];
+	faqList?: { question: string; answer: string }[];
+	courseInstructor?: string;
 }
 
 const { 
@@ -19,7 +23,11 @@ const {
 	image,
 	type,
 	articleDate,
-	author
+	author,
+	keywords,
+	breadcrumbs,
+	faqList,
+	courseInstructor
 } = Astro.props;
 ---
 
@@ -33,6 +41,10 @@ const {
 			type={type}
 			articleDate={articleDate}
 			author={author}
+			keywords={keywords}
+			breadcrumbs={breadcrumbs}
+			faqList={faqList}
+			courseInstructor={courseInstructor}
 		/>
 		<slot name="head" />
 		<script is:inline>

@@ -31,9 +31,15 @@ try {
 	console.error("D1 Fetch Error:", e);
 	dbError = "Error: " + e.message;
 }
+const title = "المقالات التعليمية وشروحات المناهج السعودية | أكاديمية KSA";
+const description = "دليلك الشامل لشروحات المناهج السعودية، نصائح وتجميعات اختبارات القدرات والتحصيلي، وأفضل استراتيجيات المذاكرة والتفوق الدراسي لجميع المراحل الدراسية.";
+const breadcrumbs = [
+  { name: 'الرئيسية', url: '/' },
+  { name: 'المقالات والمدونة', url: '/blog' }
+];
 ---
 
-<MainLayout title="الكورسات والمقالات | أكاديمية KSA">
+<MainLayout title={title} description={description} breadcrumbs={breadcrumbs}>
 	<section class="py-24">
 		<div class="container mx-auto px-4">
 			{dbError && (

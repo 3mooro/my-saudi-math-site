@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ksaacademy.online/sitemap-index.xml
+Sitemap: https://ksaacademy.online/sitemap.xml

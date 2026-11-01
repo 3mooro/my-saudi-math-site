@@ -27,9 +27,21 @@ const tag = courseRaw.tag;
 const packages = courseRaw.packages ? JSON.parse(courseRaw.packages) : [];
 const syllabus = courseRaw.syllabus ? JSON.parse(courseRaw.syllabus) : [];
 const contentHtml = marked.parse(courseRaw.body || '');
+const breadcrumbsData = [
+  { name: 'الرئيسية', url: '/' },
+  { name: 'الدورات والباقات التعليمية', url: '/courses' },
+  { name: title, url: `/courses/${slug}` }
+];
 ---
 
-<MainLayout title={`${title} | أكاديمية KSA`} description={`اشترك الآن في باقات ${title} مع ${instructor}. أفضل شرح للمناهج السعودية أون لاين.`}>
+<MainLayout 
+	title={`${title} | أكاديمية KSA`} 
+	description={`اشترك الآن في باقات ${title} مع ${instructor}. أفضل شرح وتدريب للمناهج السعودية أون لاين.`}
+	image={image}
+	type="course"
+	courseInstructor={instructor}
+	breadcrumbs={breadcrumbsData}
+>
 	<section class="py-12 md:py-24 bg-background">
 		<div class="container mx-auto px-4">
 			<Breadcrumbs items={[{ label: 'الباقات التعليمية', href: '/#courses' }, { label: title }]} />
