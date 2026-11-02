@@ -1,10 +1,11 @@
 export const prerender = false;
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
 const KEY = 'ksa-seo-7f3q9x-2026';
 
-function getDB(locals: any) {
-  return locals?.runtime?.env?.DB;
+function getDB(_locals: any) {
+  return (env as any).DB;
 }
 
 function json(data: any, status = 200) {
