@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "echo '{\"compatibility_date\":\"2024-04-05\"}' > wrangler.json && astro build && rm -f wrangler.json",
+    "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
   },

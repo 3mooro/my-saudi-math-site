@@ -1,8 +1,11 @@
 export const prerender = false;
 import type { APIRoute } from 'astro';
-import { env } from 'cloudflare:workers';
 
 const KEY = 'ksa-seo-7f3q9x-2026';
+
+function getDB(locals: any) {
+  return locals?.runtime?.env?.DB;
+}
 
 function json(data: any, status = 200) {
   return new Response(JSON.stringify(data), {
@@ -11,9 +14,9 @@ function json(data: any, status = 200) {
   });
 }
 
-export const GET: APIRoute = async ({ url }) => {
+export const GET: APIRoute = async ({ url, locals }) => {
   if (url.searchParams.get('key') !== KEY) return json({ error: 'forbidden' }, 403);
-  const db: any = (env as any).DB;
+  const db: any = getDB(locals);
   if (!db) return json({ error: 'DB binding not found' }, 500);
   const action = url.searchParams.get('action') || 'list';
   try {
@@ -46,9 +49,9 @@ export const GET: APIRoute = async ({ url }) => {
   }
 };
 
-export const POST: APIRoute = async ({ url, request }) => {
+export const POST: APIRoute = async ({ url, request, locals }) => {
   if (url.searchParams.get('key') !== KEY) return json({ error: 'forbidden' }, 403);
-  const db: any = (env as any).DB;
+  const db: any = getDB(locals);
   if (!db) return json({ error: 'DB binding not found' }, 500);
   let payload: any;
   try {
