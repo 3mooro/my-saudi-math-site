@@ -4,6 +4,17 @@ import { WHATSAPP_NUMBER as DEFAULT_WHATSAPP } from './consts';
 const APEX_HOST = 'ksaacademy.online';
 const WWW_HOST = 'www.ksaacademy.online';
 
+const LEGACY_REDIRECTS: Record<string, string> = {
+  '/blog/best-teachers-qatari-curriculum': '/',
+  '/blog/best-specialized-teachers-qatari-curriculum': '/',
+  '/blog/how-to-choose-the-best-private-tutor-saudi-curriculum': '/blog/how-to-choose-the-right-private-tutor-curriculum-in-person-vs-online',
+  '/blog/online-private-tutoring-saudi-curriculum-ksa-academy': '/blog/back-to-school-private-tutoring-saudi-curriculum',
+  '/blog/english-language-foundation-and-teaching-guide': '/blog/teaching-english-saudi-curriculum-guide',
+  '/blog/english-from-zero': '/blog/english-basics',
+  '/blog/best-english-teachers-math': '/blog/best-math-teachers-saudi-curriculum',
+  '/blog/algebra-basicss': '/blog/algebra-basics',
+};
+
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = context.url;
 
@@ -20,17 +31,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
       return context.redirect(target.toString(), 301);
     }
     // 1b) Legacy/consolidated posts -> permanent 301 to their canonical home (SEO consolidation 2026-11-02).
-    const LEGACY_REDIRECTS: Record<string, string> = {
-      /blog/best-teachers-qatari-curriculum: /,
-      /blog/best-specialized-teachers-qatari-curriculum: /,
-      /blog/how-to-choose-the-best-private-tutor-saudi-curriculum: /blog/how-to-choose-the-right-private-tutor-curriculum-in-person-vs-online,
-      /blog/online-private-tutoring-saudi-curriculum-ksa-academy: /blog/back-to-school-private-tutoring-saudi-curriculum,
-      /blog/english-language-foundation-and-teaching-guide: /blog/teaching-english-saudi-curriculum-guide,
-      /blog/english-from-zero: /blog/english-basics,
-      /blog/best-english-teachers-math: /blog/best-math-teachers-saudi-curriculum,
-      /blog/algebra-basicss: /blog/algebra-basics,
-    };
-    const cleanPath = url.pathname.replace(/\/$/, ).toLowerCase();
+    const cleanPath = url.pathname.replace(/\/$/, '').toLowerCase();
     if (LEGACY_REDIRECTS[cleanPath]) {
       const target = new URL(LEGACY_REDIRECTS[cleanPath], `https://${APEX_HOST}`);
       return context.redirect(target.toString(), 301);
