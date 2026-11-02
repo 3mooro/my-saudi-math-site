@@ -33,7 +33,7 @@ export const GET: APIRoute = async ({ site }) => {
           } catch (e) {}
 
           return {
-            loc: `${baseUrl}/blog/${b.slug}`,
+            loc: `${baseUrl}/blog/${String(b.slug).toLowerCase()}`,
             lastmod: dateStr,
             priority: '0.85',
             changefreq: 'weekly'
@@ -54,7 +54,7 @@ export const GET: APIRoute = async ({ site }) => {
           } catch (e) {}
 
           return {
-            loc: `${baseUrl}/courses/${c.slug}`,
+            loc: `${baseUrl}/courses/${String(c.slug).toLowerCase()}`,
             lastmod: dateStr,
             priority: '0.85',
             changefreq: 'weekly'

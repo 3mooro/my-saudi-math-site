@@ -15,13 +15,15 @@ try {
   if (db) {
     const viewCookieName = `viewed_article_${slug}`;
     if (!Astro.cookies.has(viewCookieName)) {
-      await db.prepare('UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ?').bind(slug).run();
+      await db.prepare('UPDATE blog SET views = COALESCE(views, 0) + 1 WHERE slug = ? COLLATE NOCASE').bind(slug).run();
       Astro.cookies.set(viewCookieName, 'true', {
         path: '/',
         maxAge: 60 * 60 * 24 // 24 hours
       });
     }
-    postRaw = await db.prepare('SELECT * FROM blog WHERE slug = ?').bind(slug).first();
+    // COLLATE NOCASE: legacy slugs stored with capital letters (e.g.
+    // English-Basics) are served at their lowercase canonical URL.
+    postRaw = await db.prepare('SELECT * FROM blog WHERE slug = ? COLLATE NOCASE').bind(slug).first();
   }
 } catch (e) {
   console.error("Error fetching main post:", e);
