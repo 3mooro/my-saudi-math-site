@@ -16,7 +16,7 @@ export const GET: APIRoute = async ({ params }) => {
     if (!db) return new Response('Not found', { status: 404 });
 
     const row: any = await db
-      .prepare('SELECT heroImage FROM blog WHERE slug = ? COLLATE NOCASE')
+      .prepare('SELECT heroImage FROM blog WHERE slug = ?')
       .bind(slug)
       .first();
 
