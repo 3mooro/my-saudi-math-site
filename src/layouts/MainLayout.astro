@@ -15,6 +15,7 @@ interface Props {
 	breadcrumbs?: { name: string; url: string }[];
 	faqList?: { question: string; answer: string }[];
 	courseInstructor?: string;
+	coursePrice?: number;
 }
 
 const { 
@@ -27,7 +28,8 @@ const {
 	keywords,
 	breadcrumbs,
 	faqList,
-	courseInstructor
+	courseInstructor,
+	coursePrice
 } = Astro.props;
 ---
 
@@ -45,6 +47,7 @@ const {
 			breadcrumbs={breadcrumbs}
 			faqList={faqList}
 			courseInstructor={courseInstructor}
+			coursePrice={coursePrice}
 		/>
 		<slot name="head" />
 		<script is:inline>

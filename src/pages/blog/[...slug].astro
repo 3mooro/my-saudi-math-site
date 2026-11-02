@@ -33,7 +33,7 @@ if (!postRaw) {
 
 try {
   if (db) {
-    const { results } = await db.prepare('SELECT * FROM blog WHERE slug != ? ORDER BY RANDOM() LIMIT 3').bind(slug).all();
+    const { results } = await db.prepare('SELECT slug, title, heroImage FROM blog WHERE slug != ? ORDER BY RANDOM() LIMIT 3').bind(slug).all();
     relatedPostsRaw = results || [];
   }
 } catch (e) {
@@ -43,7 +43,12 @@ try {
 const title = postRaw.title;
 const description = postRaw.description;
 const pubDate = new Date(postRaw.pubDate || postRaw.created_at);
-const heroImage = postRaw.heroImage;
+// SEO/perf fix (2026-11-02): serve base64 hero images as cacheable files
+// via /api/blog-image/<slug> instead of inlining them into the HTML and
+// the og:image (social crawlers cannot read data: URIs).
+const heroImage = postRaw.heroImage && postRaw.heroImage.startsWith('data:')
+	? `/api/blog-image/${slug}`
+	: postRaw.heroImage;
 const author = postRaw.author || 'أكاديمية KSA';
 const readingTime = postRaw.readingTime || '5 دقائق';
 const views = postRaw.views || 0;
@@ -114,12 +119,13 @@ const whatsappText = encodeURIComponent(`مرحباً أكاديمية KSA، ق�
 
 			{heroImage && (
 				<div class="aspect-video rounded-3xl md:rounded-[2.5rem] overflow-hidden shadow-2xl mb-12 border-4 md:border-8 border-card reveal">
-					<img 
-						src={heroImage} 
+					<img
+						src={heroImage}
 						alt={postRaw.imageAlt || title}
 						title={postRaw.imageAlt || title}
 						class="w-full h-full object-cover"
-						loading="lazy"
+						loading="eager"
+						fetchpriority="high"
 					/>
 				</div>
 			)}
@@ -195,7 +201,7 @@ const whatsappText = encodeURIComponent(`مرحباً أكاديمية KSA، ق�
 						{relatedPostsRaw.map((post: any) => (
 							<a href={`/blog/${post.slug}`} class="group bg-card rounded-3xl overflow-hidden shadow-md border border-primary/10 hover:border-primary/30 transition-all hover:-translate-y-2 flex flex-col">
 								<div class="aspect-video overflow-hidden">
-									<img src={post.heroImage || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80'} alt={post.title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
+									<img src={(post.heroImage && post.heroImage.startsWith('data:') ? `/api/blog-image/${post.slug}` : post.heroImage) || 'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&q=80'} alt={post.title} class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" loading="lazy" />
 								</div>
 								<div class="p-6 flex-1 flex flex-col">
 									<h4 class="font-black font-cairo text-foreground text-lg mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-relaxed">{post.title}</h4>

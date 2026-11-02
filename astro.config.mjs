@@ -1,6 +1,5 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import mdx from '@astrojs/mdx';
-import sitemap from '@astrojs/sitemap';
 import cloudflare from '@astrojs/cloudflare';
 
 import tailwindcss from '@tailwindcss/vite';
@@ -10,8 +9,11 @@ export default defineConfig({
   // رابط موقعك الرسمي
   site: 'https://ksaacademy.online',
 
-  // تفعيل إضافات المقالات وخريطة الموقع
-  integrations: [mdx(), sitemap()],
+  // SEO (2026-11-02): the ONLY sitemap is the dynamic /sitemap.xml route
+  // (src/pages/sitemap.xml.ts). The @astrojs/sitemap integration was removed
+  // because it generated a conflicting /sitemap-index.xml with trailing-slash
+  // URLs and non-indexable pages (login, student, teacher...).
+  integrations: [mdx()],
 
   output: 'server',
   adapter: cloudflare({

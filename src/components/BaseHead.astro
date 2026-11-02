@@ -25,6 +25,7 @@ interface Props {
 	breadcrumbs?: BreadcrumbItem[];
 	faqList?: FAQItem[];
 	courseInstructor?: string;
+	coursePrice?: number;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
@@ -32,19 +33,29 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { 
 	title, 
 	description, 
-	image = '/blog-placeholder-1.jpg',
+	image = '/og-image.jpg',
 	type = 'website',
 	articleDate,
 	author = 'أكاديمية KSA',
 	keywords = 'المناهج السعودية, منصة تعليمية سعودية, دروس خصوصية اونلاين, مدرس خصوصي المنهج السعودي, اختبار القدرات, تجميعات قدرات, التحصيلي, رياضيات المنهج السعودي, فيزياء, كيمياء, لغتي, مراجعات واختبارات, أكاديمية KSA, حصة تجريبية, معلمين خصوصيين',
 	breadcrumbs,
 	faqList,
-	courseInstructor = 'أكاديمية KSA'
+	courseInstructor = 'أكاديمية KSA',
+	coursePrice
 } = Astro.props;
 
-// Handle image URL resolution
+// Optional analytics hooks — set PUBLIC_GSC_VERIFICATION and/or PUBLIC_GA_ID
+// as environment variables in Cloudflare Pages to activate (added 2026-11-02).
+const GSC_VERIFICATION = import.meta.env.PUBLIC_GSC_VERIFICATION;
+const GA_ID = import.meta.env.PUBLIC_GA_ID;
+
+// Handle image URL resolution.
+// SEO fix (2026-11-02): never use a data: URI (blog images stored as base64 in
+// D1) as the og:image — social crawlers cannot read it. Fall back to the
+// site-wide OG image instead; pages pass the /api/blog-image/<slug> URL.
 const resolvedImageSrc = typeof image === 'string' ? image : image?.src;
-const imageURL = new URL(resolvedImageSrc || '/blog-placeholder-1.jpg', Astro.url);
+const safeImageSrc = resolvedImageSrc && !resolvedImageSrc.startsWith('data:') ? resolvedImageSrc : '/og-image.jpg';
+const imageURL = new URL(safeImageSrc, Astro.url);
 
 // JSON-LD Schema Graph Generation
 const schemaGraph: any[] = [
@@ -58,8 +69,7 @@ const schemaGraph: any[] = [
 		"description": "المنصة التعليمية الرائدة في المملكة العربية السعودية لشرح المناهج الدراسية، تأسيس القدرات والتحصيلي، والدروس الخصوصية المباشرة لجميع المراحل.",
 		"sameAs": [
 			"https://twitter.com/ksaacademy",
-			"https://instagram.com/ksaacademy",
-			"https://linkedin.com/company/ksaacademy"
+			"https://instagram.com/ksaacademy"
 		],
 		"address": {
 			"@type": "PostalAddress",
@@ -116,6 +126,21 @@ if (type === 'article') {
 			"@type": "Person",
 			"name": courseInstructor
 		},
+		"hasCourseInstance": {
+			"@type": "CourseInstance",
+			"courseMode": "online",
+			"inLanguage": "ar-SA"
+		},
+		...(coursePrice ? {
+			"offers": {
+				"@type": "Offer",
+				"category": "Paid",
+				"price": coursePrice,
+				"priceCurrency": "SAR",
+				"availability": "https://schema.org/InStock",
+				"url": canonicalURL.href
+			}
+		} : {}),
 		"inLanguage": "ar-SA"
 	});
 }
@@ -169,6 +194,18 @@ const finalSchema = {
 	href={new URL('rss.xml', Astro.site)}
 />
 <meta name="generator" content={Astro.generator} />
+{GSC_VERIFICATION && <meta name="google-site-verification" content={GSC_VERIFICATION} />}
+{GA_ID && (
+	<>
+		<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+		<script is:inline define:vars={{ GA_ID }}>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){ dataLayer.push(arguments); }
+			gtag('js', new Date());
+			gtag('config', GA_ID);
+		</script>
+	</>
+)}
 
 <Font cssVariable="--font-cairo" preload />
 <Font cssVariable="--font-tajawal" preload />

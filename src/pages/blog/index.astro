@@ -12,7 +12,11 @@ try {
 	if (!db) {
 		dbError = "DB binding is undefined in env.";
 	} else {
-		const { results } = await db.prepare("SELECT * FROM blog ORDER BY pubDate DESC").all();
+		// SEO/perf fix (2026-11-02): fetch only the columns the cards need
+		// (SELECT * also dragged every article body + base64 image), and serve
+		// dashboard-uploaded images through /api/blog-image/<slug> instead of
+		// inlining base64 data URIs into the HTML.
+		const { results } = await db.prepare("SELECT slug, title, description, pubDate, heroImage FROM blog ORDER BY pubDate DESC").all();
 		if (results) {
 			const dbPosts = results.map((post: any) => ({
 			id: post.slug,
@@ -21,7 +25,9 @@ try {
 				title: post.title,
 				description: post.description,
 				pubDate: new Date(post.pubDate),
-				heroImage: post.heroImage,
+				heroImage: post.heroImage && post.heroImage.startsWith('data:')
+					? `/api/blog-image/${post.slug}`
+					: post.heroImage,
 			}
 		}));
 			posts = [...posts, ...dbPosts].sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());

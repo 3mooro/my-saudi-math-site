@@ -27,6 +27,12 @@ const tag = courseRaw.tag;
 const packages = courseRaw.packages ? JSON.parse(courseRaw.packages) : [];
 const syllabus = courseRaw.syllabus ? JSON.parse(courseRaw.syllabus) : [];
 const contentHtml = marked.parse(courseRaw.body || '');
+// SEO (2026-11-02): cheapest per-session price, used in the meta description
+// and the Course schema Offer so the price shows in search results.
+const sessionPrices = packages
+  .map((p: any) => Number(p.pricePerSession))
+  .filter((n: number) => Number.isFinite(n) && n > 0);
+const minSessionPrice = sessionPrices.length ? Math.min(...sessionPrices) : undefined;
 const breadcrumbsData = [
   { name: 'الرئيسية', url: '/' },
   { name: 'الدورات والباقات التعليمية', url: '/courses' },
@@ -34,12 +40,13 @@ const breadcrumbsData = [
 ];
 ---
 
-<MainLayout 
-	title={`${title} | أكاديمية KSA`} 
-	description={`اشترك الآن في باقات ${title} مع ${instructor}. أفضل شرح وتدريب للمناهج السعودية أون لاين.`}
+<MainLayout
+	title={`${title} | دروس خصوصية أونلاين – شرح المنهج السعودي | أكاديمية KSA`}
+	description={`دروس ${title} خصوصية أونلاين مع ${instructor}: شرح تفاعلي مباشر للمنهج السعودي ومتابعة مستمرة وتدريب على الاختبارات${minSessionPrice ? `. باقات تبدأ من ${minSessionPrice} ر.س للحصة` : ''}. احجز حصتك التجريبية الآن.`}
 	image={image}
 	type="course"
 	courseInstructor={instructor}
+	coursePrice={minSessionPrice}
 	breadcrumbs={breadcrumbsData}
 >
 	<section class="py-12 md:py-24 bg-background">
