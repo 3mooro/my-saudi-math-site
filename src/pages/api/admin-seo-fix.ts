@@ -103,6 +103,15 @@ export const POST: APIRoute = async ({ url, request, locals }) => {
         .run();
       return json({ success: true, slug: a.slug });
     }
+    if (action === 'rename') {
+      const { from, to } = payload;
+      if (!from || !to) return json({ error: 'from/to required' }, 400);
+      const res = await db
+        .prepare(`UPDATE blog SET slug = ?, updated_at = datetime('now') WHERE slug = ?`)
+        .bind(to, from)
+        .run();
+      return json({ success: true, changes: res.meta?.changes ?? null });
+    }
     if (action === 'delete') {
       const { slug } = payload;
       if (!slug) return json({ error: 'slug required' }, 400);
