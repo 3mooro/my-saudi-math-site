@@ -1,20 +1,27 @@
 import type { APIRoute } from 'astro';
+import { env } from 'cloudflare:workers';
 
+// يسجّل نقرة واتساب قادمة من صفحة مقال (slug) لعرض عدد النقرات لكل مقال في لوحة التحكم
 export const POST: APIRoute = async ({ request }) => {
   try {
-    const { env } = await import('cloudflare:workers');
-    const db = env?.DB;
-    if (!db) {
-      return new Response(JSON.stringify({ error: 'DB not found' }), { status: 500 });
+    const db = env.DB;
+    if (db) {
+      let slug = '';
+      try {
+        const data: any = await request.json();
+        slug = String(data?.slug || '').toLowerCase();
+      } catch {}
+      if (/^[a-z0-9\-_]+$/.test(slug) && slug.length <= 150) {
+        await db.prepare(`CREATE TABLE IF NOT EXISTS whatsapp_clicks (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          slug TEXT NOT NULL,
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )`).run();
+        await db.prepare('INSERT INTO whatsapp_clicks (slug) VALUES (?)').bind(slug).run();
+      }
     }
-
-    await db.prepare("UPDATE site_stats SET whatsapp_clicks = COALESCE(whatsapp_clicks, 0) + 1 WHERE id = 'global'").run();
-
-    return new Response(JSON.stringify({ success: true }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' }
-    });
-  } catch (error: any) {
-    return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+  } catch (e) {
+    console.error('track-whatsapp error:', e);
   }
+  return new Response(null, { status: 204 });
 };
