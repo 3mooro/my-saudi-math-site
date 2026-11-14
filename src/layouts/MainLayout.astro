@@ -135,6 +135,8 @@ const {
 
 				// Track WhatsApp Clicks via Event Delegation
 				document.addEventListener('click', (e) => {
+					// صفحات المقالات لها مستمع خاص بها يرسل الـ slug (ونفس الطلب يزيد العدّاد العام)، فلا نرسل مرة ثانية هنا
+					if (/^\/blog\/.+/.test(window.location.pathname)) return;
 					const target = e.target as HTMLElement;
 					const link = target.closest('a');
 					if (link && (link.href.includes('wa.me') || link.href.includes('whatsapp.com'))) {
