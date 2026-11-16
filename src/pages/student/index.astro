@@ -46,6 +46,58 @@ if (db) {
     `).bind(student.id).all();
     schedules = schedulesResult.results || [];
 
+    // Dashboard schedules (weekly + one-off) for the linked dashboard student
+    try {
+      const normPhone = (p: any) => { let d = String(p || '').replace(/\D/g, ''); if (d.startsWith('966')) d = '0' + d.slice(3); if (d.length === 9 && d.startsWith('5')) d = '0' + d; return d; };
+      let dashStudent: any = null;
+      try { dashStudent = await db.prepare('SELECT id FROM students WHERE site_account_id = ?').bind(student.id).first(); } catch {}
+      if (!dashStudent) {
+        const all = await db.prepare('SELECT id, phone FROM students').all();
+        const t = normPhone(student.phone);
+        dashStudent = (all.results || []).find((s: any) => normPhone(s.phone) === t) || null;
+      }
+      if (dashStudent) {
+        const dashId = dashStudent.id;
+        const activeSubs = await db.prepare("SELECT id, teacher_id FROM course_subscriptions WHERE student_id = ? AND status = 'active'").bind(student.id).all();
+        const subByTeacher: Record<number, number> = {};
+        for (const s of (activeSubs.results || [])) subByTeacher[s.teacher_id] = s.id;
+        const toUtcIso = (saudiNaive: string) => new Date(saudiNaive.replace(' ', 'T') + '+03:00').toISOString();
+
+        const oneOff = await db.prepare(`
+          SELECT ss.session_datetime, ss.teacher_id, t.name AS teacher_name
+          FROM session_schedule ss JOIN teachers t ON t.id = ss.teacher_id
+          WHERE ss.student_id = ? AND ss.status = 'scheduled' AND date(ss.session_datetime) >= date('now', '+3 hours')
+          ORDER BY ss.session_datetime ASC LIMIT 20
+        `).bind(dashId).all();
+        for (const r of (oneOff.results || [])) {
+          schedules.push({ teacher_name: r.teacher_name, scheduled_at: toUtcIso(r.session_datetime), subscription_id: subByTeacher[r.teacher_id] || 0 });
+        }
+
+        const weekly = await db.prepare('SELECT * FROM weekly_schedule WHERE student_id = ?').bind(dashId).all();
+        let exceptions: any = { results: [] };
+        try { exceptions = await db.prepare('SELECT teacher_id, exception_date FROM weekly_schedule_exceptions WHERE student_id = ?').bind(dashId).all(); } catch {}
+        const exSet = new Set((exceptions.results || []).map((e: any) => `${e.teacher_id}|${e.exception_date}`));
+        const nowSaudi = new Date(Date.now() + 3 * 3600 * 1000);
+        for (let i = 0; i < 14; i++) {
+          const day = new Date(nowSaudi.getTime() + i * 86400 * 1000);
+          const dow = day.getUTCDay();
+          const dateStr = day.toISOString().slice(0, 10);
+          for (const w of (weekly.results || [])) {
+            if (Number(w.day_of_week) !== dow) continue;
+            if (exSet.has(`${w.teacher_id}|${dateStr}`)) continue;
+            const tod = String(w.time_of_day || '');
+            const dt = `${dateStr} ${tod.length === 5 ? tod + ':00' : tod}`;
+            const iso = toUtcIso(dt);
+            if (new Date(iso).getTime() < Date.now()) continue;
+            const trow: any = await db.prepare('SELECT name FROM teachers WHERE id = ?').bind(w.teacher_id).first();
+            schedules.push({ teacher_name: trow?.name || '', scheduled_at: iso, subscription_id: subByTeacher[w.teacher_id] || 0 });
+          }
+        }
+        schedules.sort((a: any, b: any) => new Date(a.scheduled_at).getTime() - new Date(b.scheduled_at).getTime());
+        schedules = schedules.slice(0, 20);
+      }
+    } catch (e) { console.error(e); }
+
     // Get available courses for the dropdown (assuming we have a courses table, or we just use static list)
     // Actually we'll just use a static list for now or fetch from Astro collections.
   } catch (e) {
@@ -243,9 +295,11 @@ const success = Astro.url.searchParams.get('success');
                   <p class="font-bold text-blue-900 dark:text-blue-300">أستاذ: {sch.teacher_name}</p>
                   <p class="text-sm font-bold text-blue-700 dark:text-blue-400 mt-1 scheduled-time" data-utc={sch.scheduled_at}></p>
                 </div>
-                <a href={`/chat/${sch.subscription_id}`} class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
-                </a>
+                {sch.subscription_id > 0 && (
+                  <a href={`/chat/${sch.subscription_id}`} class="bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-700 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                  </a>
+                )}
               </div>
             ))}
           </div>
