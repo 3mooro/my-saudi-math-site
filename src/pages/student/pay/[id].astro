@@ -1,0 +1,207 @@
+---
+export const prerender = false;
+import BaseHead from '../../../components/BaseHead.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import { SITE_TITLE } from '../../../consts';
+import { env } from 'cloudflare:workers';
+
+const authCookie = Astro.cookies.get('student_auth')?.value;
+if (!authCookie) {
+  return Astro.redirect('/login');
+}
+
+const subId = Number(Astro.params.id);
+const db = env.DB;
+let student: any = null;
+let sub: any = null;
+let receipt: any = null;
+
+function resolveAmount(courseName: string, packageName: string) {
+  const isQiyas = /قدرات|تحصيلي/.test(courseName);
+  let rate = 35;
+  if (isQiyas) rate = 45;
+  else if (courseName.includes('ابتدائي')) rate = 25;
+  else if (courseName.includes('متوسط')) rate = 30;
+  else if (courseName.includes('ثانوي')) rate = 35;
+  const m = packageName.match(/\d+/);
+  let sessions = m ? parseInt(m[0], 10) : 1;
+  if (packageName.includes('طارئة')) {
+    sessions = 1;
+    if (!isQiyas) {
+      if (courseName.includes('ابتدائي')) rate = 35;
+      else if (courseName.includes('متوسط')) rate = 40;
+      else rate = 50;
+    }
+  }
+  return { sessions, rate, total: sessions * rate };
+}
+
+if (db && subId) {
+  try {
+    student = await db.prepare('SELECT * FROM student_accounts WHERE id = ?').bind(authCookie).first();
+    if (!student) return Astro.redirect('/login');
+    sub = await db.prepare('SELECT * FROM course_subscriptions WHERE id = ? AND student_id = ?').bind(subId, student.id).first();
+    if (!sub) return Astro.redirect('/student');
+    if (sub.status === 'active') return Astro.redirect('/student');
+    try {
+      receipt = await db.prepare('SELECT * FROM payment_receipts WHERE subscription_id = ? ORDER BY id DESC LIMIT 1').bind(subId).first();
+    } catch {}
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+const amount = sub ? resolveAmount(sub.course_name || '', sub.package_name || '') : { sessions: 0, rate: 0, total: 0 };
+const whatsapp = Astro.locals.whatsapp;
+const helpText = encodeURIComponent(`مرحباً، عندي مشكلة في الدفع لاشتراك: ${sub?.course_name || ''} — ${sub?.package_name || ''}`);
+---
+
+<!doctype html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+  <head>
+    <BaseHead title={`إتمام الدفع - ${SITE_TITLE}`} description="الدفع بالتحويل البنكي ورفع إيصال التحويل" />
+  </head>
+  <body class="bg-background text-foreground flex flex-col min-h-screen">
+    <Header />
+    <main class="flex-1 container mx-auto px-4 py-10">
+      <a href="/student" class="inline-block mb-6 text-sm font-bold text-primary hover:underline">→ العودة إلى حسابي</a>
+
+      <div class="max-w-[430px] mx-auto">
+        <h1 class="text-2xl font-black font-cairo text-center mb-2">إتمام الدفع بالتحويل البنكي</h1>
+        <p class="text-center text-muted-foreground font-bold text-sm mb-6">{sub?.course_name} — {sub?.package_name}</p>
+
+        {receipt && (
+          <div class="bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800 rounded-2xl p-4 mb-6 text-center font-bold text-sm">
+            تم استلام إيصال التحويل الخاص بك وهو الآن قيد المراجعة. سيتم إرسال رسالة تأكيد لك فور تفعيل الباقة. يمكنك رفع إيصال جديد إذا أردت الاستبدال.
+          </div>
+        )}
+
+        <div style="border-radius:18px;overflow:hidden;border:1px solid #d7e3de;box-shadow:0 10px 30px rgba(0,60,45,.15);background:#ffffff;color:#12312a;font-family:inherit;">
+          <div style="background:linear-gradient(135deg,#004d3a 0%,#00755a 60%,#009b77 100%);color:#fff;padding:20px 22px;">
+            <div style="display:flex;align-items:center;gap:12px;">
+              <div style="width:46px;height:46px;border-radius:12px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;flex:none;">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round"><path d="M12 21v-8"/><path d="M12 13c-2.5 0-4.5-1.6-5.5-4 2.8-.3 5 1 5.5 4z"/><path d="M12 13c2.5 0 4.5-1.6 5.5-4-2.8-.3-5 1-5.5 4z"/><path d="M12 11c-.3-2.3.6-4.4 2.5-5.5.3 2.3-.6 4.4-2.5 5.5z"/><path d="M12 11c.3-2.3-.6-4.4-2.5-5.5-.3 2.3.6 4.4-2.5 5.5z"/></svg>
+              </div>
+              <div>
+                <div style="font-size:19px;font-weight:800;line-height:1.25;">البنك الأهلي السعودي</div>
+                <div style="font-size:12px;opacity:.85;letter-spacing:.4px;">SAUDI NATIONAL BANK · SNB</div>
+              </div>
+            </div>
+            <div style="margin-top:14px;font-size:13px;opacity:.92;">حوّل قيمة الباقة إلى حساب الأكاديمية ثم ارفع صورة الإيصال هنا — كل الخطوات من داخل الموقع.</div>
+          </div>
+
+          <div style="padding:18px 22px 4px;">
+            <div style="background:linear-gradient(135deg,rgba(0,117,90,.10),rgba(0,155,119,.06));border:1.5px dashed rgba(0,117,90,.45);border-radius:14px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div style="font-size:12.5px;color:#5b6f68;">إجمالي المبلغ المطلوب تحويله</div>
+                <div style="font-size:12px;color:#5b6f68;margin-top:2px;">{sub?.package_name} — {amount.sessions} حصص × {amount.rate} ر.س</div>
+              </div>
+              <div style="text-align:left;">
+                <span style="font-size:27px;font-weight:800;color:#00755a;">{amount.total}</span>
+                <span style="font-size:14px;font-weight:700;color:#00755a;">ر.س</span>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:14px 22px 6px;">
+            <div style="border-bottom:1px solid #e3ece8;padding:10px 0;">
+              <div style="font-size:12px;color:#5b6f68;margin-bottom:3px;">اسم صاحب الحساب</div>
+              <div style="font-size:16px;font-weight:700;">محمد المغاوري صقر</div>
+            </div>
+            <div style="border-bottom:1px solid #e3ece8;padding:10px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div>
+                <div style="font-size:12px;color:#5b6f68;margin-bottom:3px;">رقم الحساب</div>
+                <div style="font-size:16px;font-weight:700;direction:ltr;text-align:right;">11100180865408</div>
+              </div>
+              <button type="button" data-copy="11100180865408" style="flex:none;border:1px solid rgba(0,117,90,.5);color:#00755a;background:transparent;border-radius:9px;padding:6px 13px;font-size:13px;font-weight:700;cursor:pointer;">نسخ</button>
+            </div>
+            <div style="padding:10px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <div style="min-width:0;">
+                <div style="font-size:12px;color:#5b6f68;margin-bottom:3px;">رقم الآيبان (IBAN)</div>
+                <div style="font-size:14.5px;font-weight:700;direction:ltr;text-align:right;word-break:break-all;">SA33 1000 0011 1001 8086 5408</div>
+              </div>
+              <button type="button" data-copy="SA3310000011100180865408" style="flex:none;border:1px solid rgba(0,117,90,.5);color:#00755a;background:transparent;border-radius:9px;padding:6px 13px;font-size:13px;font-weight:700;cursor:pointer;">نسخ</button>
+            </div>
+          </div>
+
+          <div style="padding:4px 22px 2px;display:flex;gap:8px;">
+            <div style="flex:1;text-align:center;font-size:12px;color:#5b6f68;"><div style="width:24px;height:24px;margin:0 auto 4px;border-radius:50%;background:#00755a;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px;">1</div>حوّل المبلغ</div>
+            <div style="flex:1;text-align:center;font-size:12px;color:#5b6f68;"><div style="width:24px;height:24px;margin:0 auto 4px;border-radius:50%;background:#00755a;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px;">2</div>ارفع الإيصال</div>
+            <div style="flex:1;text-align:center;font-size:12px;color:#5b6f68;"><div style="width:24px;height:24px;margin:0 auto 4px;border-radius:50%;background:#00755a;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:13px;">3</div>نراجع ونفعّل باقتك</div>
+          </div>
+
+          <div style="padding:14px 22px 20px;">
+            <form id="payForm" action="/api/student/payment" method="POST">
+              <input type="hidden" name="subscription_id" value={sub?.id} />
+              <input type="hidden" name="receipt_data" id="receiptData" />
+              <label for="receiptFile" style="display:block;border:1.5px dashed #b9cdc4;border-radius:14px;padding:16px;text-align:center;cursor:pointer;background:#f4f8f6;">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00755a" stroke-width="1.8" stroke-linecap="round" style="display:block;margin:0 auto 6px;"><path d="M12 16V4m0 0l-4 4m4-4l4 4"/><path d="M4 16v3a1 1 0 001 1h14a1 1 0 001-1v-3"/></svg>
+                <div style="font-size:14px;font-weight:700;">ارفع صورة إيصال التحويل</div>
+                <div id="fileName" style="font-size:12px;color:#5b6f68;margin-top:3px;">صورة أو PDF — اضغط للاختيار</div>
+              </label>
+              <input id="receiptFile" type="file" accept="image/*,.pdf" style="display:none;" />
+              <button id="sendBtn" type="submit" style="width:100%;margin-top:12px;background:#00755a;color:#fff;border:none;border-radius:12px;padding:13px;font-size:15.5px;font-weight:800;cursor:pointer;">إرسال الإيصال</button>
+            </form>
+            <div style="font-size:12px;color:#5b6f68;text-align:center;margin-top:10px;line-height:1.8;">بعد الإرسال يظهر طلبك في لوحة تحكم الأكاديمية للمراجعة، و<b>سيتم إرسال رسالة تأكيد لك</b> فور تفعيل الباقة.</div>
+            <div style="margin-top:14px;border-top:1px solid #e3ece8;padding-top:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+              <span style="font-size:13.5px;font-weight:700;">عندك مشكلة في الدفع؟</span>
+              <a href={`https://wa.me/${whatsapp}?text=${helpText}`} target="_blank" style="flex:none;background:#25D366;color:#fff;border-radius:10px;padding:8px 16px;font-size:13.5px;font-weight:800;text-decoration:none;">كلمنا واتساب</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <Footer />
+    <script>
+      document.querySelectorAll('[data-copy]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var val = btn.getAttribute('data-copy');
+          var done = function () { var o = btn.textContent; btn.textContent = 'تم النسخ'; setTimeout(function () { btn.textContent = o; }, 1500); };
+          if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(val).then(done).catch(done); } else { done(); }
+        });
+      });
+
+      var fileInput = document.getElementById('receiptFile');
+      var hidden = document.getElementById('receiptData');
+      var fileName = document.getElementById('fileName');
+      var form = document.getElementById('payForm');
+
+      fileInput.addEventListener('change', function () {
+        var file = fileInput.files[0];
+        if (!file) return;
+        fileName.textContent = file.name + ' — جارٍ التجهيز...';
+        if (file.type === 'application/pdf') {
+          if (file.size > 2 * 1024 * 1024) { fileName.textContent = 'حجم ملف الـPDF أكبر من ٢ ميجا — ارفع صورة للإيصال بدلاً منه'; hidden.value = ''; return; }
+          var r = new FileReader();
+          r.onload = function () { hidden.value = r.result; fileName.textContent = file.name + ' — جاهز للإرسال'; };
+          r.readAsDataURL(file);
+          return;
+        }
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          var img = new Image();
+          img.onload = function () {
+            var max = 1000;
+            var w = img.width, h = img.height;
+            if (w > max || h > max) { var s = max / Math.max(w, h); w = Math.round(w * s); h = Math.round(h * s); }
+            var canvas = document.createElement('canvas');
+            canvas.width = w; canvas.height = h;
+            canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+            hidden.value = canvas.toDataURL('image/jpeg', 0.82);
+            fileName.textContent = file.name + ' — جاهز للإرسال';
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      form.addEventListener('submit', function (ev) {
+        if (!hidden.value) {
+          ev.preventDefault();
+          fileName.textContent = 'اختر صورة الإيصال أولاً قبل الإرسال';
+        }
+      });
+    </script>
+  </body>
+</html>

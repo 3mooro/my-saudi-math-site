@@ -28,6 +28,15 @@ if (db) {
     const subsResult = await db.prepare("SELECT cs.*, t.name as teacher_name, (SELECT COUNT(*) FROM chat_messages WHERE receiver_id = cs.id AND sender_type = 'teacher' AND is_read = 0) as unread_count FROM course_subscriptions cs LEFT JOIN teachers t ON cs.teacher_id = t.id WHERE cs.student_id = ? ORDER BY cs.created_at DESC").bind(student.id).all();
     subscriptions = subsResult.results || [];
 
+    try {
+      const recRes = await db.prepare('SELECT subscription_id, status, created_at FROM payment_receipts WHERE student_id = ? ORDER BY id DESC').bind(student.id).all();
+      const receiptBySub: Record<number, any> = {};
+      for (const r of (recRes.results || [])) {
+        if (!receiptBySub[r.subscription_id]) receiptBySub[r.subscription_id] = r;
+      }
+      subscriptions = subscriptions.map((s: any) => ({ ...s, receipt: receiptBySub[s.id] || null }));
+    } catch {}
+
     const schedulesResult = await db.prepare(`
       SELECT cs.*, t.name as teacher_name 
       FROM class_schedules cs 
@@ -77,6 +86,12 @@ const success = Astro.url.searchParams.get('success');
         </div>
       )}
 
+      {success === 'payment_sent' && (
+        <div class="bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400 p-4 rounded-xl mb-8 font-bold text-center border border-blue-200 dark:border-blue-800">
+          تم استلام إيصال التحويل بنجاح! سيتم مراجعته وتفعيل باقتك، وسيتم إرسال رسالة تأكيد لك فور التفعيل.
+        </div>
+      )}
+
       <div class="grid md:grid-cols-3 gap-8">
         <div class="md:col-span-2 space-y-6">
           <h2 class="text-2xl font-black font-cairo mb-4 border-b pb-4">كورساتي واشتراكاتي</h2>
@@ -104,6 +119,19 @@ const success = Astro.url.searchParams.get('success');
                     </p>
                   </div>
                   
+                  {sub.status === 'pending' && (
+                    <div class="flex items-center gap-3 flex-wrap">
+                      {sub.receipt ? (
+                        <>
+                          <span class="bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300 px-4 py-2 rounded-xl text-sm font-bold border border-blue-200 dark:border-blue-800">تم رفع الإيصال — قيد مراجعة التحويل</span>
+                          <a href={`/student/pay/${sub.id}`} class="text-sm font-bold text-primary hover:underline">إعادة رفع الإيصال</a>
+                        </>
+                      ) : (
+                        <a href={`/student/pay/${sub.id}`} class="bg-primary text-white px-5 py-2.5 rounded-xl text-sm font-bold hover:bg-primary/90 transition-colors whitespace-nowrap">إتمام الدفع بالتحويل البنكي</a>
+                      )}
+                    </div>
+                  )}
+
                   {sub.status === 'active' && (
                     <div class="flex gap-4 items-center">
                       {sub.discount_note && (
