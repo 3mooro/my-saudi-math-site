@@ -147,11 +147,16 @@ const {
 		</script>
 
 		<script is:inline>
-			// Currency display by visitor country: UAE visitors see AED (same numerals), everyone else SAR.
-			// A manual choice (header toggle) is saved and always wins over geo detection.
+			// Currency + site variant by visitor country.
+			// Currency: UAE visitors see AED (same numerals), everyone else SAR.
+			// Variant: UAE visitors get the Emirati version of the site — neutral academy
+			// name, UAE homepage, UAE articles only, no Saudi-specific sections or pages.
+			// A manual currency choice also picks the variant (AED = Emirati, SAR = Saudi) and is saved.
 			(function () {
-				var LABELS = { SAR: 'ر.س', AED: 'د.إ' };
-				function apply(cur) {
+				var LABELS = { SAR: '\u0631.\u0633', AED: '\u062f.\u0625' };
+				var AE_BRAND = 'أكاديمية الدروس الخصوصية';
+				var SA_BRAND = 'أكاديمية KSA';
+				function applyCurrency(cur) {
 					if (!LABELS[cur]) cur = 'SAR';
 					document.querySelectorAll('[data-currency-label]').forEach(function (el) {
 						var keepSpace = el.textContent.charAt(0) === ' ' ? ' ' : '';
@@ -165,22 +170,62 @@ const {
 					});
 					document.documentElement.setAttribute('data-currency', cur);
 				}
+				function replaceBrandIn(root) {
+					if (!root) return;
+					var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+					var nodes = [];
+					while (walker.nextNode()) nodes.push(walker.currentNode);
+					nodes.forEach(function (n) {
+						if (n.nodeValue && n.nodeValue.indexOf(SA_BRAND) !== -1) {
+							n.nodeValue = n.nodeValue.split(SA_BRAND).join(AE_BRAND);
+						}
+					});
+				}
+				function applyVariant(variant) {
+					document.documentElement.setAttribute('data-variant', variant);
+					if (variant !== 'ae') return;
+					var path = window.location.pathname;
+					if (path.indexOf('/courses') === 0 || path === '/about' || path === '/about/' || path === '/contact' || path === '/contact/') {
+						window.location.replace('/');
+						return;
+					}
+					if (document.title) {
+						document.title = document.title.split(SA_BRAND).join(AE_BRAND).split('المناهج السعودية').join('المناهج الإماراتية').split('المنهج السعودي').join('المنهاج الإماراتي');
+					}
+					replaceBrandIn(document.querySelector('header'));
+					replaceBrandIn(document.querySelector('footer'));
+					document.querySelectorAll('.sa-only').forEach(function (el) { el.style.display = 'none'; });
+					document.querySelectorAll('.ae-only').forEach(function (el) { el.style.display = ''; });
+					document.querySelectorAll('header a, footer a').forEach(function (a) {
+						if (a.textContent && a.textContent.indexOf('القدرات والتحصيلي') !== -1) a.style.display = 'none';
+					});
+					if (path === '/blog' || path === '/blog/') {
+						document.querySelectorAll('.post-card').forEach(function (card) {
+							var link = card.querySelector('a[href^="/blog/"]');
+							if (link && link.getAttribute('href').indexOf('/blog/uae-') !== 0) card.style.display = 'none';
+						});
+					}
+				}
+				function applyAll(cur, variant) { applyCurrency(cur); applyVariant(variant); }
 				document.addEventListener('click', function (e) {
 					var btn = e.target.closest('[data-currency-set]');
 					if (!btn) return;
 					var cur = btn.getAttribute('data-currency-set');
-					try { localStorage.setItem('ksa_currency', cur); } catch (err) {}
-					apply(cur);
+					var variant = cur === 'AED' ? 'ae' : 'sa';
+					try { localStorage.setItem('ksa_currency', cur); localStorage.setItem('ksa_variant', variant); } catch (err) {}
+					applyAll(cur, variant);
 				});
-				var saved = null;
-				try { saved = localStorage.getItem('ksa_currency'); } catch (err) {}
-				if (saved === 'AED' || saved === 'SAR') {
-					apply(saved);
+				var savedCur = null, savedVariant = null;
+				try { savedCur = localStorage.getItem('ksa_currency'); savedVariant = localStorage.getItem('ksa_variant'); } catch (err) {}
+				if (savedCur === 'AED' || savedCur === 'SAR' || savedVariant === 'ae' || savedVariant === 'sa') {
+					var cur = (savedCur === 'AED' || savedCur === 'SAR') ? savedCur : (savedVariant === 'ae' ? 'AED' : 'SAR');
+					var variant = (savedVariant === 'ae' || savedVariant === 'sa') ? savedVariant : (cur === 'AED' ? 'ae' : 'sa');
+					applyAll(cur, variant);
 				} else {
 					fetch('/api/geo')
 						.then(function (r) { return r.json(); })
-						.then(function (d) { apply(d && d.country === 'AE' ? 'AED' : 'SAR'); })
-						.catch(function () { apply('SAR'); });
+						.then(function (d) { var ae = d && d.country === 'AE'; applyAll(ae ? 'AED' : 'SAR', ae ? 'ae' : 'sa'); })
+						.catch(function () { applyAll('SAR', 'sa'); });
 				}
 			})();
 		</script>

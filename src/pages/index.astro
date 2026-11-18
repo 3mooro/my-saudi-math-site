@@ -15,15 +15,45 @@ import CTA from '../components/CTA.astro';
 
 <MainLayout title="دروس خصوصية أونلاين للمنهج السعودي | أكاديمية KSA – قدرات وتحصيلي وجميع المراحل">
 	<!-- Trigger fresh build -->
-	<Hero />
-	<Stats />
-	<MathTip />
-	<Features />
-	<CourseGrid />
-	<TeachersHome />
-	<HowItWorks />
-	<FAQ />
-	<Newsletter />
-	<Testimonials />
-	<CTA />
+	<div class="ae-only" style="display:none">
+		<section class="py-20 md:py-28">
+			<div class="container mx-auto px-4 text-center max-w-4xl">
+				<span class="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-black text-sm mb-6">🇦🇪 المنهاج الوزاري الإماراتي — الفصل الدراسي الأول</span>
+				<h1 class="text-4xl md:text-6xl font-cairo font-black leading-tight mb-6">مراجعة <span class="text-gradient">رياضيات الإمارات</span> المكثّفة قبل الاختبارات</h1>
+				<p class="text-lg md:text-xl text-muted-foreground font-bold leading-relaxed mb-10">اختبارات الفصل الدراسي الأول تبدأ الأربعاء 25 نوفمبر 2026، والرياضيات أول اختبار لطلبة الصف الثاني عشر والصفين الثالث والرابع. حصص أونلاين فردية (طالب واحد مع معلّم) لمراجعة وحدات الفصل الأول والتدريب على نماذج الامتحانات — بخطة مكثّفة تناسب الأيام المتبقية.</p>
+				<div class="flex flex-wrap justify-center gap-4 mb-16">
+					<a href={`https://wa.me/${Astro.locals.whatsapp}?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%D8%8C%20%D8%A3%D8%B1%D8%BA%D8%A8%20%D9%81%D9%8A%20%D8%AD%D8%AC%D8%B2%20%D8%AD%D8%B5%D8%A9%20%D8%AA%D8%AC%D8%B1%D9%8A%D8%A8%D9%8A%D8%A9%20%D9%84%D9%85%D8%B1%D8%A7%D8%AC%D8%B9%D8%A9%20%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A7%D8%AA%20%D8%A7%D9%84%D8%A5%D9%85%D8%A7%D8%B1%D8%A7%D8%AA%20%D9%82%D8%A8%D9%84%20%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA%20%D8%A7%D9%84%D9%81%D8%B5%D9%84%20%D8%A7%D9%84%D8%A3%D9%88%D9%84`} target="_blank" class="inline-flex h-14 items-center justify-center rounded-full bg-primary px-10 text-lg font-black text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105 font-cairo">احجز حصة تجريبية</a>
+					<a href="/blog/uae-math-exam-intensive-revision-plan" class="inline-flex h-14 items-center justify-center rounded-full border-2 border-primary/20 px-10 text-lg font-black text-primary transition-all hover:bg-primary/5 font-cairo">اقرأ خطة المراجعة في 7 أيام</a>
+				</div>
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-right">
+					<div class="bg-card border border-primary/10 rounded-3xl p-6 shadow-sm">
+						<h3 class="font-cairo font-black text-xl mb-2">خطة 7 أيام مكثّفة</h3>
+						<p class="text-muted-foreground font-bold leading-relaxed">تشخيص للفجوات أولًا، ثم تدريب مركّز على أضعف الوحدات حتى يوم الامتحان.</p>
+					</div>
+					<div class="bg-card border border-primary/10 rounded-3xl p-6 shadow-sm">
+						<h3 class="font-cairo font-black text-xl mb-2">نماذج امتحانات حقيقية</h3>
+						<p class="text-muted-foreground font-bold leading-relaxed">تدريب بوقت الامتحان الفعلي مع تصحيح وتحليل للأخطاء — لا قراءة حلول جاهزة.</p>
+					</div>
+					<div class="bg-card border border-primary/10 rounded-3xl p-6 shadow-sm">
+						<h3 class="font-cairo font-black text-xl mb-2">متابعة مع ولي الأمر</h3>
+						<p class="text-muted-foreground font-bold leading-relaxed">تقرير بعد كل حصة بما تم إنجازه وما تبقّى قبل الامتحان.</p>
+					</div>
+				</div>
+				<a href="/blog" class="inline-block mt-12 font-black text-primary hover:underline text-lg font-cairo">كل مقالات رياضيات الإمارات ←</a>
+			</div>
+		</section>
+	</div>
+	<div class="sa-only">
+		<Hero />
+		<Stats />
+		<MathTip />
+		<Features />
+		<CourseGrid />
+		<TeachersHome />
+		<HowItWorks />
+		<FAQ />
+		<Newsletter />
+		<Testimonials />
+		<CTA />
+	</div>
 </MainLayout>
