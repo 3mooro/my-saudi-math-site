@@ -36,6 +36,14 @@ const {
 <!doctype html>
 <html lang="ar" dir="rtl" class="scroll-smooth">
 	<head>
+		<script is:inline>
+			try { var __sv = localStorage.getItem('ksa_variant'); if (__sv === 'ae' || __sv === 'sa') document.documentElement.setAttribute('data-variant', __sv); } catch (e) {}
+		</script>
+		<style is:inline>
+			html[data-variant="ae"] .sa-only { display: none !important; }
+			html[data-variant="sa"] .ae-only { display: none !important; }
+			html[data-variant="ae"] .ae-only { display: block !important; }
+		</style>
 		<BaseHead 
 			title={title} 
 			description={description} 
@@ -153,6 +161,14 @@ const {
 			// name, UAE homepage, UAE articles only, no Saudi-specific sections or pages.
 			// A manual currency choice also picks the variant (AED = Emirati, SAR = Saudi) and is saved.
 			(function () {
+				// GA4 conversion event (fires only when GA is configured via PUBLIC_GA_ID)
+				document.addEventListener('click', function (e) {
+					var t = e.target;
+					var a = t && t.closest ? t.closest('a[href*="wa.me"], a[href*="whatsapp.com"]') : null;
+					if (a && typeof window.gtag === 'function') {
+						try { window.gtag('event', 'whatsapp_click', { page_path: window.location.pathname }); } catch (err) {}
+					}
+				});
 				var LABELS = { SAR: '\u0631.\u0633', AED: '\u062f.\u0625' };
 				var AE_BRAND = 'أكاديمية الدروس الخصوصية';
 				var SA_BRAND = 'أكاديمية KSA';

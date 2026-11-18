@@ -1,0 +1,107 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+
+const waText = encodeURIComponent('مرحباً، أرغب في الاستفسار عن باقات مراجعة اختبارات الفصل الأول في الإمارات لابني');
+const waLink = `https://wa.me/${Astro.locals.whatsapp}?text=${waText}`;
+
+const stages = [
+	{ name: 'المرحلة الابتدائية', grades: 'الصفوف 3 – 5', per: 25, packs: [ { n: 4, p: 100 }, { n: 8, p: 200 }, { n: 12, p: 300 } ] },
+	{ name: 'المرحلة المتوسطة', grades: 'الصفوف 6 – 8', per: 30, packs: [ { n: 4, p: 120 }, { n: 8, p: 240 }, { n: 12, p: 360 } ] },
+	{ name: 'المرحلة الثانوية', grades: 'الصفوف 9 – 12', per: 35, packs: [ { n: 4, p: 140 }, { n: 8, p: 280 }, { n: 12, p: 420 } ] },
+];
+---
+
+<MainLayout
+	title="باقات مراجعة اختبارات الإمارات المكثفة — الأسعار والحجز | أكاديمية الدروس الخصوصية"
+	description="باقات مراجعة مكثفة قبل اختبارات الفصل الأول في الإمارات (25 نوفمبر – 11 ديسمبر 2026): رياضيات ولغة إنجليزية ولغة عربية للمنهاج الوزاري، حصص أونلاين فردية وخطة مكتوبة ومتابعة مع ولي الأمر."
+>
+	<section class="py-16 md:py-24">
+		<div class="container mx-auto px-4 text-center max-w-4xl">
+			<span class="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary font-black text-sm mb-6">🇦🇪 المنهاج الوزاري الإماراتي — اختبارات الفصل الأول: 25 نوفمبر – 11 ديسمبر 2026</span>
+			<h1 class="text-4xl md:text-6xl font-cairo font-black leading-tight mb-6">باقات <span class="text-gradient">المراجعة المكثّفة</span> قبل اختبارات الإمارات</h1>
+			<p class="text-lg md:text-xl text-muted-foreground font-bold leading-relaxed mb-10">حصص أونلاين فردية (طالب واحد مع معلم متخصص) في الرياضيات واللغة الإنجليزية واللغة العربية، تبدأ بتقييم للفجوات وخطة مكتوبة يومًا بيوم حتى امتحان ابنك — مع تقرير لولي الأمر بعد كل حصة.</p>
+			<div class="flex flex-wrap justify-center gap-4">
+				<a href={waLink} target="_blank" class="inline-flex h-14 items-center justify-center rounded-full bg-primary px-10 text-lg font-black text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105 font-cairo">احجز حصة تجريبية عبر واتساب</a>
+				<a href="/blog/uae-math-exam-intensive-revision-plan" class="inline-flex h-14 items-center justify-center rounded-full border-2 border-primary/20 px-10 text-lg font-black text-primary transition-all hover:bg-primary/5 font-cairo">اقرأ خطة الـ7 أيام</a>
+			</div>
+		</div>
+	</section>
+
+	<section class="pb-16 md:pb-24">
+		<div class="container mx-auto px-4 max-w-6xl">
+			<h2 class="text-3xl md:text-4xl font-cairo font-black text-center mb-4">الأسعار وباقات المراجعة</h2>
+			<p class="text-center text-muted-foreground font-bold mb-12">الحصة 60 دقيقة، فردية بالكامل. اختر مرحلة ابنك — وابدأ بحصة تجريبية قبل الالتزام بأي باقة.</p>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+				{stages.map((s) => (
+					<div class="bg-card border border-primary/10 rounded-3xl p-7 shadow-sm text-right flex flex-col">
+						<h3 class="font-cairo font-black text-2xl mb-1">{s.name}</h3>
+						<p class="text-muted-foreground font-bold mb-5">{s.grades}</p>
+						<p class="mb-6"><span class="text-4xl font-black text-primary font-cairo">{s.per}</span> <span data-currency-label>د.إ</span> <span class="text-muted-foreground font-bold">/ للحصة</span></p>
+						<div class="space-y-3 flex-1">
+							{s.packs.map((pk) => (
+								<div class="flex items-center justify-between rounded-2xl border border-primary/10 px-4 py-3">
+									<span class="font-black font-cairo">باقة {pk.n} حصص</span>
+									{pk.n === 8 && <span class="text-xs font-black bg-primary/10 text-primary px-2 py-1 rounded-full">الأكثر توفيرًا</span>}
+									<span class="font-black">{pk.p} <span data-currency-label>د.إ</span></span>
+								</div>
+							))}
+						</div>
+						<a href={waLink} target="_blank" class="mt-7 inline-flex h-12 items-center justify-center rounded-full bg-primary px-6 font-black text-primary-foreground transition-all hover:bg-primary/90 font-cairo">ابدأ بحصة تجريبية</a>
+					</div>
+				))}
+			</div>
+			<p class="text-center text-muted-foreground font-bold mt-8">بعد الحصة التجريبية نفعّل الباقة التي تختارها عبر حساب ابنك في الموقع، والدفع بالتحويل البنكي داخل الموقع نفسه.</p>
+		</div>
+	</section>
+
+	<section class="pb-16 md:pb-24">
+		<div class="container mx-auto px-4 max-w-6xl">
+			<h2 class="text-3xl md:text-4xl font-cairo font-black text-center mb-10">ماذا تشمل المراجعة المكثفة؟</h2>
+			<div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-right">
+				<div class="bg-card border border-primary/10 rounded-3xl p-6 shadow-sm">
+					<h3 class="font-cairo font-black text-xl mb-2">الرياضيات</h3>
+					<p class="text-muted-foreground font-bold leading-relaxed mb-4">تشخيص للوحدات الأضعف، تدريب على نماذج امتحانات بوقت حقيقي، وقواعد الآلة الحاسبة لكل مرحلة (ممنوعة للصفين 3–4، علمية من الصف 5).</p>
+					<a href="/blog/uae-math-exam-intensive-revision-plan" class="font-black text-primary hover:underline">خطة رياضيات الإمارات في 7 أيام ←</a>
+				</div>
+				<div class="bg-card border border-primary/10 rounded-3xl p-6 shadow-sm">
+					<h3 class="font-cairo font-black text-xl mb-2">اللغة الإنجليزية</h3>
+					<p class="text-muted-foreground font-bold leading-relaxed mb-4">تدريب على المهارات الأربع: قراءة واستيعاب، قواعد بالتطبيق، مفردات في سياق، وكتابة منظمة بخطة — لا حفظ قوائم.</p>
+					<a href="/blog/uae-english-exam-intensive-revision" class="font-black text-primary hover:underline">خطة اللغة الإنجليزية المكثفة ←</a>
+				</div>
+				<div class="bg-card border border-primary/10 rounded-3xl p-6 shadow-sm">
+					<h3 class="font-cairo font-black text-xl mb-2">اللغة العربية</h3>
+					<p class="text-muted-foreground font-bold leading-relaxed mb-4">نحو بالتطبيق وإعراب يومي، إملاء مركز على الهمزات والتاءات، تحليل نصوص، وتعبير بخطة محكمة.</p>
+					<a href="/blog" class="font-black text-primary hover:underline">مقال اللغة العربية في قسم المقالات ←</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="pb-20 md:pb-28">
+		<div class="container mx-auto px-4 max-w-3xl">
+			<h2 class="text-3xl md:text-4xl font-cairo font-black text-center mb-10">أسئلة شائعة</h2>
+			<div class="space-y-4 text-right">
+				<div class="bg-card border border-primary/10 rounded-3xl p-6">
+					<h3 class="font-cairo font-black text-lg mb-2">هل تكفي الأيام المتبقية قبل الاختبارات؟</h3>
+					<p class="text-muted-foreground font-bold leading-relaxed">نعم إذا بدأنا بتشخيص دقيق. المراجعة المكثفة لا تعيد شرح الفصل كله، بل تركز على فجوات ابنك والوحدات الأعلى وزنًا في الامتحان، وهذا ما تصنعه الخطة المكتوبة من أول حصة.</p>
+				</div>
+				<div class="bg-card border border-primary/10 rounded-3xl p-6">
+					<h3 class="font-cairo font-black text-lg mb-2">كيف تتم الحصص ومتى؟</h3>
+					<p class="text-muted-foreground font-bold leading-relaxed">أونلاين مباشرة (طالب مع معلم) عبر مكالمة فيديو وسبورة تفاعلية، بمواعيد مرنة بتوقيت الإمارات تناسب جدول اختبارات ابنك، ويمكن تكثيف أكثر من حصة في اليوم عند الحاجة.</p>
+				</div>
+				<div class="bg-card border border-primary/10 rounded-3xl p-6">
+					<h3 class="font-cairo font-black text-lg mb-2">كيف أحجز وأدفع؟</h3>
+					<p class="text-muted-foreground font-bold leading-relaxed">ابدأ بحصة تجريبية عبر واتساب. بعدها تنشئ حسابًا لابنك في الموقع، تختار الباقة، وتدفع بالتحويل البنكي من صفحة الدفع داخل الموقع — وتُفعَّل الحصص فور مراجعة الإيصال.</p>
+				</div>
+				<div class="bg-card border border-primary/10 rounded-3xl p-6">
+					<h3 class="font-cairo font-black text-lg mb-2">هل تتابعون مع ولي الأمر؟</h3>
+					<p class="text-muted-foreground font-bold leading-relaxed">بعد كل حصة يصلك تقرير قصير: ما تمت مراجعته، ومستوى ابنك، وما تبقى قبل الامتحان — لتبقى الصورة واضحة يومًا بيوم.</p>
+				</div>
+			</div>
+			<div class="text-center mt-12">
+				<a href={waLink} target="_blank" class="inline-flex h-14 items-center justify-center rounded-full bg-primary px-10 text-lg font-black text-primary-foreground shadow-xl shadow-primary/20 transition-all hover:bg-primary/90 hover:scale-105 font-cairo">احجز الحصة التجريبية الآن</a>
+				<p class="text-muted-foreground font-bold mt-4">مواعيد أسبوع الاختبارات محدودة — الحجز المبكر يضمن مكان ابنك.</p>
+			</div>
+		</div>
+	</section>
+</MainLayout>

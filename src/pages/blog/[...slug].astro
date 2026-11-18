@@ -58,6 +58,52 @@ const tags = postRaw.tags ? (typeof postRaw.tags === 'string' ? JSON.parse(postR
 
 const contentHtml = marked.parse(postRaw.body || '');
 
+// Structured data: Article + FAQPage (extracted from the article's own FAQ section)
+function stripTags(s: string) {
+	return s.replace(/<[^>]*>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+}
+let faqItems: { q: string; a: string }[] = [];
+try {
+	const faqStart = contentHtml.indexOf('أسئلة شائعة');
+	if (faqStart !== -1) {
+		let seg = contentHtml.slice(faqStart, faqStart + 6000);
+		const nextH2 = seg.indexOf('<h2', 10);
+		if (nextH2 !== -1) seg = seg.slice(0, nextH2);
+		const parts = seg.split(/<strong>([\s\S]*?)<\/strong>/);
+		for (let i = 1; i + 1 < parts.length && faqItems.length < 6; i += 2) {
+			const q = stripTags(parts[i]);
+			const a = stripTags(parts[i + 1]);
+			if ((q.includes('؟') || q.includes('?')) && q.length >= 8 && a.length >= 15) {
+				faqItems.push({ q, a: a.slice(0, 400) });
+			}
+		}
+	}
+} catch (e) {}
+const siteUrl = 'https://ksaacademy.online';
+const articleSchema: Record<string, unknown> = {
+	'@context': 'https://schema.org',
+	'@type': 'Article',
+	headline: title,
+	description: description,
+	datePublished: pubDate.toISOString(),
+	author: { '@type': 'Organization', name: author, url: siteUrl },
+	publisher: { '@type': 'Organization', name: 'أكاديمية KSA', url: siteUrl },
+	mainEntityOfPage: `${siteUrl}/blog/${slug}`,
+};
+if (heroImage && !heroImage.startsWith('data:')) {
+	articleSchema.image = [heroImage.startsWith('http') ? heroImage : siteUrl + heroImage];
+}
+const faqSchema = faqItems.length >= 2 ? {
+	'@context': 'https://schema.org',
+	'@type': 'FAQPage',
+	mainEntity: faqItems.map((f) => ({
+		'@type': 'Question',
+		name: f.q,
+		acceptedAnswer: { '@type': 'Answer', text: f.a },
+	})),
+} : null;
+const schemasJson = JSON.stringify(faqSchema ? [articleSchema, faqSchema] : articleSchema).replace(/</g, '\\u003c');
+
 const breadcrumbsData = [
   { name: 'الرئيسية', url: '/' },
   { name: 'المقالات والمدونة', url: '/blog' },
@@ -77,6 +123,7 @@ const whatsappText = encodeURIComponent(`مرحباً أكاديمية KSA، ق�
 	breadcrumbs={breadcrumbsData}
 	keywords={tags && tags.length > 0 ? tags.join(', ') + ', المناهج السعودية, أكاديمية KSA, دروس خصوصية' : undefined}
 >
+	<script type="application/ld+json" set:html={schemasJson}></script>
 	<article class="py-8 md:py-16">
 		<div class="container mx-auto px-4 max-w-4xl">
 			
