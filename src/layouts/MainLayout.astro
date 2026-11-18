@@ -183,6 +183,16 @@ const {
 				}
 				function applyVariant(variant) {
 					document.documentElement.setAttribute('data-variant', variant);
+					var pth = window.location.pathname;
+					if (pth === '/blog' || pth === '/blog/') {
+						document.querySelectorAll('.post-card').forEach(function (card) {
+							var link = card.querySelector('a[href^="/blog/"]');
+							if (!link) return;
+							var isUae = link.getAttribute('href').indexOf('/blog/uae-') === 0;
+							if (variant === 'ae' && !isUae) card.style.display = 'none';
+							if (variant === 'sa' && isUae) card.style.display = 'none';
+						});
+					}
 					if (variant !== 'ae') return;
 					var path = window.location.pathname;
 					if (path.indexOf('/courses') === 0 || path === '/about' || path === '/about/' || path === '/contact' || path === '/contact/') {
