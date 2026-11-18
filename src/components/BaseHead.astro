@@ -46,8 +46,9 @@ const {
 
 // Optional analytics hooks — set PUBLIC_GSC_VERIFICATION and/or PUBLIC_GA_ID
 // as environment variables in Cloudflare Pages to activate (added 2026-11-02).
+// GA4 Measurement ID provided by the owner 2026-11-18; the env var still overrides.
 const GSC_VERIFICATION = import.meta.env.PUBLIC_GSC_VERIFICATION;
-const GA_ID = import.meta.env.PUBLIC_GA_ID;
+const GA_ID = import.meta.env.PUBLIC_GA_ID || 'G-TDNT2437F5';
 
 // Handle image URL resolution.
 // SEO fix (2026-11-02): never use a data: URI (blog images stored as base64 in
