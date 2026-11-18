@@ -190,7 +190,7 @@ const {
 						return;
 					}
 					if (document.title) {
-						document.title = document.title.split(SA_BRAND).join(AE_BRAND).split('المناهج السعودية').join('المناهج الإماراتية').split('المنهج السعودي').join('المنهاج الإماراتي');
+						document.title = document.title.split(SA_BRAND).join(AE_BRAND).split(' – قدرات وتحصيلي وجميع المراحل').join(' – جميع المراحل').split('للمنهج السعودي').join('للمنهاج الإماراتي').split('المناهج السعودية').join('المناهج الإماراتية').split('المنهج السعودي').join('المنهاج الإماراتي');
 					}
 					replaceBrandIn(document.querySelector('header'));
 					replaceBrandIn(document.querySelector('footer'));
@@ -213,7 +213,7 @@ const {
 					var cur = btn.getAttribute('data-currency-set');
 					var variant = cur === 'AED' ? 'ae' : 'sa';
 					try { localStorage.setItem('ksa_currency', cur); localStorage.setItem('ksa_variant', variant); } catch (err) {}
-					applyAll(cur, variant);
+					window.location.reload();
 				});
 				var savedCur = null, savedVariant = null;
 				try { savedCur = localStorage.getItem('ksa_currency'); savedVariant = localStorage.getItem('ksa_variant'); } catch (err) {}
