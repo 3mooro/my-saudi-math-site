@@ -77,8 +77,8 @@ const { title, instructor, rating, image, tag, id, description, packages = [] } 
 						<span class="text-xs text-muted-foreground font-bold">{pkg.sessions} حصص تفاعلية (60 دقيقة)</span>
 					</div>
 					<div class="text-left">
-						<div class="text-2xl font-black text-foreground leading-none">{pkg.totalPrice} <span class="text-xs">ر.س</span></div>
-						<div class="text-[10px] text-muted-foreground font-bold mt-1">({pkg.pricePerSession} ر.س / حصة)</div>
+						<div class="text-2xl font-black text-foreground leading-none">{pkg.totalPrice} <span class="text-xs" data-currency-label>ر.س</span></div>
+						<div class="text-[10px] text-muted-foreground font-bold mt-1">({pkg.pricePerSession} <span data-currency-label>ر.س</span> / حصة)</div>
 					</div>
 				</div>
 

@@ -145,5 +145,44 @@ const {
 				});
 			});
 		</script>
+
+		<script is:inline>
+			// Currency display by visitor country: UAE visitors see AED (same numerals), everyone else SAR.
+			// A manual choice (header toggle) is saved and always wins over geo detection.
+			(function () {
+				var LABELS = { SAR: 'ر.س', AED: 'د.إ' };
+				function apply(cur) {
+					if (!LABELS[cur]) cur = 'SAR';
+					document.querySelectorAll('[data-currency-label]').forEach(function (el) {
+						var keepSpace = el.textContent.charAt(0) === ' ' ? ' ' : '';
+						el.textContent = keepSpace + LABELS[cur];
+					});
+					document.querySelectorAll('[data-currency-set]').forEach(function (btn) {
+						var active = btn.getAttribute('data-currency-set') === cur;
+						btn.classList.toggle('bg-primary', active);
+						btn.classList.toggle('text-white', active);
+						btn.classList.toggle('text-muted-foreground', !active);
+					});
+					document.documentElement.setAttribute('data-currency', cur);
+				}
+				document.addEventListener('click', function (e) {
+					var btn = e.target.closest('[data-currency-set]');
+					if (!btn) return;
+					var cur = btn.getAttribute('data-currency-set');
+					try { localStorage.setItem('ksa_currency', cur); } catch (err) {}
+					apply(cur);
+				});
+				var saved = null;
+				try { saved = localStorage.getItem('ksa_currency'); } catch (err) {}
+				if (saved === 'AED' || saved === 'SAR') {
+					apply(saved);
+				} else {
+					fetch('/api/geo')
+						.then(function (r) { return r.json(); })
+						.then(function (d) { apply(d && d.country === 'AE' ? 'AED' : 'SAR'); })
+						.catch(function () { apply('SAR'); });
+				}
+			})();
+		</script>
 	</body>
 </html>
